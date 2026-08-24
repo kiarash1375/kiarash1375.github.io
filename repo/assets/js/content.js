@@ -8,7 +8,7 @@
 const SEED = {
   settings:{ pin:"1234" },
   profile:{
-    name:{en:"Your Name", fa:"نام شما"},
+    name:{en:"Kiarash Doorandish", fa:"کیارش دوراندیش"},
     role:{en:"Software developer", fa:"توسعه‌دهندهٔ نرم‌افزار"},
     location:{en:"Tehran, IR", fa:"تهران، ایران"},
     heroTitle:{
@@ -32,9 +32,9 @@ const SEED = {
       en:"Open to work on medical imaging, digital fabrication, or anything where software meets a machine. Fastest way to reach me is email.",
       fa:"برای همکاری در حوزهٔ تصویربرداری پزشکی، ساخت دیجیتال، یا هر جایی که نرم‌افزار به ماشین می‌رسد آماده‌ام. سریع‌ترین راه ارتباط، ایمیل است."
     },
-    email:"you@example.com",
-    github:"https://github.com/your-username",
-    linkedin:"https://linkedin.com/in/your-username",
+    email:"kiarash.doorandish@gmail.com",
+    github:"https://github.com/kiarash1375",
+    linkedin:"https://linkedin.com/in/kiarash1375",
     skills:[
       {label:{en:"Languages",fa:"زبان‌ها"}, items:["Python","TypeScript","C++","SQL"]},
       {label:{en:"Imaging",fa:"تصویربرداری"}, items:["DICOM","SimpleITK","PyTorch","OpenCV","3D Slicer"]},
@@ -64,7 +64,7 @@ const SEED = {
         {k:{en:"Build",fa:"زمان ساخت"}, v:{en:"~40 s",fa:"~۴۰ ثانیه"}}
       ],
       tags:["Three.js","TypeScript","FastAPI","NumPy"],
-      links:{github:"https://github.com/your-username/insole-studio", demo:"https://example.com/demo"},
+      links:{github:"https://github.com/kiarash1375/insole-studio", demo:"https://example.com/demo"},
       images:[]
     },
     {
@@ -87,7 +87,7 @@ const SEED = {
         {k:{en:"Uptime",fa:"در دسترس‌بودن"}, v:{en:"96%",fa:"۹۶٪"}}
       ],
       tags:["React","MQTT","TimescaleDB","Grafana"],
-      links:{github:"https://github.com/your-username/fleet-console"},
+      links:{github:"https://github.com/kiarash1375/fleet-console"},
       images:[]
     },
     {
@@ -133,7 +133,7 @@ const SEED = {
         {k:{en:"Saved",fa:"صرفه‌جویی"}, v:{en:"4 min/pair",fa:"۴ دقیقه/جفت"}}
       ],
       tags:["Python","OpenCV","G-code","Optuna"],
-      links:{github:"https://github.com/your-username/slice-profile-lab"},
+      links:{github:"https://github.com/kiarash1375/slice-profile-lab"},
       images:[]
     },
     {
@@ -156,7 +156,7 @@ const SEED = {
         {k:{en:"Spacing",fa:"فاصلهٔ برش"}, v:{en:"1.0 mm",fa:"۱٫۰ میلی‌متر"}}
       ],
       tags:["PyTorch","MONAI","SimpleITK","CT"],
-      links:{github:"https://github.com/your-username/nodule-seg", demo:""},
+      links:{github:"https://github.com/kiarash1375/nodule-seg", demo:""},
       images:[]
     },
     {
@@ -179,7 +179,7 @@ const SEED = {
         {k:{en:"Throughput",fa:"توان عبور"}, v:{en:"600/hr",fa:"۶۰۰ در ساعت"}}
       ],
       tags:["Python","pydicom","Celery","PostgreSQL"],
-      links:{github:"https://github.com/your-username/dicom-pipeline"},
+      links:{github:"https://github.com/kiarash1375/dicom-pipeline"},
       images:[]
     }
   ]
