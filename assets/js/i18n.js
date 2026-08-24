@@ -8,8 +8,8 @@
 const T = {
   en:{
     "nav.work":"Work","nav.about":"About","nav.contact":"Contact",
-    "rail.label":"Slice index","rail.hint":"Scroll = deeper",
-    "hero.cta1":"See the work","hero.cta2":"Get in touch",
+    "rail.label":"Slice index",
+    "hero.pillRed":"Build it yourself","hero.pillBlue":"Let me build it",
     "work.title":"Work","work.order":"Newest first",
     "about.title":"About","foot.admin":"Admin",
     "admin.title":"Content admin","admin.close":"Close",
@@ -42,8 +42,8 @@ const T = {
   },
   fa:{
     "nav.work":"کارها","nav.about":"درباره","nav.contact":"تماس",
-    "rail.label":"نمایهٔ برش","rail.hint":"اسکرول = عمیق‌تر",
-    "hero.cta1":"دیدن کارها","hero.cta2":"در تماس باشیم",
+    "rail.label":"نمایهٔ برش",
+    "hero.pillRed":"خودت بسازش","hero.pillBlue":"بسپارش به من",
     "work.title":"کارها","work.order":"تازه‌ترین در بالا",
     "about.title":"درباره","foot.admin":"مدیریت",
     "admin.title":"مدیریت محتوا","admin.close":"بستن",

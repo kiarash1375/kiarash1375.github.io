@@ -136,18 +136,6 @@ function projectHTML(p, i, total){
   </article>`;
 }
 
-function renderScanfield(){
-  const ph = phasesFor("hero"), rings = 16, hot = 5;
-  let out = `<svg viewBox="0 0 400 400" role="img"><g class="drift">`;
-  out += `<path class="scanfield__core" d="${isoline(200,200,54,ph,1.1)}"/>`;
-  for(let k=rings;k>=1;k--){
-    out += `<path class="scanfield__ring${k===hot?" is-hot":""}" d="${isoline(200,200,24+k*8,ph,1.1)}"/>`;
-  }
-  out += `</g><line class="scanfield__cross" x1="200" y1="8" x2="200" y2="392"/><line class="scanfield__cross" x1="8" y1="200" x2="392" y2="200"/></svg>`;
-  out += `<div class="scanfield__meta"><span class="mono">FIELD · PLANTAR PRESSURE</span><span class="mono">Ø 0.5 mm</span></div>`;
-  $("#scanfield").innerHTML = out;
-}
-
 function render(){
   const P = DATA.profile, prj = DATA.projects, n = prj.length;
 
@@ -164,7 +152,6 @@ function render(){
       : `Series · ${n} slices · ${prj[n-1]?.year||""}–${prj[0]?.year||""}`;
   $("#heroTitle").innerHTML = L(P.heroTitle);
   $("#heroSub").textContent = L(P.heroSub);
-  $("#heroMail").href = "mailto:" + P.email;
   $("#workCount").textContent = t("count")(num(n));
   $("#aboutLoc").textContent = L(P.location);
   $("#aboutLead").textContent = L(P.aboutLead);
@@ -190,7 +177,6 @@ function render(){
     `<li><button class="tick" data-go="${i}" aria-current="false" title="${esc(L(p.title))}">
        <span class="tick__bar"></span><span class="tick__n">${pad(i+1)}</span></button></li>`).join("");
 
-  renderScanfield();
   bindStack();
   observeAll();
   updateRail();

@@ -35,30 +35,28 @@
     <div class="rail__idx" id="railIdx">—</div>
   </div>
   <ul class="ticks" id="ticks"></ul>
-  <div class="rail__foot">
-    <span class="mono" data-i18n="rail.hint">Scroll = deeper</span>
-  </div>
 </aside>
 
 <div class="shell">
   <main class="wrap">
     <section class="hero" id="top">
-      <div class="hero__grid">
-        <div>
-          <div class="hero__eyebrow"><span class="mono" id="heroEyebrow">—</span></div>
-          <h1 id="heroTitle"></h1>
-          <p class="hero__sub" id="heroSub"></p>
-          <div class="hero__cta">
-            <button class="btn" data-jump="work">
-              <span data-i18n="hero.cta1">See the work</span>
-              <span class="btn__k">↓</span>
-            </button>
-            <a class="btn btn--ghost" id="heroMail" href="#">
-              <span data-i18n="hero.cta2">Get in touch</span>
-            </a>
-          </div>
-        </div>
-        <div class="scanfield" id="scanfield" aria-hidden="true"></div>
+      <div class="hero__visual">
+        <img class="hero__photo" src="assets/img/hero.png" alt="Portrait offering a red pill and a blue pill" loading="eager" fetchpriority="high">
+        <button class="pillhot pillhot--red" type="button" data-jump="work">
+          <span class="pillhot__ring" aria-hidden="true"></span>
+          <span class="pillhot__line" aria-hidden="true"></span>
+          <span class="pillhot__tag mono" data-i18n="hero.pillRed">Build it yourself</span>
+        </button>
+        <button class="pillhot pillhot--blue" type="button" data-jump="contact">
+          <span class="pillhot__ring" aria-hidden="true"></span>
+          <span class="pillhot__line" aria-hidden="true"></span>
+          <span class="pillhot__tag mono" data-i18n="hero.pillBlue">Let me build it</span>
+        </button>
+      </div>
+      <div class="hero__intro">
+        <div class="hero__eyebrow"><span class="mono" id="heroEyebrow">—</span></div>
+        <h1 id="heroTitle"></h1>
+        <p class="hero__sub" id="heroSub"></p>
       </div>
     </section>
 
