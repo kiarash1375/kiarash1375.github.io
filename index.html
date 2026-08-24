@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+<canvas class="matrix-bg" id="matrixBg" aria-hidden="true"></canvas>
 <div class="progress" id="progress"></div>
 
 <header class="topbar">
@@ -102,7 +103,7 @@
   <div class="admin__bar">
     <strong style="font-family:var(--display);font-variation-settings:'wdth' 112,'wght' 700;font-size:15px" data-i18n="admin.title">Content admin</strong>
     <span class="mono" id="adminStatus"></span>
-    <button class="mini" id="adminClose" style="margin-inline-start:auto;border-color:#3A464E;color:#D6E0E6" data-i18n="admin.close">Close</button>
+    <button class="mini" id="adminClose" style="margin-inline-start:auto;border-color:rgba(5,8,6,.4);color:var(--paper)" data-i18n="admin.close">Close</button>
   </div>
   <div class="admin__wrap" id="adminWrap"></div>
 </section>
@@ -110,6 +111,7 @@
 <div class="toast" id="toast"></div>
 <noscript><p style="padding:80px var(--gutter)">This site needs JavaScript to load its content.</p></noscript>
 
+<script src="assets/js/matrix-bg.js"></script>
 <script src="assets/js/content.js"></script>
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/app.js"></script>

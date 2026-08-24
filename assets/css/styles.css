@@ -5,13 +5,13 @@
    tissue  pale fills, grid             iodine  links, tags, contours
    ───────────────────────────────────────────────────────────── */
 :root{
-  --paper:#EEF1F4;
-  --paper-2:#E4E9ED;
-  --film:#0E1418;
-  --slate:#5B6873;
-  --signal:#FF5A1F;
-  --tissue:#C8D3DA;
-  --iodine:#0B6E6E;
+  --paper:#050806;
+  --paper-2:#0b120d;
+  --film:#baf7c7;
+  --slate:#6a9080;
+  --signal:#39ff6a;
+  --tissue:#1a2e22;
+  --iodine:#22c55e;
 
   --rail-w:132px;
   --gutter:clamp(18px,4vw,56px);
@@ -41,8 +41,12 @@ body{
   overflow-x:hidden;
 }
 body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(120% 80% at 50% 0%,transparent 30%,var(--paper) 78%);
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(120% 80% at 50% 0%,transparent 40%,color-mix(in srgb,var(--paper) 55%,transparent) 100%);
+}
+.matrix-bg{
+  position:fixed;inset:0;z-index:0;width:100%;height:100%;
+  display:block;pointer-events:none;opacity:.65;
 }
 img{max-width:100%;display:block}
 a{color:var(--iodine);text-decoration:none}
@@ -252,7 +256,7 @@ footer{padding-block:26px 40px;display:flex;flex-wrap:wrap;gap:12px;align-items:
 .admin{position:fixed;inset:0;z-index:100;background:var(--paper);display:none;overflow-y:auto}
 .admin[data-open="1"]{display:block}
 .admin__bar{position:sticky;inset-block-start:0;z-index:5;display:flex;align-items:center;gap:12px;padding:12px var(--gutter);background:var(--film);color:var(--paper)}
-.admin__bar .mono{color:#9FB0BC}
+.admin__bar .mono{color:#0d2117}
 .admin__wrap{max-width:1080px;margin:0 auto;padding:26px var(--gutter) 90px}
 .admin__tabs{display:flex;gap:2px;margin-block-end:24px;border-block-end:1px solid var(--tissue)}
 .tabbtn{background:none;border:0;border-block-end:2px solid transparent;padding:10px 14px;font-size:14px;color:var(--slate)}
@@ -262,14 +266,14 @@ footer{padding-block:26px 40px;display:flex;flex-wrap:wrap;gap:12px;align-items:
 .field{margin-block-end:14px}
 .field>label{display:block;margin-block-end:5px;font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--slate)}
 input[type=text],input[type=password],input[type=number],input[type=url],textarea,select{
-  width:100%;padding:9px 11px;border:1px solid var(--tissue);background:#fff;border-radius:2px;
+  width:100%;padding:9px 11px;border:1px solid var(--tissue);background:var(--paper-2);border-radius:2px;
   font-family:var(--body);font-size:14px;color:var(--film)
 }
 textarea{min-height:88px;resize:vertical;line-height:1.55}
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--film)}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .pair .fa input,.pair .fa textarea{direction:rtl;text-align:right;font-family:"Vazirmatn",var(--body)}
-.rowcard{border:1px solid var(--tissue);background:#fff;margin-block-end:8px}
+.rowcard{border:1px solid var(--tissue);background:var(--paper-2);margin-block-end:8px}
 .rowcard__head{display:flex;align-items:center;gap:12px;padding:11px 13px}
 .rowcard__t{font-weight:500;font-size:14px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rowcard__yr{font-family:var(--mono);font-size:12px;color:var(--slate)}
@@ -278,7 +282,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--film)}
 .mini--danger:hover{border-color:#C0341A;color:#C0341A}
 .editor{border-block-start:1px solid var(--tissue);padding:16px 13px;background:var(--paper)}
 .imglist{display:flex;flex-wrap:wrap;gap:8px;margin-block-end:10px}
-.imgchip{position:relative;width:96px;border:1px solid var(--tissue);background:#fff}
+.imgchip{position:relative;width:96px;border:1px solid var(--tissue);background:var(--paper-2)}
 .imgchip img{height:64px;width:100%;object-fit:cover}
 .imgchip button{position:absolute;inset-block-start:2px;inset-inline-end:2px;width:19px;height:19px;line-height:1;border:0;background:var(--film);color:#fff;border-radius:2px;font-size:12px;padding:0}
 .hint{font-size:12px;color:var(--slate);margin:6px 0 0}
@@ -319,6 +323,7 @@ html[dir="rtl"] .toast[data-show="1"]{transform:translate(50%,0)}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  .matrix-bg{display:none}
   .veil,.veil__bar{display:none}
   .slice__body>*,.rise{opacity:1;transform:none;transition:none}
   .slice__img{filter:none}
