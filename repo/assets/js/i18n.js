@@ -1,0 +1,77 @@
+/* Interface strings for both languages.
+   Part of the portfolio site. Loaded as a classic script, so top-level
+   const bindings are visible to the scripts that load after this one. */
+
+/* ══════════════════════════════════════════════════════════════
+   2. UI STRINGS
+   ══════════════════════════════════════════════════════════════ */
+const T = {
+  en:{
+    "nav.work":"Work","nav.about":"About","nav.contact":"Contact",
+    "rail.label":"Slice index","rail.hint":"Scroll = deeper",
+    "hero.cta1":"See the work","hero.cta2":"Get in touch",
+    "work.title":"Work","work.order":"Newest first",
+    "about.title":"About","foot.admin":"Admin",
+    "admin.title":"Content admin","admin.close":"Close",
+    count:n=>`${n} projects`,
+    open:"Open", code:"Source", live:"Live", paper:"Paper",
+    email:"Email", github:"GitHub", linkedin:"LinkedIn",
+    footNote:y=>`© ${y} — built and maintained by hand.`,
+    of:(a,b)=>`${a} of ${b}`,
+    unlock:"Unlock", pin:"Passcode", wrongPin:"Wrong passcode.",
+    tabProjects:"Projects", tabProfile:"Profile", tabData:"Data",
+    addProject:"Add project", save:"Save changes", saved:"Saved.",
+    edit:"Edit", del:"Delete", up:"Move up", down:"Move down", close:"Done",
+    confirmDel:"Delete this project? This cannot be undone.", sure:"Sure?",
+    fTitle:"Title", fYear:"Year", fPeriod:"Period", fKind:"Category",
+    fRole:"Your role", fSummary:"Summary", fBody:"Longer description",
+    fTags:"Tags (comma separated)", fGithub:"GitHub URL", fDemo:"Live URL", fPaper:"Paper URL",
+    fImages:"Images", fMetrics:"Readout (key : value, one per line)",
+    addImgUrl:"Add image by URL", addImgFile:"Upload image",
+    english:"English", persian:"Persian",
+    fName:"Name", fRoleP:"Role", fLoc:"Location", fHeroT:"Headline (use <em>…</em> to highlight)",
+    fHeroS:"Intro paragraph", fLead:"About — lead", fBodyP:"About — body", fCT:"Contact headline", fCS:"Contact intro",
+    fEmail:"Email", fLinkedin:"LinkedIn URL", fSkills:"Skills (group | item, item, …) one group per line",
+    exportT:"Export", exportD:"Download everything as a JSON file you can keep or move to another host.",
+    importT:"Import", importD:"Paste a previously exported JSON file here and load it.",
+    resetT:"Reset", resetD:"Throw away your changes and restore the original template content.",
+    doExport:"Download JSON", doImport:"Load JSON", doReset:"Reset to template",
+    confirmReset:"Reset all content back to the template? Your changes will be lost.",
+    imported:"Content loaded.", badJson:"That is not valid JSON.", newProject:"Untitled project",
+    changePin:"Passcode for this panel", pinNote:"This gate only hides the panel in the browser. It is not real security — anyone with the file can read it."
+  },
+  fa:{
+    "nav.work":"کارها","nav.about":"درباره","nav.contact":"تماس",
+    "rail.label":"نمایهٔ برش","rail.hint":"اسکرول = عمیق‌تر",
+    "hero.cta1":"دیدن کارها","hero.cta2":"در تماس باشیم",
+    "work.title":"کارها","work.order":"تازه‌ترین در بالا",
+    "about.title":"درباره","foot.admin":"مدیریت",
+    "admin.title":"مدیریت محتوا","admin.close":"بستن",
+    count:n=>`${n} پروژه`,
+    open:"باز کردن", code:"کد منبع", live:"نسخهٔ زنده", paper:"مقاله",
+    email:"ایمیل", github:"گیت‌هاب", linkedin:"لینکدین",
+    footNote:y=>`© ${y} — ساخته و نگهداری‌شده به‌دست خودم.`,
+    of:(a,b)=>`${a} از ${b}`,
+    unlock:"باز کردن", pin:"رمز", wrongPin:"رمز نادرست است.",
+    tabProjects:"پروژه‌ها", tabProfile:"پروفایل", tabData:"داده",
+    addProject:"افزودن پروژه", save:"ذخیرهٔ تغییرات", saved:"ذخیره شد.",
+    edit:"ویرایش", del:"حذف", up:"بالا", down:"پایین", close:"تمام",
+    confirmDel:"این پروژه حذف شود؟ این کار برگشت‌پذیر نیست.", sure:"مطمئنید؟",
+    fTitle:"عنوان", fYear:"سال", fPeriod:"بازهٔ زمانی", fKind:"دسته",
+    fRole:"نقش شما", fSummary:"خلاصه", fBody:"توضیح بلندتر",
+    fTags:"برچسب‌ها (با کاما جدا کنید)", fGithub:"نشانی گیت‌هاب", fDemo:"نشانی نسخهٔ زنده", fPaper:"نشانی مقاله",
+    fImages:"تصویرها", fMetrics:"نمایشگر (کلید : مقدار، هر خط یکی)",
+    addImgUrl:"افزودن تصویر با نشانی", addImgFile:"بارگذاری تصویر",
+    english:"انگلیسی", persian:"فارسی",
+    fName:"نام", fRoleP:"عنوان شغلی", fLoc:"موقعیت", fHeroT:"تیتر اصلی (برای برجسته‌سازی از ‎<em>…</em>‎ استفاده کنید)",
+    fHeroS:"پاراگراف معرفی", fLead:"درباره — سرآغاز", fBodyP:"درباره — متن", fCT:"تیتر تماس", fCS:"متن تماس",
+    fEmail:"ایمیل", fLinkedin:"نشانی لینکدین", fSkills:"مهارت‌ها (گروه | مورد، مورد، …) هر خط یک گروه",
+    exportT:"خروجی گرفتن", exportD:"همهٔ محتوا را به‌صورت یک فایل JSON بگیرید تا نگه دارید یا به میزبان دیگری ببرید.",
+    importT:"وارد کردن", importD:"محتوای یک فایل JSON که قبلاً خروجی گرفته‌اید را اینجا بچسبانید و بارگذاری کنید.",
+    resetT:"بازنشانی", resetD:"تغییرهایتان را دور بریزید و محتوای اولیهٔ الگو را برگردانید.",
+    doExport:"دریافت فایل JSON", doImport:"بارگذاری JSON", doReset:"بازگشت به الگو",
+    confirmReset:"همهٔ محتوا به حالت الگو برگردد؟ تغییرهای شما از بین می‌رود.",
+    imported:"محتوا بارگذاری شد.", badJson:"این JSON معتبر نیست.", newProject:"پروژهٔ بی‌عنوان",
+    changePin:"رمز این پنل", pinNote:"این رمز فقط پنل را در مرورگر پنهان می‌کند. امنیت واقعی نیست — هر کسی که فایل را داشته باشد می‌تواند آن را بخواند."
+  }
+};

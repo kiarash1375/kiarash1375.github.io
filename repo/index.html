@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio — Software Developer</title>
+<meta name="description" content="Portfolio of a software developer working across medical image processing and 3D-printed medical insoles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Vazirmatn:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="topbar">
+  <div class="topbar__id">
+    <span class="topbar__name" id="idName">—</span>
+    <span class="topbar__sep">/</span>
+    <span class="topbar__role mono" id="idRole">—</span>
+  </div>
+  <nav class="topbar__nav">
+    <button class="navlink" data-jump="work" data-i18n="nav.work">Work</button>
+    <button class="navlink" data-jump="about" data-i18n="nav.about">About</button>
+    <button class="navlink" data-jump="contact" data-i18n="nav.contact">Contact</button>
+    <button class="langbtn" id="langBtn">فارسی</button>
+  </nav>
+</header>
+
+<aside class="rail" aria-label="Slice index">
+  <p class="mono rail__label" data-i18n="rail.label">Slice index</p>
+  <div>
+    <div class="rail__year" id="railYear">—</div>
+    <div class="rail__idx" id="railIdx">—</div>
+  </div>
+  <ul class="ticks" id="ticks"></ul>
+  <div class="rail__foot">
+    <span class="mono" data-i18n="rail.hint">Scroll = deeper</span>
+  </div>
+</aside>
+
+<div class="shell">
+  <main class="wrap">
+    <section class="hero" id="top">
+      <div class="hero__grid">
+        <div>
+          <div class="hero__eyebrow"><span class="mono" id="heroEyebrow">—</span></div>
+          <h1 id="heroTitle"></h1>
+          <p class="hero__sub" id="heroSub"></p>
+          <div class="hero__cta">
+            <button class="btn" data-jump="work">
+              <span data-i18n="hero.cta1">See the work</span>
+              <span class="btn__k">↓</span>
+            </button>
+            <a class="btn btn--ghost" id="heroMail" href="#">
+              <span data-i18n="hero.cta2">Get in touch</span>
+            </a>
+          </div>
+        </div>
+        <div class="scanfield" id="scanfield" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="sec" id="work">
+      <div class="sec__head rise">
+        <h2 class="sec__title" data-i18n="work.title">Work</h2>
+        <div class="sec__note">
+          <div class="mono" id="workCount">—</div>
+          <div class="mono" data-i18n="work.order">Newest first</div>
+        </div>
+      </div>
+      <div class="stack" id="stack"></div>
+    </section>
+
+    <section class="sec" id="about">
+      <div class="sec__head rise">
+        <h2 class="sec__title" data-i18n="about.title">About</h2>
+        <div class="sec__note mono" id="aboutLoc">—</div>
+      </div>
+      <div class="about">
+        <div class="rise">
+          <p class="about__lead" id="aboutLead"></p>
+          <div class="about__body" id="aboutBody"></div>
+        </div>
+        <div class="skills rise" id="skills"></div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <h2 id="contactTitle" class="rise"></h2>
+      <p class="hero__sub rise" id="contactSub"></p>
+      <div class="contact__rows rise" id="contactRows"></div>
+      <footer>
+        <span class="mono" id="footNote">—</span>
+        <button class="footlink" id="adminOpen" data-i18n="foot.admin">Admin</button>
+      </footer>
+    </section>
+  </main>
+</div>
+
+<section class="admin" id="admin" aria-label="Admin panel">
+  <div class="admin__bar">
+    <strong style="font-family:var(--display);font-variation-settings:'wdth' 112,'wght' 700;font-size:15px" data-i18n="admin.title">Content admin</strong>
+    <span class="mono" id="adminStatus"></span>
+    <button class="mini" id="adminClose" style="margin-inline-start:auto;border-color:#3A464E;color:#D6E0E6" data-i18n="admin.close">Close</button>
+  </div>
+  <div class="admin__wrap" id="adminWrap"></div>
+</section>
+
+<div class="toast" id="toast"></div>
+<noscript><p style="padding:80px var(--gutter)">This site needs JavaScript to load its content.</p></noscript>
+
+<script src="assets/js/content.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
