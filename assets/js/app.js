@@ -243,7 +243,11 @@ function bindStack(){
 
 document.addEventListener("click", e=>{
   const jump = e.target.closest("[data-jump]");
-  if (jump){ document.getElementById(jump.dataset.jump)?.scrollIntoView({behavior:"smooth", block:"start"}); return; }
+  if (jump){
+    if (jump.dataset.jump === "top") scrollTo({top:0, behavior:"smooth"});
+    else document.getElementById(jump.dataset.jump)?.scrollIntoView({behavior:"smooth", block:"start"});
+    return;
+  }
   const go = e.target.closest("[data-go]");
   if (go){ $$(".slice")[+go.dataset.go]?.scrollIntoView({behavior:"smooth", block:"center"}); }
 });

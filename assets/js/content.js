@@ -16,16 +16,16 @@ const SEED = {
       fa:"نرم‌افزاری که باید <em>دربارهٔ یک بدن درست بگوید</em>."
     },
     heroSub:{
-      en:"Three years between medical images and the machines that print what those images imply — CT slices, plantar pressure maps, and the printers that turn them into insoles.",
-      fa:"سه سال میان تصاویر پزشکی و ماشین‌هایی که خروجی آن تصاویر را می‌سازند — برش‌های سی‌تی، نقشه‌های فشار کف پا، و پرینترهایی که آن‌ها را به کفی طبی تبدیل می‌کنند."
+      en:"Three years between medical images and the machines that act on what those images imply — posture scans, plantar pressure maps, and the printers that turn them into insoles.",
+      fa:"سه سال میان تصاویر پزشکی و ماشین‌هایی که بر اساس آن تصاویر عمل می‌کنند — اسکن وضعیت بدن، نقشه‌های فشار کف پا، و پرینترهایی که آن‌ها را به کفی طبی تبدیل می‌کنند."
     },
     aboutLead:{
-      en:"I started in medical image processing, then spent two years leading the team that built a 3D printer for medical insoles. Both jobs came down to the same question: what is actually true about this person's body, and what do we do about it?",
-      fa:"کارم را با پردازش تصاویر پزشکی شروع کردم و سپس دو سال مدیریت تیمی را بر عهده داشتم که یک پرینتر سه‌بعدی برای کفی طبی می‌ساخت. هر دو کار به یک پرسش می‌رسید: واقعاً چه چیزی دربارهٔ بدن این فرد درست است، و با آن چه باید کرد؟"
+      en:"I started in medical imaging — posture analysis, plantar scans, computer vision that has to work on an ordinary photo — then moved into the hardware side: sensor calibration, real-time pressure monitoring, and now production support for the 3D printers that turn those scans into insoles. Both halves come down to the same question: what is actually true about this person's body, and what do we do about it?",
+      fa:"کارم را با تصویربرداری پزشکی شروع کردم — تحلیل وضعیت بدن، اسکن کف پا، بینایی ماشینی که باید روی یک عکس معمولی هم کار کند — و از آنجا به سمت سخت‌افزار رفتم: کالیبراسیون حسگر، پایش بلادرنگ فشار، و حالا پشتیبانی تولید پرینترهای سه‌بعدی که همان اسکن‌ها را به کفی تبدیل می‌کنند. هر دو بخش به یک پرسش می‌رسند: واقعاً چه چیزی دربارهٔ بدن این فرد درست است، و با آن چه باید کرد؟"
     },
     aboutBody:{
-      en:"On the imaging side I worked with DICOM data end to end: anonymisation, windowing, resampling, and segmentation models that a radiologist would actually look at twice. On the manufacturing side I ran a nine-person project through four hardware revisions — firmware, slicing profiles, QA, and the part nobody warns you about, keeping a supply chain and a clinical partner moving at the same speed.\n\nI like problems where the software has to survive contact with physical reality: a printer that jams, a scan that was taken badly, a foot that is not symmetrical. I write mostly Python and TypeScript, and I am comfortable being the person who talks to both the clinicians and the machinists.",
-      fa:"در بخش تصویربرداری با دادهٔ دایکام از ابتدا تا انتها کار کردم: ناشناس‌سازی، پنجره‌گذاری، بازنمونه‌گیری، و مدل‌های قطعه‌بندی که یک رادیولوژیست واقعاً بار دوم هم به آن‌ها نگاه کند. در بخش تولید، پروژه‌ای نه‌نفره را در چهار نسخهٔ سخت‌افزاری هدایت کردم — فرم‌ور، پروفایل‌های برش، کنترل کیفیت، و آن بخشی که کسی دربارهٔ آن هشدار نمی‌دهد: هم‌گام نگه داشتن زنجیرهٔ تأمین و شریک درمانی.\n\nمسئله‌هایی را دوست دارم که نرم‌افزار باید در برخورد با واقعیت فیزیکی دوام بیاورد: پرینتری که گیر می‌کند، اسکنی که بد گرفته شده، پایی که متقارن نیست. بیشتر پایتون و تایپ‌اسکریپت می‌نویسم و راحتم با اینکه همان کسی باشم که هم با پزشک‌ها حرف می‌زند و هم با تراش‌کارها."
+      en:"On the imaging side I worked on markerless posture detection and plantar scan processing — segmentation, alignment, left/right identification — with Python, OpenCV, MediaPipe, and Rembg. On the hardware side I moved into sensor calibration and real-time pressure monitoring for medical devices, then into production: customizing G-code workflows, running QA, and supporting the clinics actually running the printers.\n\nI like problems where the software has to survive contact with physical reality: a sensor that drifts, a scan taken badly, a foot that is not symmetrical, a customer who has never run a 3D printer before. I write mostly Python, and I am comfortable being the person who moves between the algorithm and the machine — or the machine and the customer.",
+      fa:"در بخش تصویربرداری، روی تشخیص وضعیت بدن بدون نشانگر و پردازش اسکن کف پا کار کردم — قطعه‌بندی، تراز تصویر، تشخیص پای چپ‌وراست — با پایتون، OpenCV، MediaPipe و Rembg. در بخش سخت‌افزار، به کالیبراسیون حسگر و پایش بلادرنگ فشار برای دستگاه‌های پزشکی رفتم و بعد به تولید: سفارشی‌سازی جریان‌های جی‌کد، اجرای کنترل کیفیت، و پشتیبانی از کلینیک‌هایی که واقعاً پرینترها را کار می‌انداختند.\n\nمسئله‌هایی را دوست دارم که نرم‌افزار باید در برخورد با واقعیت فیزیکی دوام بیاورد: حسگری که منحرف می‌شود، اسکنی که بد گرفته شده، پایی که متقارن نیست، مشتری‌ای که تا حالا پرینتر سه‌بعدی کار نینداخته. بیشتر پایتون می‌نویسم و راحتم با اینکه همان کسی باشم که میان الگوریتم و دستگاه حرکت می‌کند — یا میان دستگاه و مشتری."
     },
     contactTitle:{en:"Let's talk.", fa:"گفت‌وگو کنیم."},
     contactSub:{
@@ -46,141 +46,118 @@ const SEED = {
   },
   projects:[
     {
-      id:"p-2026-insole-studio", year:2026,
-      period:{en:"2026 — ongoing", fa:"۲۰۲۶ — در جریان"},
-      kind:{en:"Web app · Side project", fa:"وب‌اپ · پروژهٔ شخصی"},
-      title:{en:"Insole Studio", fa:"استودیو کفی"},
-      role:{en:"Solo developer & designer", fa:"توسعه‌دهنده و طراح — به‌تنهایی"},
+      id:"p-2024-insole-printing", year:2026,
+      period:{en:"2024 — ongoing", fa:"۲۰۲۴ — در جریان"},
+      kind:{en:"Manufacturing · Field support", fa:"تولید · پشتیبانی میدانی"},
+      title:{en:"Medical Insole 3D Printing System", fa:"سیستم چاپ سه‌بعدی کفی طبی"},
+      role:{en:"Production & customer support engineer", fa:"مهندس تولید و پشتیبانی مشتری"},
       summary:{
-        en:"A browser tool that turns a plantar pressure scan into a printable insole. You drop in a pressure map, it fits a parametric shell to it, and you export STL or sliced G-code without leaving the tab.",
-        fa:"ابزاری در مرورگر که اسکن فشار کف پا را به یک کفی قابل چاپ تبدیل می‌کند. نقشهٔ فشار را وارد می‌کنید، یک پوستهٔ پارامتریک روی آن برازش می‌شود و بدون خروج از تب، STL یا جی‌کد برش‌خورده می‌گیرید."
+        en:"Deployment and operational support for custom 3D printers built for one purpose: manufacturing orthopedic and medical insoles, from the print floor to the customer's clinic.",
+        fa:"استقرار و پشتیبانی عملیاتی پرینترهای سه‌بعدی سفارشی که برای یک هدف ساخته شده‌اند: تولید کفی‌های ارتوپدی و طبی، از خط تولید تا کلینیک مشتری."
       },
       body:{
-        en:"The hard part was not the geometry, it was making the parameters legible to a clinician. Arch height, heel cup depth and forefoot stiffness are exposed as three sliders with live cross-sections, so the person adjusting them can see the slice they are changing.",
-        fa:"بخش سخت کار هندسه نبود، بلکه خوانا کردن پارامترها برای پزشک بود. ارتفاع قوس، عمق پاشنه و سفتی جلوپا به‌صورت سه لغزنده با برش‌های زندهٔ مقطعی نمایش داده می‌شوند تا کسی که آن‌ها را تنظیم می‌کند، همان برشی را ببیند که تغییر می‌دهد."
+        en:"I designed and customized the printer control G-code for specialized production requirements, and ran device testing, quality control, and troubleshooting so a print coming off the line actually matched spec. Production schedules and delivery timelines were mine to coordinate across software, hardware, manufacturing, and customer support.\n\nThe harder half of the job wasn't the machine, it was the customer on the other end of it — installing a printer, training clinic staff who had never run one, and being the person they called when a print went wrong. Most support tickets turned out to be G-code and workflow issues, not hardware failures, which is exactly the kind of problem I like.",
+        fa:"جریان جی‌کد کنترل پرینتر را برای نیازهای تولید تخصصی طراحی و سفارشی‌سازی کردم و آزمون دستگاه، کنترل کیفیت و رفع اشکال را انجام دادم تا قطعه‌ای که از خط بیرون می‌آید واقعاً با مشخصات فنی مطابقت داشته باشد. هماهنگی برنامهٔ تولید و زمان‌بندی تحویل میان تیم‌های نرم‌افزار، سخت‌افزار، تولید و پشتیبانی مشتری هم بر عهدهٔ من بود.\n\nبخش سخت‌تر کار، خود دستگاه نبود؛ مشتری آن سوی خط بود — نصب پرینتر، آموزش کارکنان کلینیکی که پیش‌تر هرگز چنین دستگاهی را کار نینداخته بودند، و کسی بودن که وقتی چاپ خراب می‌شد به او زنگ می‌زدند. بیشتر درخواست‌های پشتیبانی در نهایت مشکل جی‌کد یا گردش‌کار بود، نه خرابی سخت‌افزار — دقیقاً همان نوع مسئله‌ای که دوست دارم."
       },
       metrics:[
-        {k:{en:"Grid",fa:"شبکه"}, v:{en:"0.5 mm",fa:"۰٫۵ میلی‌متر"}},
-        {k:{en:"Export",fa:"خروجی"}, v:{en:"STL / 3MF",fa:"STL / 3MF"}},
-        {k:{en:"Build",fa:"زمان ساخت"}, v:{en:"~40 s",fa:"~۴۰ ثانیه"}}
+        {k:{en:"Duration",fa:"مدت"}, v:{en:"2024 — ongoing",fa:"۲۰۲۴ — در جریان"}},
+        {k:{en:"Scope",fa:"محدوده"}, v:{en:"Deploy + support",fa:"استقرار + پشتیبانی"}},
+        {k:{en:"Workflow",fa:"گردش‌کار"}, v:{en:"Custom G-code",fa:"جی‌کد سفارشی"}}
       ],
-      tags:["Three.js","TypeScript","FastAPI","NumPy"],
-      links:{github:"https://github.com/kiarash1375/insole-studio", demo:"https://example.com/demo"},
-      images:[]
-    },
-    {
-      id:"p-2025-fleet-console", year:2025,
-      period:{en:"2025", fa:"۲۰۲۵"},
-      kind:{en:"Internal tool", fa:"ابزار داخلی"},
-      title:{en:"Fleet Console", fa:"کنسول ناوگان"},
-      role:{en:"Project manager & lead developer", fa:"مدیر پروژه و توسعه‌دهندهٔ اصلی"},
-      summary:{
-        en:"A dashboard for the printers we had in the field. It pulled job telemetry off twelve machines across three clinics and told the support team which one was about to fail before the clinic called us.",
-        fa:"داشبوردی برای پرینترهایی که در محل مشتری بودند. تله‌متری کارها را از دوازده دستگاه در سه کلینیک جمع می‌کرد و به تیم پشتیبانی می‌گفت کدام دستگاه پیش از تماس کلینیک، در آستانهٔ خرابی است."
-      },
-      body:{
-        en:"Most failures announced themselves hours in advance in the extruder temperature log. Once we plotted that, first-visit fix rate went up and we stopped sending engineers on four-hour drives to reseat a connector.",
-        fa:"بیشتر خرابی‌ها ساعت‌ها زودتر خود را در لاگ دمای اکسترودر نشان می‌دادند. وقتی آن را رسم کردیم، نرخ رفع مشکل در اولین بازدید بالا رفت و دیگر مهندس‌ها را برای جا زدن یک کانکتور به سفرهای چهارساعته نفرستادیم."
-      },
-      metrics:[
-        {k:{en:"Printers",fa:"پرینترها"}, v:{en:"12",fa:"۱۲"}},
-        {k:{en:"Sites",fa:"سایت‌ها"}, v:{en:"3",fa:"۳"}},
-        {k:{en:"Uptime",fa:"در دسترس‌بودن"}, v:{en:"96%",fa:"۹۶٪"}}
-      ],
-      tags:["React","MQTT","TimescaleDB","Grafana"],
-      links:{github:"https://github.com/kiarash1375/fleet-console"},
-      images:[]
-    },
-    {
-      id:"p-2023-insole-printer", year:2023,
-      period:{en:"2023 — 2025", fa:"۲۰۲۳ — ۲۰۲۵"},
-      kind:{en:"Hardware programme", fa:"برنامهٔ سخت‌افزاری"},
-      title:{en:"Medical insole 3D printer", fa:"پرینتر سه‌بعدی کفی طبی"},
-      role:{en:"Project manager, 9-person team", fa:"مدیر پروژه، تیم ۹ نفره"},
-      summary:{
-        en:"Two years leading the build of a TPU printer designed around one product: custom medical insoles. Four hardware revisions, from a bench prototype to a unit that a clinic could run without an engineer in the room.",
-        fa:"دو سال مدیریت ساخت یک پرینتر TPU که حول یک محصول طراحی شده بود: کفی طبی سفارشی. چهار نسخهٔ سخت‌افزاری، از نمونهٔ آزمایشگاهی تا دستگاهی که کلینیک بدون حضور مهندس بتواند آن را راه‌ ببرد."
-      },
-      body:{
-        en:"I owned the roadmap, the spec, and the awkward meetings between the mechanical team and the clinical partner who kept, reasonably, changing what a good insole meant. I also wrote the acceptance test suite, because the fastest way to end an argument about quality is a number everyone agreed to in advance.\n\nBiggest lesson: the schedule was never limited by the firmware. It was limited by how long it took to get one specific stepper driver through customs.",
-        fa:"نقشهٔ راه، مشخصات فنی و جلسه‌های دشوار میان تیم مکانیک و شریک درمانی — که به‌درستی مدام تعریفش از کفی خوب را تغییر می‌داد — بر عهدهٔ من بود. مجموعهٔ آزمون پذیرش را هم خودم نوشتم، چون سریع‌ترین راه پایان دادن به بحث دربارهٔ کیفیت، عددی است که همه از قبل بر سرش توافق کرده باشند.\n\nبزرگ‌ترین درس: محدودکنندهٔ زمان‌بندی هیچ‌وقت فرم‌ور نبود؛ مدت زمان ترخیص یک درایور استپر خاص از گمرک بود."
-      },
-      metrics:[
-        {k:{en:"Team",fa:"تیم"}, v:{en:"9 people",fa:"۹ نفر"}},
-        {k:{en:"Revisions",fa:"نسخه‌ها"}, v:{en:"4",fa:"۴"}},
-        {k:{en:"Units built",fa:"دستگاه ساخته‌شده"}, v:{en:"120",fa:"۱۲۰"}}
-      ],
-      tags:["Project management","Marlin","TPU","QA","Fusion 360"],
+      tags:["G-code","Manufacturing","QA","Customer Support","Production Planning"],
       links:{},
       images:[]
     },
     {
-      id:"p-2023-slice-lab", year:2023,
-      period:{en:"2023", fa:"۲۰۲۳"},
-      kind:{en:"Research tool", fa:"ابزار پژوهشی"},
-      title:{en:"Slice Profile Lab", fa:"آزمایشگاه پروفایل برش"},
-      role:{en:"Developer", fa:"توسعه‌دهنده"},
+      id:"p-2024-sensor-calibration", year:2024,
+      period:{en:"Mar – Jun 2024", fa:"مارس تا ژوئن ۲۰۲۴"},
+      kind:{en:"Hardware · Firmware", fa:"سخت‌افزار · فرم‌ور"},
+      title:{en:"Sensor Calibration for Pressure Monitoring Devices", fa:"کالیبراسیون حسگر برای دستگاه‌های پایش فشار"},
+      role:{en:"Calibration engineer", fa:"مهندس کالیبراسیون"},
       summary:{
-        en:"A harness for finding slicing profiles that survive flexible filament. It generated test towers, scored the printed results from photographs, and searched the parameter space instead of me guessing at 2am.",
-        fa:"ابزاری برای یافتن پروفایل‌های برشی که با فیلامنت انعطاف‌پذیر دوام بیاورند. برج‌های آزمون تولید می‌کرد، نتیجهٔ چاپ‌شده را از روی عکس امتیاز می‌داد و فضای پارامترها را جست‌وجو می‌کرد — به‌جای حدس زدن من در ساعت دو بامداد."
+        en:"Iterative calibration procedures for the pressure sensors at the heart of a medical monitoring device, built to keep every unit reading the same way.",
+        fa:"روال‌های کالیبراسیون تکرارشونده برای حسگرهای فشاری در قلب یک دستگاه پایش پزشکی، طراحی‌شده تا هر واحد یکسان بخواند."
       },
       body:{
-        en:"180 test prints later we had a profile that cut stringing enough to skip a manual finishing step on every insole. That step was about four minutes per pair, which is the whole reason this project got funded.",
-        fa:"پس از ۱۸۰ چاپ آزمایشی، پروفایلی داشتیم که رشته‌ای شدن را آن‌قدر کم می‌کرد که یک مرحلهٔ پرداخت دستی از هر کفی حذف شود. آن مرحله حدود چهار دقیقه برای هر جفت بود، و دقیقاً دلیل تأمین مالی این پروژه همین بود."
+        en:"I characterized the sensors, designed calibration algorithms, and built validation tests to catch drift before a device ever reached a patient. The goal wasn't a single calibration pass, it was a repeatable procedure that held up across a full production batch.\n\nSensor calibration is unglamorous work that determines whether everything built on top of it — pressure maps, alerts, clinical decisions — can be trusted. Getting the validation loop tight mattered more than any individual measurement.",
+        fa:"حسگرها را مشخصه‌یابی کردم، الگوریتم‌های کالیبراسیون را طراحی کردم و آزمون‌های اعتبارسنجی ساختم تا انحراف را پیش از رسیدن دستگاه به بیمار شناسایی کنم. هدف یک‌بار کالیبره‌کردن نبود، بلکه روالی تکرارپذیر بود که در کل یک دستهٔ تولید پابرجا بماند.\n\nکالیبراسیون حسگر کاری بی‌جلوه است که تعیین می‌کند آیا هر چیزی که رویش ساخته می‌شود — نقشه‌های فشار، هشدارها، تصمیم‌های بالینی — قابل اعتماد است یا نه. سفت‌کردن حلقهٔ اعتبارسنجی از هر اندازه‌گیری منفرد مهم‌تر بود."
       },
       metrics:[
-        {k:{en:"Test prints",fa:"چاپ آزمایشی"}, v:{en:"180",fa:"۱۸۰"}},
-        {k:{en:"Layer",fa:"لایه"}, v:{en:"0.16 mm",fa:"۰٫۱۶ میلی‌متر"}},
-        {k:{en:"Saved",fa:"صرفه‌جویی"}, v:{en:"4 min/pair",fa:"۴ دقیقه/جفت"}}
+        {k:{en:"Duration",fa:"مدت"}, v:{en:"4 months",fa:"۴ ماه"}},
+        {k:{en:"Method",fa:"روش"}, v:{en:"Iterative calibration",fa:"کالیبراسیون تکرارشونده"}},
+        {k:{en:"Focus",fa:"تمرکز"}, v:{en:"Consistency",fa:"سازگاری اندازه‌گیری"}}
       ],
-      tags:["Python","OpenCV","G-code","Optuna"],
-      links:{github:"https://github.com/kiarash1375/slice-profile-lab"},
+      tags:["Sensor Calibration","Validation Testing","Embedded Systems","Python"],
+      links:{},
       images:[]
     },
     {
-      id:"p-2022-nodule-seg", year:2022,
-      period:{en:"2022", fa:"۲۰۲۲"},
-      kind:{en:"Medical imaging", fa:"تصویربرداری پزشکی"},
-      title:{en:"Lung nodule segmentation", fa:"قطعه‌بندی ندول ریوی"},
-      role:{en:"Machine learning engineer", fa:"مهندس یادگیری ماشین"},
+      id:"p-2024-pressure-monitoring", year:2024,
+      period:{en:"Jan – Mar 2024", fa:"ژانویه تا مارس ۲۰۲۴"},
+      kind:{en:"Medical device", fa:"دستگاه پزشکی"},
+      title:{en:"Body Pressure Monitoring System", fa:"سیستم پایش فشار بدن"},
+      role:{en:"Software engineer", fa:"مهندس نرم‌افزار"},
       summary:{
-        en:"A 3D U-Net that outlined lung nodules on chest CT, trained on a public dataset and evaluated against two radiologists' annotations rather than one.",
-        fa:"یک شبکهٔ U-Net سه‌بعدی که ندول‌های ریوی را روی سی‌تی قفسهٔ سینه مشخص می‌کرد؛ روی یک مجموعه‌دادهٔ عمومی آموزش دید و به‌جای یک نفر، با حاشیه‌نویسی دو رادیولوژیست ارزیابی شد."
+        en:"Software modules for a body-pressure monitoring system built into anti-bedsore mattresses, turning raw sensor readings into something a caregiver can act on in real time.",
+        fa:"ماژول‌های نرم‌افزاری برای سیستم پایش فشار بدن که در تشک‌های ضدزخم‌بستر تعبیه شده، و خوانش خام حسگرها را به چیزی تبدیل می‌کند که مراقب بتواند بلادرنگ روی آن عمل کند."
       },
       body:{
-        en:"The interesting result was not the Dice score. It was that most of the disagreement between the model and the readers happened exactly where the two readers disagreed with each other, which changed how we reported confidence.",
-        fa:"نتیجهٔ جالب، امتیاز دایس نبود. این بود که بیشتر اختلاف مدل با خوانندگان دقیقاً جایی رخ می‌داد که آن دو خواننده با یکدیگر اختلاف داشتند، و همین شیوهٔ گزارش اطمینان ما را تغییر داد."
+        en:"I worked across sensor data acquisition, calibration workflows, and pressure analysis, with the software running directly against the hardware rather than a clean simulated feed. Real-time monitoring had to stay reliable for hours at a stretch, unattended, next to a patient.\n\nThis was my first real exposure to hardware-paced software: the sensor doesn't wait for your code to be ready, and a dropped reading isn't a log line, it's a gap in someone's care. That discipline carried into every project after it.",
+        fa:"روی جمع‌آوری دادهٔ حسگر، گردش‌کار کالیبراسیون و تحلیل فشار کار کردم؛ نرم‌افزار مستقیماً روی سخت‌افزار اجرا می‌شد، نه روی یک ورودی شبیه‌سازی‌شدهٔ تمیز. پایش بلادرنگ باید ساعت‌ها پیاپی، بدون نظارت مستقیم، کنار بیمار قابل‌اعتماد می‌ماند.\n\nاین اولین برخورد جدی‌ام با نرم‌افزاری بود که سخت‌افزار ریتم آن را تعیین می‌کند: حسگر منتظر آماده‌شدن کدت نمی‌ماند، و یک خوانش ازدست‌رفته فقط یک خط لاگ نیست، خلأیی در مراقبت از یک نفر است. این انضباط به همهٔ پروژه‌های بعدی‌ام هم رسید."
       },
       metrics:[
-        {k:{en:"Dice",fa:"دایس"}, v:{en:"0.87",fa:"۰٫۸۷"}},
-        {k:{en:"Scans",fa:"اسکن‌ها"}, v:{en:"1,120",fa:"۱٬۱۲۰"}},
-        {k:{en:"Spacing",fa:"فاصلهٔ برش"}, v:{en:"1.0 mm",fa:"۱٫۰ میلی‌متر"}}
+        {k:{en:"Duration",fa:"مدت"}, v:{en:"3 months",fa:"۳ ماه"}},
+        {k:{en:"Use case",fa:"کاربرد"}, v:{en:"Anti-bedsore care",fa:"مراقبت ضدزخم‌بستر"}},
+        {k:{en:"Monitoring",fa:"پایش"}, v:{en:"Real-time",fa:"بلادرنگ"}}
       ],
-      tags:["PyTorch","MONAI","SimpleITK","CT"],
-      links:{github:"https://github.com/kiarash1375/nodule-seg", demo:""},
+      tags:["Embedded Systems","Sensor Integration","Real-time Monitoring","Python"],
+      links:{},
       images:[]
     },
     {
-      id:"p-2021-dicom-pipeline", year:2021,
-      period:{en:"2021 — 2022", fa:"۲۰۲۱ — ۲۰۲۲"},
+      id:"p-2023-plantar-scan", year:2023,
+      period:{en:"Oct – Dec 2023", fa:"اکتبر تا دسامبر ۲۰۲۳"},
       kind:{en:"Medical imaging", fa:"تصویربرداری پزشکی"},
-      title:{en:"DICOM pipeline & viewer", fa:"خط پردازش و نمایشگر دایکام"},
-      role:{en:"Software developer", fa:"توسعه‌دهندهٔ نرم‌افزار"},
+      title:{en:"Plantar Scan Image Processing System", fa:"سیستم پردازش تصویر اسکن کف پا"},
+      role:{en:"Image processing developer", fa:"توسعه‌دهندهٔ پردازش تصویر"},
       summary:{
-        en:"The first thing I ever shipped in healthcare: an ingestion pipeline that anonymised, validated and re-sampled incoming studies, plus a small multi-planar viewer so people could check the result by eye.",
-        fa:"نخستین چیزی که در حوزهٔ سلامت منتشر کردم: خط پردازشی که مطالعات ورودی را ناشناس، اعتبارسنجی و بازنمونه‌گیری می‌کرد، به‌همراه یک نمایشگر چندصفحه‌ای کوچک تا نتیجه با چشم بررسی شود."
+        en:"Image processing algorithms for a medical plantar scanner used in foot assessment and custom insole design, turning a raw foot scan into a clean, measurable image.",
+        fa:"الگوریتم‌های پردازش تصویر برای یک اسکنر پزشکی کف پا که در ارزیابی پا و طراحی کفی سفارشی استفاده می‌شود، و اسکن خام پا را به تصویری تمیز و قابل‌اندازه‌گیری تبدیل می‌کند."
       },
       body:{
-        en:"Real hospital data is messier than any tutorial: missing tags, mixed orientations, series that are secretly two series. Most of the work was writing the validator that refused a study clearly and said why.",
-        fa:"دادهٔ واقعی بیمارستان از هر آموزشی به‌هم‌ریخته‌تر است: تگ‌های ناقص، جهت‌گیری‌های مخلوط، سری‌هایی که در واقع دو سری‌اند. بیشتر کار، نوشتن اعتبارسنجی بود که یک مطالعه را به‌روشنی رد کند و دلیلش را بگوید."
+        en:"I built automatic image alignment, noise reduction, and foot segmentation, plus left/right foot identification and dimensional measurement, so a clinician got a usable scan without manually cleaning it up first.\n\nThe trickiest part wasn't any single algorithm, it was that every foot is slightly wrong in its own way — a shifted heel, a scan taken at an angle, a partial print. Segmentation had to be forgiving of that variation without losing the millimeter-level accuracy the insole design downstream depended on.",
+        fa:"تراز خودکار تصویر، کاهش نویز و قطعه‌بندی کف پا را ساختم، به‌همراه تشخیص پای چپ/راست و اندازه‌گیری ابعادی، تا پزشک بدون نیاز به پاکسازی دستی، اسکنی قابل‌استفاده دریافت کند.\n\nسخت‌ترین بخش کار یک الگوریتم خاص نبود؛ این بود که هر پا به شیوهٔ خودش کمی نامنظم است — پاشنه‌ای جابه‌جا، اسکنی که با زاویه گرفته شده، اثری ناقص. قطعه‌بندی باید نسبت به این تنوع بخشنده می‌بود، بدون از دست دادن دقتی در حد میلی‌متر که طراحی کفی در ادامه به آن وابسته بود."
       },
       metrics:[
-        {k:{en:"Series",fa:"سری‌ها"}, v:{en:"40k",fa:"۴۰ هزار"}},
-        {k:{en:"Modalities",fa:"مودالیته‌ها"}, v:{en:"CT / MR / CR",fa:"CT / MR / CR"}},
-        {k:{en:"Throughput",fa:"توان عبور"}, v:{en:"600/hr",fa:"۶۰۰ در ساعت"}}
+        {k:{en:"Duration",fa:"مدت"}, v:{en:"3 months",fa:"۳ ماه"}},
+        {k:{en:"Output",fa:"خروجی"}, v:{en:"L/R + dimensions",fa:"پای چپ/راست + ابعاد"}},
+        {k:{en:"Stack",fa:"پشته"}, v:{en:"Python / OpenCV",fa:"Python / OpenCV"}}
       ],
-      tags:["Python","pydicom","Celery","PostgreSQL"],
-      links:{github:"https://github.com/kiarash1375/dicom-pipeline"},
+      tags:["Python","OpenCV","Image Segmentation","Image Alignment"],
+      links:{},
+      images:[]
+    },
+    {
+      id:"p-2023-posture-analysis", year:2023,
+      period:{en:"Jul – Sep 2023", fa:"ژوئیه تا سپتامبر ۲۰۲۳"},
+      kind:{en:"Medical imaging · Computer vision", fa:"تصویربرداری پزشکی · بینایی ماشین"},
+      title:{en:"AI-Assisted Posture Analysis System", fa:"سیستم تحلیل وضعیت بدن با هوش مصنوعی"},
+      role:{en:"Computer vision developer", fa:"توسعه‌دهندهٔ بینایی ماشین"},
+      summary:{
+        en:"A markerless posture analysis system that detects body joints and skeletal landmarks from an ordinary photo, no physical markers on the patient required.",
+        fa:"سیستمی برای تحلیل وضعیت بدن بدون نشانگر فیزیکی که مفاصل و نقاط اسکلتی بدن را از یک عکس معمولی تشخیص می‌دهد."
+      },
+      body:{
+        en:"I worked on the image processing pipeline and AI-assisted landmark detection, combining Python, OpenCV, MediaPipe, and Rembg to isolate the subject, clean up the frame, and locate skeletal points reliably across different bodies, poses, and lighting.\n\nMarkerless detection is a trade: you lose the precision of physical markers, but you gain a system a clinic can actually use — no setup, no equipment on the patient, just a photo. Most of the work was making the pipeline robust enough to earn that trade-off back.",
+        fa:"روی خط پردازش تصویر و تشخیص نقاط اسکلتی به‌کمک هوش مصنوعی کار کردم؛ با ترکیب پایتون، OpenCV، MediaPipe و Rembg، سوژه را از پس‌زمینه جدا می‌کردیم، فریم را پاکسازی می‌کردیم و نقاط اسکلتی را در بدن‌ها، حالت‌ها و نورپردازی‌های مختلف به‌طور قابل‌اعتماد پیدا می‌کردیم.\n\nتشخیص بدون نشانگر یک معامله است: دقت نشانگرهای فیزیکی را از دست می‌دهید اما سیستمی به‌دست می‌آورید که یک کلینیک واقعاً می‌تواند از آن استفاده کند — بدون آماده‌سازی، بدون تجهیزات روی بدن بیمار، فقط یک عکس. بیشتر کار این بود که خط پردازش را آن‌قدر مقاوم کنیم که این معامله واقعاً به‌صرفه باشد."
+      },
+      metrics:[
+        {k:{en:"Duration",fa:"مدت"}, v:{en:"3 months",fa:"۳ ماه"}},
+        {k:{en:"Detection",fa:"تشخیص"}, v:{en:"Markerless",fa:"بدون نشانگر"}},
+        {k:{en:"Stack",fa:"پشته"}, v:{en:"OpenCV / MediaPipe",fa:"OpenCV / MediaPipe"}}
+      ],
+      tags:["Python","OpenCV","MediaPipe","Computer Vision"],
+      links:{},
       images:[]
     }
   ]
