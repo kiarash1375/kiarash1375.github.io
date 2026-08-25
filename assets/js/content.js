@@ -35,6 +35,7 @@ const SEED = {
     email:"kiarash.doorandish@gmail.com",
     github:"https://github.com/kiarash1375",
     linkedin:"https://linkedin.com/in/kiarash-doorandish",
+    telegram:"kiarash_doorandish",
     skills:[
       {label:{en:"Languages",fa:"زبان‌ها"}, items:["Python","TypeScript","C++","SQL"]},
       {label:{en:"Imaging",fa:"تصویربرداری"}, items:["DICOM","SimpleITK","PyTorch","OpenCV","3D Slicer"]},

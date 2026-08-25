@@ -23,7 +23,7 @@
   <nav class="topbar__nav">
     <button class="navlink" data-jump="work" data-i18n="nav.work">Work</button>
     <button class="navlink" data-jump="about" data-i18n="nav.about">About</button>
-    <button class="navlink" data-jump="contact" data-i18n="nav.contact">Contact</button>
+    <button class="navlink" data-jump="contactTitle" data-i18n="nav.contact">Contact</button>
     <button class="langbtn" id="langBtn">فارسی</button>
   </nav>
 </header>
@@ -47,7 +47,7 @@
           <span class="pillhot__line" aria-hidden="true"></span>
           <span class="pillhot__tag mono" data-i18n="hero.pillRed">Build it yourself</span>
         </button>
-        <button class="pillhot pillhot--blue" type="button" data-jump="contact">
+        <button class="pillhot pillhot--blue" type="button" data-jump="contactTitle">
           <span class="pillhot__ring" aria-hidden="true"></span>
           <span class="pillhot__line" aria-hidden="true"></span>
           <span class="pillhot__tag mono" data-i18n="hero.pillBlue">Let me build it</span>
@@ -86,12 +86,28 @@
     </section>
 
     <section class="contact" id="contact">
+      <div class="contact__photo rise" id="lensFrame">
+        <img class="contact__photo-img" src="assets/img/bottom-picture.png" alt="Portrait wearing round glasses" loading="lazy">
+        <div class="lens lens--left">
+          <video id="lensVideoL" class="lens__video" autoplay muted playsinline aria-hidden="true"></video>
+        </div>
+        <div class="lens lens--right">
+          <video id="lensVideoR" class="lens__video" autoplay muted playsinline aria-hidden="true"></video>
+        </div>
+        <svg class="sr" aria-hidden="true">
+          <defs>
+            <clipPath id="lensClip" clipPathUnits="objectBoundingBox">
+              <ellipse cx="0.4435" cy="0.4229" rx="0.03977" ry="0.06376"/>
+              <ellipse cx="0.5646" cy="0.4219" rx="0.03948" ry="0.06482"/>
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
       <h2 id="contactTitle" class="rise"></h2>
       <p class="hero__sub rise" id="contactSub"></p>
       <div class="contact__rows rise" id="contactRows"></div>
       <footer>
         <span class="mono" id="footNote">—</span>
-        <button class="footlink" id="adminOpen" data-i18n="foot.admin">Admin</button>
       </footer>
     </section>
   </main>
@@ -106,10 +122,20 @@
   <div class="admin__wrap" id="adminWrap"></div>
 </section>
 
+<button class="cta-float" type="button" data-jump="contactTitle">
+  <span class="cta-float__dot" aria-hidden="true"></span>
+  <span data-i18n="cta.float">Want a website like this?</span>
+</button>
+
+<button class="cta-top" type="button" id="toTop" data-jump="top" aria-label="Back to top">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15V5M4.5 10.5 10 5l5.5 5.5"/></svg>
+</button>
+
 <div class="toast" id="toast"></div>
 <noscript><p style="padding:80px var(--gutter)">This site needs JavaScript to load its content.</p></noscript>
 
 <script src="assets/js/matrix-bg.js"></script>
+<script src="assets/js/lens-cam.js"></script>
 <script src="assets/js/content.js"></script>
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/app.js"></script>

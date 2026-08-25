@@ -96,7 +96,10 @@ function imagesOf(p){
 const ICON = {
   github:'<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.35C3.8 14.3 3.34 13 3.34 13c-.36-.92-.88-1.16-.88-1.16-.72-.49.05-.48.05-.48.8.06 1.22.82 1.22.82.71 1.21 1.86.86 2.32.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.19c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>',
   link:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6.5 9.5 13 3M9 3h4v4"/><path d="M12 9.5V13H3V4h3.5"/></svg>',
-  doc:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3.5 1.5h6l3 3v10h-9z"/><path d="M9.5 1.5v3h3M5.5 8h5M5.5 11h5"/></svg>'
+  doc:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3.5 1.5h6l3 3v10h-9z"/><path d="M9.5 1.5v3h3M5.5 8h5M5.5 11h5"/></svg>',
+  email:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="3.5" width="13" height="9" rx="1.2"/><path d="M2 4.2l6 5 6-5"/></svg>',
+  linkedin:'<svg viewBox="0 0 16 16" fill="currentColor"><path d="M3.6 5.5h2.1v7H3.6v-7Zm1.05-3.4a1.22 1.22 0 1 1 0 2.44 1.22 1.22 0 0 1 0-2.44ZM7.1 5.5h2v1.02h.03c.28-.52.96-1.07 1.98-1.07 2.12 0 2.51 1.4 2.51 3.21V12.5h-2.1V9.1c0-.81-.02-1.86-1.13-1.86-1.13 0-1.3.88-1.3 1.8v3.46h-2.1v-7Z"/></svg>',
+  telegram:'<svg viewBox="0 0 16 16" fill="currentColor"><path d="M14.7 1.9 1.9 6.9c-.5.2-.5.9 0 1.1l3.2 1 1.2 3.9c.15.5.8.6 1.1.2l1.7-2 3.3 2.5c.4.3 1 .1 1.1-.4l2.1-10.7c.1-.5-.4-.9-.9-.7Zm-2.2 2.1-5.9 5.3-.3 2.5-1-3.3 6.9-4.8c.2-.1.4.1.3.3Z"/></svg>'
 };
 
 function projectHTML(p, i, total){
@@ -159,18 +162,19 @@ function render(){
   $("#contactTitle").textContent = L(P.contactTitle);
   $("#contactSub").textContent = L(P.contactSub);
   $("#footNote").textContent = t("footNote")(num(new Date().getFullYear()));
+  $("#toTop").setAttribute("aria-label", t("backToTop"));
 
   $("#skills").innerHTML = (P.skills||[]).map(g =>
     `<div class="skillgroup"><h4 class="mono skillgroup__h">${esc(L(g.label))}</h4><ul>${(g.items||[]).map(i=>`<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
 
   const rows = [
-    {k:t("email"), v:P.email, href:"mailto:"+P.email},
-    {k:t("github"), v:String(P.github||"").replace(/^https?:\/\//,""), href:P.github},
-    {k:t("linkedin"), v:String(P.linkedin||"").replace(/^https?:\/\//,""), href:P.linkedin}
-  ].filter(r=>r.v);
+    {k:t("email"), icon:"email", href:"mailto:"+P.email},
+    {k:t("github"), icon:"github", href:P.github},
+    {k:t("linkedin"), icon:"linkedin", href:P.linkedin},
+    {k:t("telegram"), icon:"telegram", href:P.telegram ? "https://t.me/"+P.telegram : ""}
+  ].filter(r=>r.href);
   $("#contactRows").innerHTML = rows.map(r =>
-    `<a class="crow" href="${esc(r.href)}" ${r.href.startsWith("http")?'target="_blank" rel="noopener"':""}>
-       <span class="crow__k">${esc(r.k)}</span><span class="crow__v">${esc(r.v)}</span><span class="crow__go">↗</span></a>`).join("");
+    `<a class="cicon" href="${esc(r.href)}" title="${esc(r.k)}" aria-label="${esc(r.k)}" ${r.href.startsWith("http")?'target="_blank" rel="noopener"':""}>${ICON[r.icon]}</a>`).join("");
 
   $("#stack").innerHTML = prj.map((p,i)=>projectHTML(p,i,n)).join("");
   $("#ticks").innerHTML = prj.map((p,i)=>
@@ -212,11 +216,15 @@ function updateRail(){
   $$(".tick").forEach((tk,i)=> tk.setAttribute("aria-current", String(i === best)));
 }
 
+function updateToTop(){
+  $("#toTop")?.classList.toggle("is-visible", scrollY > innerHeight * 0.6);
+}
+
 let ticking = false;
 addEventListener("scroll", ()=>{
   const y = scrollY;
   if (Math.abs(y - lastY) > 2){ dir = y > lastY ? 1 : -1; lastY = y; }
-  if (!ticking){ ticking = true; requestAnimationFrame(()=>{ updateRail(); ticking = false; }); }
+  if (!ticking){ ticking = true; requestAnimationFrame(()=>{ updateRail(); updateToTop(); ticking = false; }); }
 }, {passive:true});
 addEventListener("resize", updateRail, {passive:true});
 
@@ -378,7 +386,7 @@ function renderAdmin(){
       ${pairField("contactTitle", t("fCT"), P.contactTitle)}
       ${pairField("contactSub", t("fCS"), P.contactSub, "area")}
       <div class="pair">${oneField("email", t("fEmail"), P.email)}${oneField("github", t("fGithub"), P.github, "url")}</div>
-      ${oneField("linkedin", t("fLinkedin"), P.linkedin, "url")}
+      <div class="pair">${oneField("linkedin", t("fLinkedin"), P.linkedin, "url")}${oneField("telegram", t("fTelegram"), P.telegram)}</div>
       <div class="field"><label>${esc(t("fSkills"))}</label>
         <textarea data-f="skills" style="min-height:130px">${esc(skillsText())}</textarea>
         <p class="hint">${LANG==="fa"?"قالب: برچسب انگلیسی | برچسب فارسی | مورد، مورد":"Format: English label | Persian label | item, item"}</p></div>
@@ -472,7 +480,7 @@ $("#admin").addEventListener("click", async e => {
     const f = collect(el.closest("[data-scope]")), P = DATA.profile;
     ["name","role","location","heroTitle","heroSub","aboutLead","aboutBody","contactTitle","contactSub"]
       .forEach(k => P[k] = {en:f[k+".en"], fa:f[k+".fa"]});
-    P.email = f.email; P.github = f.github; P.linkedin = f.linkedin;
+    P.email = f.email; P.github = f.github; P.linkedin = f.linkedin; P.telegram = f.telegram;
     P.skills = parseSkills(f.skills);
     await persist(); return;
   }
@@ -516,7 +524,6 @@ function routeAdmin(){
   document.body.style.overflow = open ? "hidden" : "";
   if (open) renderAdmin();
 }
-$("#adminOpen").addEventListener("click", ()=> location.hash = "admin");
 $("#adminClose").addEventListener("click", ()=> { location.hash = ""; history.replaceState(null,"",location.pathname+location.search); routeAdmin(); });
 addEventListener("hashchange", routeAdmin);
 addEventListener("keydown", e => { if (e.key === "Escape" && location.hash === "#admin") $("#adminClose").click(); });
@@ -534,6 +541,7 @@ addEventListener("keydown", e => { if (e.key === "Escape" && location.hash === "
   }
   render();
   routeAdmin();
+  updateToTop();
   requestAnimationFrame(()=>{ $$(".slice, .rise").forEach(el=>{
     const r = el.getBoundingClientRect();
     if (r.top < innerHeight * 0.9) { el.dataset.dir = "1"; el.dataset.in = "1"; }
