@@ -272,17 +272,17 @@ html[lang="fa"] .slice__title{letter-spacing:0;line-height:1.35;font-weight:800}
 .skillgroup li:not(:last-child)::after{content:"/";color:var(--tissue);margin-inline-start:6px}
 
 /* ── contact ──────────────────────────────────────────────── */
-.contact{border-block-start:1px solid var(--film);padding-block:clamp(36px,5vw,56px);text-align:center}
-.contact h2{font-family:var(--display);font-variation-settings:"wdth" 112,"wght" 800;font-size:clamp(22px,3.2vw,34px);line-height:1.15;letter-spacing:-.02em;margin:0 0 10px;scroll-margin-top:72px}
+.contact{border-block-start:1px solid var(--film);padding-block:clamp(28px,4vw,44px);text-align:center;scroll-margin-top:64px}
+.contact h2{font-family:var(--display);font-variation-settings:"wdth" 112,"wght" 800;font-size:clamp(19px,2.6vw,28px);line-height:1.15;letter-spacing:-.02em;margin:0 0 8px}
 html[lang="fa"] .contact h2{letter-spacing:0;line-height:1.4}
 
 .contact__photo{
-  position:relative;margin:0 auto clamp(28px,4.5vw,44px);aspect-ratio:1672/941;
-  width:min(94vw,calc(70vh * 1.7768),1500px);
+  position:relative;margin:0 auto clamp(12px,2vw,20px);aspect-ratio:1672/941;
+  width:min(88vw,calc(52vh * 1.7768),1150px);
 }
 .contact__photo::before{
   content:"";position:absolute;inset:0;clip-path:url(#lensClip);
-  background:radial-gradient(120% 100% at 35% 22%,#dfeee6 0%,#9fc2b3 55%,#6f9385 100%);
+  background:radial-gradient(120% 100% at 35% 22%,#2a2e2c 0%,#0d0f0e 55%,#000 100%);
 }
 .contact__photo-img{position:relative;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 26px 54px rgba(0,0,0,.55))}
 
@@ -296,7 +296,7 @@ html[lang="fa"] .contact h2{letter-spacing:0;line-height:1.4}
 .lens--right{left:52.51%;top:35.71%;width:7.895%;height:12.97%}
 .lens__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
 
-.contact__rows{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-block-start:26px}
+.contact__rows{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-block-start:16px}
 .cicon{
   display:inline-flex;align-items:center;justify-content:center;
   width:46px;height:46px;border-radius:50%;flex:none;
@@ -306,7 +306,7 @@ html[lang="fa"] .contact h2{letter-spacing:0;line-height:1.4}
 .cicon svg{width:19px;height:19px}
 .cicon:hover{border-color:var(--signal);background:var(--paper-2);color:var(--signal);transform:translateY(-3px);text-decoration:none}
 
-footer{padding-block:26px 90px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;align-items:center;border-block-start:1px solid var(--tissue)}
+footer{padding-block:16px 90px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;align-items:center}
 
 /* ── floating CTA ─────────────────────────────────────────── */
 .cta-float{

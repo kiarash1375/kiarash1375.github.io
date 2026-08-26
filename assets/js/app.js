@@ -254,7 +254,6 @@ document.addEventListener("click", e=>{
 
 $("#langBtn").addEventListener("click", async ()=>{
   LANG = LANG === "en" ? "fa" : "en";
-  try{ if(!window.storage) localStorage.setItem("portfolio.lang", LANG); }catch(e){}
   render(); renderAdmin();
 });
 
@@ -536,7 +535,6 @@ addEventListener("keydown", e => { if (e.key === "Escape" && location.hash === "
    8. BOOT
    ══════════════════════════════════════════════════════════════ */
 (async function boot(){
-  if (!window.storage){ try{ const saved = localStorage.getItem("portfolio.lang"); if (saved) LANG = saved; }catch(e){} }
   const stored = await Store.load();
   if (stored && stored.profile && stored.projects){
     DATA = { settings:{...SEED.settings, ...(stored.settings||{})},
