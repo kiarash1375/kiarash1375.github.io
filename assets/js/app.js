@@ -160,7 +160,6 @@ function render(){
   $("#aboutLead").textContent = L(P.aboutLead);
   $("#aboutBody").innerHTML = String(L(P.aboutBody)).split(/\n{2,}/).filter(Boolean).map(x=>`<p>${esc(x)}</p>`).join("");
   $("#contactTitle").textContent = L(P.contactTitle);
-  $("#contactSub").textContent = L(P.contactSub);
   $("#footNote").textContent = t("footNote")(num(new Date().getFullYear()));
   $("#toTop").setAttribute("aria-label", t("backToTop"));
 
@@ -203,8 +202,6 @@ function observeAll(){
 }
 
 function updateRail(){
-  const h = document.documentElement.scrollHeight - innerHeight;
-  $("#progress").style.width = Math.min(100, Math.max(0, (scrollY / (h||1)) * 100)) + "%";
   const cards = $$(".slice"); if(!cards.length) return;
   const mid = innerHeight * 0.42;
   let best = 0, bestD = Infinity;

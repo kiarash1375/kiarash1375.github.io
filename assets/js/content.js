@@ -66,7 +66,9 @@ const SEED = {
       ],
       tags:["G-code","Manufacturing","QA","Customer Support","Production Planning"],
       links:{},
-      images:[]
+      images:[
+        {src:"assets/img/projects/Medical%20Insole%203D%20Printing%20System.jpg", alt:{en:"Medical Insole 3D Printing System",fa:"سیستم چاپ سه‌بعدی کفی طبی"}}
+      ]
     },
     {
       id:"p-2024-sensor-calibration", year:2024,
@@ -89,7 +91,9 @@ const SEED = {
       ],
       tags:["Sensor Calibration","Validation Testing","Embedded Systems","Python"],
       links:{},
-      images:[]
+      images:[
+        {src:"assets/img/projects/Sensor%20Calibration%20for%20Pressure%20Monitoring%20Devices.jpg", alt:{en:"Sensor Calibration for Pressure Monitoring Devices",fa:"کالیبراسیون حسگر برای دستگاه‌های پایش فشار"}}
+      ]
     },
     {
       id:"p-2024-pressure-monitoring", year:2024,
@@ -112,7 +116,9 @@ const SEED = {
       ],
       tags:["Embedded Systems","Sensor Integration","Real-time Monitoring","Python"],
       links:{},
-      images:[]
+      images:[
+        {src:"assets/img/projects/Body%20Pressure%20Monitoring%20System.jpg", alt:{en:"Body Pressure Monitoring System",fa:"سیستم پایش فشار بدن"}}
+      ]
     },
     {
       id:"p-2023-plantar-scan", year:2023,
@@ -135,7 +141,9 @@ const SEED = {
       ],
       tags:["Python","OpenCV","Image Segmentation","Image Alignment"],
       links:{},
-      images:[]
+      images:[
+        {src:"assets/img/projects/Plantar%20Scan%20Image%20Processing%20System.jpg", alt:{en:"Plantar Scan Image Processing System",fa:"سیستم پردازش تصویر اسکن کف پا"}}
+      ]
     },
     {
       id:"p-2023-posture-analysis", year:2023,
@@ -158,7 +166,11 @@ const SEED = {
       ],
       tags:["Python","OpenCV","MediaPipe","Computer Vision"],
       links:{},
-      images:[]
+      images:[
+        {src:"assets/img/projects/AI-Assisted%20Posture%20Analysis%20System%201.jpg", alt:{en:"AI-Assisted Posture Analysis System",fa:"سیستم تحلیل وضعیت بدن با هوش مصنوعی"}},
+        {src:"assets/img/projects/AI-Assisted%20Posture%20Analysis%20System%202.jpg", alt:{en:"AI-Assisted Posture Analysis System",fa:"سیستم تحلیل وضعیت بدن با هوش مصنوعی"}},
+        {src:"assets/img/projects/AI-Assisted%20Posture%20Analysis%20System%203.jpg", alt:{en:"AI-Assisted Posture Analysis System",fa:"سیستم تحلیل وضعیت بدن با هوش مصنوعی"}}
+      ]
     }
   ]
 };

@@ -12,7 +12,6 @@
 </head>
 <body>
 <canvas class="matrix-bg" id="matrixBg" aria-hidden="true"></canvas>
-<div class="progress" id="progress"></div>
 
 <header class="topbar">
   <div class="topbar__id">
@@ -87,6 +86,7 @@
 
     <section class="contact" id="contact">
       <div class="contact__photo rise" id="lensFrame">
+        <canvas class="contact__matrix" id="lensMatrix" aria-hidden="true"></canvas>
         <img class="contact__photo-img" src="assets/img/bottom-picture.png" alt="Portrait wearing round glasses" loading="lazy">
         <div class="lens lens--left">
           <video id="lensVideoL" class="lens__video" autoplay muted playsinline aria-hidden="true"></video>
@@ -104,7 +104,6 @@
         </svg>
       </div>
       <h2 id="contactTitle" class="rise"></h2>
-      <p class="hero__sub rise" id="contactSub"></p>
       <div class="contact__rows rise" id="contactRows"></div>
       <footer>
         <span class="mono" id="footNote">—</span>
@@ -136,6 +135,7 @@
 
 <script src="assets/js/matrix-bg.js"></script>
 <script src="assets/js/lens-cam.js"></script>
+<script src="assets/js/lens-matrix.js"></script>
 <script src="assets/js/content.js"></script>
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/app.js"></script>
