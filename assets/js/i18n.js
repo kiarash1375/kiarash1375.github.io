@@ -7,10 +7,14 @@
    ══════════════════════════════════════════════════════════════ */
 const T = {
   en:{
-    "nav.work":"Work","nav.about":"About","nav.contact":"Contact",
+    "nav.work":"Work","nav.design":"Design","nav.about":"About","nav.contact":"Contact",
     "rail.label":"Slice index",
     "hero.pillRed":"My Projects","hero.pillBlue":"Your Project",
     "work.title":"Work","work.order":"Newest first",
+    "webdesign.title":"Web Design","webdesign.kicker":"3 sites · shipped fast",
+    "webdesign.lead":"I also design and vibe-code full websites end to end — fast, distinctive, with a signature that's unmistakably mine. Hover to look closer, click through to visit.",
+    "webdesign.hint":"Hover to slow down · Click to visit",
+    "webdesign.s1":"Konkur chemistry courses","webdesign.s2":"Athlete portfolio","webdesign.s3":"Industrial equipment store",
     "about.title":"About",
     "cta.float":"Want a website like this?","backToTop":"Back to top",
     "admin.title":"Content admin","admin.close":"Close",
@@ -42,10 +46,14 @@ const T = {
     changePin:"Passcode for this panel", pinNote:"This gate only hides the panel in the browser. It is not real security — anyone with the file can read it."
   },
   fa:{
-    "nav.work":"کارها","nav.about":"درباره","nav.contact":"تماس",
+    "nav.work":"کارها","nav.design":"طراحی","nav.about":"درباره","nav.contact":"تماس",
     "rail.label":"نمایهٔ برش",
     "hero.pillRed":"پروژه‌های من","hero.pillBlue":"پروژهٔ شما",
     "work.title":"کارها","work.order":"تازه‌ترین در بالا",
+    "webdesign.title":"طراحی وب","webdesign.kicker":"۳ سایت · تحویل سریع",
+    "webdesign.lead":"در کنار کار مهندسی، وب‌سایت‌ها را هم از صفر تا صد طراحی و وایب‌کد می‌کنم — سریع، خلاقانه، و با امضایی که کاملاً مال خودم است. برای دیدن بهتر نشانگر را روی هرکدام نگه دارید، برای بازدید کلیک کنید.",
+    "webdesign.hint":"برای توقف چرخش نشانگر را نگه دارید · برای بازدید کلیک کنید",
+    "webdesign.s1":"دوره‌های شیمی کنکور","webdesign.s2":"پروفایل ورزشکار","webdesign.s3":"فروشگاه ابزار صنعتی",
     "about.title":"درباره",
     "cta.float":"چنین سایتی می‌خواهید؟","backToTop":"بازگشت به بالا",
     "admin.title":"مدیریت محتوا","admin.close":"بستن",

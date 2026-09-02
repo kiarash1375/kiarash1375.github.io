@@ -257,6 +257,59 @@ html[lang="fa"] .slice__title{letter-spacing:0;line-height:1.35;font-weight:800}
 .rise{opacity:0;transform:translateY(18px);transition:opacity .7s var(--e),transform .8s var(--e)}
 .rise[data-in="1"]{opacity:1;transform:none}
 
+/* ── web design showcase — rotating 3D carousel ──────────────── */
+.showcase__lead{max-width:60ch;color:var(--slate);margin:0 0 clamp(28px,4.5vw,44px)}
+.showcase{display:flex;flex-direction:column;align-items:center;gap:18px}
+
+.wrapper{
+  position:relative;width:100%;height:clamp(300px,36vw,440px);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.inner{
+  --w:260px;--h:160px;
+  --translateZ:calc((var(--w) + var(--h)) + 0px);
+  --rotateX:-12deg;--perspective:1400px;
+  position:absolute;width:var(--w);height:var(--h);
+  top:50%;left:50%;margin:calc(var(--h) / -2) 0 0 calc(var(--w) / -2);
+  z-index:2;transform-style:preserve-3d;
+  transform:perspective(var(--perspective));
+  animation:showcaseSpin 24s linear infinite;
+}
+.wrapper:hover .inner{animation-play-state:paused}
+@keyframes showcaseSpin{
+  from{transform:perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0)}
+  to{transform:perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(1turn)}
+}
+
+.card{
+  position:absolute;inset:0;display:block;overflow:hidden;border-radius:6px;
+  border:1px solid var(--tissue);background:var(--paper-2);
+  transform:rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
+  transition:border-color .3s,box-shadow .3s;
+  text-decoration:none!important;
+}
+.card:hover{
+  border-color:var(--signal);z-index:5;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--signal) 45%,transparent),0 22px 48px rgba(0,0,0,.55);
+}
+.card__img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--e);filter:saturate(.92) contrast(1.02)}
+.card:hover .card__img{transform:scale(1.08)}
+.card__cap{
+  position:absolute;inset-inline:0;inset-block-end:0;padding:10px 12px 8px;
+  display:flex;flex-direction:column;gap:2px;text-align:start;
+  background:linear-gradient(to top,rgba(0,0,0,.88),transparent);
+  opacity:0;transform:translateY(6px);
+  transition:opacity .3s var(--e),transform .3s var(--e);
+}
+.card:hover .card__cap{opacity:1;transform:none}
+.card__cap strong{font-family:var(--display);font-size:14px;font-weight:700;color:#fff}
+.card__cap span{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#c8e6d2}
+
+.showcase__hint{text-align:center}
+@media (max-width:640px){
+  .inner{--w:180px;--h:112px}
+}
+
 /* ── about ────────────────────────────────────────────────── */
 .about{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,5vw,64px)}
 .about__lead{font-size:clamp(17px,2vw,22px);line-height:1.5;margin:0 0 18px}
