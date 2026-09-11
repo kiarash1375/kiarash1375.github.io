@@ -34,27 +34,11 @@
       <div class="cine__frame" id="cineFrame">
         <img class="cine__img" id="cineImg" src="assets/img/hero.webp"
              alt="Portrait offering a red pill and a blue pill" fetchpriority="high" decoding="async">
-        <button class="pillhot pillhot--red" type="button" data-jump="work">
-          <span class="pillhot__ring" aria-hidden="true"></span>
-          <span class="pillhot__line" aria-hidden="true"></span>
-          <span class="pillhot__tag mono" data-i18n="hero.pillRed">Build it yourself</span>
-        </button>
-        <button class="pillhot pillhot--blue" type="button" data-jump="contact">
-          <span class="pillhot__ring" aria-hidden="true"></span>
-          <span class="pillhot__line" aria-hidden="true"></span>
-          <span class="pillhot__tag mono" data-i18n="hero.pillBlue">Let me build it</span>
-        </button>
       </div>
     </div>
 
     <canvas class="cine__lens" id="cineLens" aria-hidden="true"></canvas>
     <video id="cineCam" class="cine__cam" autoplay muted playsinline aria-hidden="true"></video>
-
-    <div class="cine__intro" id="cineIntro">
-      <div class="hero__eyebrow"><span class="mono" id="heroEyebrow">&mdash;</span></div>
-      <h1 id="heroTitle"></h1>
-      <p class="hero__sub" id="heroSub"></p>
-    </div>
 
     <div class="cine__hint" aria-hidden="true">
       <span class="mono">SCROLL</span>
@@ -62,10 +46,6 @@
     </div>
 
     <div class="camask" id="camAsk" hidden>
-      <svg class="camask__arrow" viewBox="0 0 120 96" aria-hidden="true">
-        <path class="camask__stroke" d="M108 88 C 96 52, 66 28, 20 18" fill="none"/>
-        <path class="camask__head" d="M8 15 L30 12 L22 32 Z"/>
-      </svg>
       <p class="camask__text mono" data-i18n="cam.ask">Allow camera access — the lenses will show what they see</p>
     </div>
   </div>

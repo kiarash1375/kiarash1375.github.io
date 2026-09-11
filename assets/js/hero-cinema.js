@@ -17,7 +17,6 @@
   const frame  = document.getElementById('cineFrame');
   const img    = document.getElementById('cineImg');
   const lens   = document.getElementById('cineLens');
-  const intro  = document.getElementById('cineIntro');
   const hint   = stage && stage.querySelector('.cine__hint');
   const camEl  = document.getElementById('cineCam');
   const camAsk = document.getElementById('camAsk');
@@ -65,42 +64,21 @@
     vw = window.innerWidth;
     vh = window.innerHeight;
 
-    /* Measure the text first and hand the portrait only what is left. The
+    /* Measure the scroll hint first and hand the portrait all the rest. The
        transform has to come off for the read, or the 40x-scaled box is what
        we would be measuring. */
     const prev = zoom.style.transform;
     zoom.style.transform = 'none';
 
     const pad = getComputedStyle(stage);
-    const reserved = outerH(intro) + outerH(hint) +
+    const reserved = outerH(hint) +
       parseFloat(pad.paddingBlockStart || 0) + parseFloat(pad.paddingBlockEnd || 0);
 
-    const fit = (extra) => {
-      const availH = Math.max(vh * 0.35, vh - reserved - extra);
-      if (vw / availH > RATIO) { fh = availH; fw = availH * RATIO; }
-      else                     { fw = vw;     fh = vw / RATIO; }
-      frame.style.width  = fw + 'px';
-      frame.style.height = fh + 'px';
-    };
-
-    /* The pill labels hang below the artwork, and how far depends on how big
-       the artwork is. Fit, look at where they landed, push that overhang into
-       the column as a margin and fit again — twice is enough to settle. */
-    const tag = stage.querySelector('.pillhot');
-    const overhang = () => (tag
-      ? Math.max(0, tag.getBoundingClientRect().bottom - frame.getBoundingClientRect().bottom)
-      : 0);
-
-    let over = 0;
-    zoom.style.marginBlockEnd = '0px';
-    fit(0);
-    for (let i = 0; i < 2; i++) {
-      const next = Math.ceil(overhang());
-      if (Math.abs(next - over) < 1) break;
-      over = next;
-      zoom.style.marginBlockEnd = over + 'px';
-      fit(over);
-    }
+    const availH = Math.max(vh * 0.35, vh - reserved);
+    if (vw / availH > RATIO) { fh = availH; fw = availH * RATIO; }
+    else                     { fw = vw;     fh = vw / RATIO; }
+    frame.style.width  = fw + 'px';
+    frame.style.height = fh + 'px';
 
     zoom.style.transformOrigin = (LENS.cx * 100) + '% ' + (LENS.cy * 100) + '%';
 
@@ -284,10 +262,12 @@
   }
 
   function drawCam(h) {
+    /* Cover, not contain: the hole is filled edge to edge and the overflow is
+       cropped by the clip, so no rain ever shows around the picture. */
     const bw = h.rx * 2, bh = h.ry * 2;
     const ar = (camEl.videoWidth || 16) / (camEl.videoHeight || 9);
     let w = bw, ch = bw / ar;
-    if (ch > bh) { ch = bh; w = bh * ar; }        // the whole frame, inside the hole
+    if (ch < bh) { ch = bh; w = bh * ar; }
     view.save();
     view.translate(h.cx, 0); view.scale(-1, 1); view.translate(-h.cx, 0);   // selfie view
     view.drawImage(camEl, h.cx - w / 2, h.cy - ch / 2, w, ch);
@@ -417,16 +397,6 @@
   if (img.complete) start();
   else img.addEventListener('load', start, { once: true });
   start();
-
-  /* The headline is filled in by the content script and changes length with
-     the language, and its height is what the portrait is sized against. */
-  if (intro && 'ResizeObserver' in window) {
-    let first = true;
-    new ResizeObserver(() => {
-      if (first) { first = false; return; }
-      start();
-    }).observe(intro);
-  }
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', () => { measure(); apply(); });
