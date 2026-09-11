@@ -48,6 +48,7 @@
     </div>
 
     <canvas class="cine__lens" id="cineLens" aria-hidden="true"></canvas>
+    <video id="cineCam" class="cine__cam" autoplay muted playsinline aria-hidden="true"></video>
 
     <div class="cine__intro" id="cineIntro">
       <div class="hero__eyebrow"><span class="mono" id="heroEyebrow">&mdash;</span></div>
@@ -58,6 +59,14 @@
     <div class="cine__hint" aria-hidden="true">
       <span class="mono">SCROLL</span>
       <span class="cine__hint-line"></span>
+    </div>
+
+    <div class="camask" id="camAsk" hidden>
+      <svg class="camask__arrow" viewBox="0 0 120 96" aria-hidden="true">
+        <path class="camask__stroke" d="M108 88 C 96 52, 66 28, 20 18" fill="none"/>
+        <path class="camask__head" d="M8 15 L30 12 L22 32 Z"/>
+      </svg>
+      <p class="camask__text mono" data-i18n="cam.ask">Allow camera access — the lenses will show what they see</p>
     </div>
   </div>
 </section>

@@ -1,39 +1,49 @@
 /* ─────────────────────────────────────────────────────────────
    Cinematic landing.
 
-   The hero portrait is shown whole — contained inside the viewport,
-   never cropped. Scrolling drives a zoom toward one of the glasses
-   lenses. The lens holes in the artwork are transparent, so a canvas
-   of falling 0/1 sits behind them; as the zoom grows, that rain grows
-   with it until it fills the screen and hands off to the page's own
-   background, which runs the same effect. Past that point the page
+   The hero portrait is shown whole — contained inside the space the
+   headline leaves it, never cropped and never painted over. Scrolling
+   drives a slow zoom toward one of the glasses lenses. The lens holes in
+   the artwork are transparent, so the canvas underneath shows through
+   them: the visitor's own camera when they allow it, falling 0/1 when
+   they don't. Either way the picture grows with the zoom until it fills
+   the screen, then dissolves into the page's own background and the page
    scrolls on normally.
    ───────────────────────────────────────────────────────────── */
 (() => {
-  const cine  = document.getElementById('cine');
-  const stage = document.getElementById('cineStage');
-  const zoom  = document.getElementById('cineZoom');
-  const frame = document.getElementById('cineFrame');
-  const img   = document.getElementById('cineImg');
-  const lens  = document.getElementById('cineLens');
-  const shell = document.querySelector('.shell');
+  const cine   = document.getElementById('cine');
+  const stage  = document.getElementById('cineStage');
+  const zoom   = document.getElementById('cineZoom');
+  const frame  = document.getElementById('cineFrame');
+  const img    = document.getElementById('cineImg');
+  const lens   = document.getElementById('cineLens');
+  const intro  = document.getElementById('cineIntro');
+  const hint   = stage && stage.querySelector('.cine__hint');
+  const camEl  = document.getElementById('cineCam');
+  const camAsk = document.getElementById('camAsk');
+  const shell  = document.querySelector('.shell');
   const topbar = document.querySelector('.topbar');
   if (!cine || !stage || !zoom || !frame || !img || !lens) return;
 
   /* The two transparent holes in the artwork, measured off its alpha channel
-     as fractions of the image box. Both rain; the zoom dives into TARGET. */
+     as fractions of the image box. Both show the feed; the zoom dives into
+     LENS. */
   const LENS_LEFT  = { cx: 0.46729, cy: 0.21813, rx: 0.01979, ry: 0.02000 };
   const LENS_RIGHT = { cx: 0.53292, cy: 0.21125, rx: 0.02000, ry: 0.02063 };
   const HOLES = [LENS_LEFT, LENS_RIGHT];
   const LENS  = LENS_LEFT;
 
-  const IMG_W = 2400;
-  const IMG_H = 1600;
-  const RATIO = IMG_W / IMG_H;
+  const RATIO = 2400 / 1600;
 
-  /* How much the ellipse is trimmed so the rain never spills over the
+  /* How much the ellipse is trimmed so the picture never spills over the
      dark rim of the frame while the lens is still small. */
   const RIM = 0.96;
+
+  /* The camera hands over to the code rain before the lens fills the screen,
+     so what finally covers the viewport is the same effect the page runs
+     behind its content and the handoff stays seamless. */
+  const CAM_HOLD = 0.62;
+  const CAM_GONE = 0.88;
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -44,20 +54,62 @@
   let maxScale = 1;            // scale at which the lens covers the viewport
   let travel = 1;              // scrollable distance of the pinned stage
 
+  const outerH = (el) => {
+    if (!el || el.hidden || getComputedStyle(el).display === 'none') return 0;
+    const cs = getComputedStyle(el);
+    return el.offsetHeight +
+      parseFloat(cs.marginBlockStart || 0) + parseFloat(cs.marginBlockEnd || 0);
+  };
+
   function measure() {
     vw = window.innerWidth;
     vh = window.innerHeight;
 
-    // largest box with the image's aspect ratio that fits entirely
-    if (vw / vh > RATIO) { fh = vh; fw = vh * RATIO; }
-    else                 { fw = vw; fh = vw / RATIO; }
+    /* Measure the text first and hand the portrait only what is left. The
+       transform has to come off for the read, or the 40x-scaled box is what
+       we would be measuring. */
+    const prev = zoom.style.transform;
+    zoom.style.transform = 'none';
 
-    fx = (vw - fw) / 2;
-    fy = (vh - fh) / 2;
+    const pad = getComputedStyle(stage);
+    const reserved = outerH(intro) + outerH(hint) +
+      parseFloat(pad.paddingBlockStart || 0) + parseFloat(pad.paddingBlockEnd || 0);
 
-    frame.style.width  = fw + 'px';
-    frame.style.height = fh + 'px';
+    const fit = (extra) => {
+      const availH = Math.max(vh * 0.35, vh - reserved - extra);
+      if (vw / availH > RATIO) { fh = availH; fw = availH * RATIO; }
+      else                     { fw = vw;     fh = vw / RATIO; }
+      frame.style.width  = fw + 'px';
+      frame.style.height = fh + 'px';
+    };
+
+    /* The pill labels hang below the artwork, and how far depends on how big
+       the artwork is. Fit, look at where they landed, push that overhang into
+       the column as a margin and fit again — twice is enough to settle. */
+    const tag = stage.querySelector('.pillhot');
+    const overhang = () => (tag
+      ? Math.max(0, tag.getBoundingClientRect().bottom - frame.getBoundingClientRect().bottom)
+      : 0);
+
+    let over = 0;
+    zoom.style.marginBlockEnd = '0px';
+    fit(0);
+    for (let i = 0; i < 2; i++) {
+      const next = Math.ceil(overhang());
+      if (Math.abs(next - over) < 1) break;
+      over = next;
+      zoom.style.marginBlockEnd = over + 'px';
+      fit(over);
+    }
+
     zoom.style.transformOrigin = (LENS.cx * 100) + '% ' + (LENS.cy * 100) + '%';
+
+    // where the flex column actually put it, in stage coordinates
+    const sr = stage.getBoundingClientRect();
+    const fr = frame.getBoundingClientRect();
+    fx = fr.left - sr.left;
+    fy = fr.top  - sr.top;
+    zoom.style.transform = prev;
 
     /* Enough magnification for the ellipse to cover the whole viewport,
        corners included: an ellipse contains the rectangle only when
@@ -87,10 +139,10 @@
 
   const DPR = () => Math.min(window.devicePixelRatio || 1, 2);
 
-  /* ── the rain inside the lens ─────────────────────────────────
-     It is painted on an offscreen buffer and then blitted through an
-     elliptical clip — one ellipse per hole — so both frames can show the
-     same continuous field while the zoom carries them apart. */
+  /* ── the rain ─────────────────────────────────────────────────
+     Painted on an offscreen buffer and then blitted through an elliptical
+     clip — one ellipse per hole — so both frames show the same continuous
+     field while the zoom carries them apart. */
   const buf = document.createElement('canvas');
   const view = lens.getContext('2d');
 
@@ -110,23 +162,19 @@
 
     /* Glyphs start small — the lens is only a few dozen pixels wide — and
        grow to exactly the size the page background uses (15px), so that when
-       the lens finally fills the screen the two are the same effect and the
-       handoff is invisible.
+       the lens finally fills the screen the two are the same effect.
 
        Density works the same way. One falling stream per column — what the
-       background runs — leaves a lens the size of a thumbnail empty most of
-       the time, so up close the lens runs three staggered streams per column.
-       The extra two stop being drawn as the zoom opens out and fade away on
-       their own trails, leaving the background's exact recipe at the end. */
+       background runs — leaves a thumbnail-sized lens empty most of the time,
+       so up close the lens runs six staggered streams per column. The extras
+       stop being drawn as the zoom opens out and fade away on their own
+       trails, leaving the background's exact recipe at the end. */
     const MIN_FS = 5;
     const MAX_FS = 15;
     const STREAMS = 6;
-    /* Stream k is drawn while the zoom is below this. One is the background's
-       own recipe; the extras exist only to keep a thumbnail-sized lens full,
-       and drop out one at a time on the way up so nothing ever pops. */
     const SHOW_AT = [1.01, 0.97, 0.86, 0.72, 0.56, 0.38];
-    const FADE_NEAR = 0.045;              // longer trails while the lens is small
-    const FADE_FAR  = 0.08;               // the background's own fade
+    const FADE_NEAR = 0.045;
+    const FADE_FAR  = 0.08;
     const DIM_NEAR  = 0.85, DIM_FAR  = 0.5;
     const HEAD_NEAR = 1.0,  HEAD_FAR = 0.9;
 
@@ -195,23 +243,95 @@
     };
   })();
 
-  /* ── blit the buffer through the holes ────────────────────── */
+  /* ── the camera ───────────────────────────────────────────────
+     One permission prompt for the whole page: lens-cam.js, which drives the
+     portrait down in the contact section, shares this same request. */
+  let camLive = false;
+
+  const dismissAsk = () => {
+    if (!camAsk || camAsk.hidden) return;
+    camAsk.classList.add('is-out');
+    setTimeout(() => { camAsk.hidden = true; }, 460);
+  };
+
+  async function initCam() {
+    if (!camEl || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+
+    let state = 'prompt';
+    try { state = (await navigator.permissions.query({ name: 'camera' })).state; } catch (e) { /* Safari */ }
+    if (state === 'denied') return;
+
+    // put the pointer on screen first, then raise the prompt it points at
+    if (state !== 'granted' && camAsk) {
+      camAsk.hidden = false;
+      await new Promise((r) => setTimeout(r, 320));
+    }
+
+    try {
+      const stream = await (window.__requestCam
+        ? window.__requestCam()
+        : navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } },
+            audio: false
+          }));
+      camEl.srcObject = stream;
+      await camEl.play().catch(() => {});
+      camLive = true;
+    } catch (e) {
+      /* declined, no camera, or an insecure context — the rain stands in */
+    }
+    dismissAsk();
+  }
+
+  function drawCam(h) {
+    const bw = h.rx * 2, bh = h.ry * 2;
+    const ar = (camEl.videoWidth || 16) / (camEl.videoHeight || 9);
+    let w = bw, ch = bw / ar;
+    if (ch > bh) { ch = bh; w = bh * ar; }        // the whole frame, inside the hole
+    view.save();
+    view.translate(h.cx, 0); view.scale(-1, 1); view.translate(-h.cx, 0);   // selfie view
+    view.drawImage(camEl, h.cx - w / 2, h.cy - ch / 2, w, ch);
+    view.restore();
+  }
+
+  /* ── blit through the holes ───────────────────────────────── */
   let holes = [];
+  let raw = 0;
 
   function compose() {
     const d = DPR();
     view.setTransform(d, 0, 0, d, 0, 0);
     view.clearRect(0, 0, vw, vh);
     if (!holes.length) return;
+
+    const live = holes.filter((h) => h.rx >= 0.4 && h.ry >= 0.4);
+    if (!live.length) return;
+
+    // the rain, one continuous field seen through every hole
     view.save();
     view.beginPath();
-    for (const h of holes) {
-      if (h.rx < 0.4 || h.ry < 0.4) continue;
-      view.ellipse(h.cx, h.cy, h.rx, h.ry, 0, 0, Math.PI * 2);
-    }
+    for (const h of live) view.ellipse(h.cx, h.cy, h.rx, h.ry, 0, 0, Math.PI * 2);
     view.clip();
     view.drawImage(buf, 0, 0, vw, vh);
     view.restore();
+
+    // the camera over it, the whole frame fitted inside each hole
+    const mix = camLive && camEl.readyState >= 2
+      ? 1 - Math.min(1, Math.max(0, (raw - CAM_HOLD) / (CAM_GONE - CAM_HOLD)))
+      : 0;
+    if (mix > 0) {
+      view.save();
+      view.globalAlpha = mix;
+      for (const h of live) {
+        view.save();
+        view.beginPath();
+        view.ellipse(h.cx, h.cy, h.rx, h.ry, 0, 0, Math.PI * 2);
+        view.clip();
+        drawCam(h);
+        view.restore();
+      }
+      view.restore();
+    }
   }
 
   /* ── scroll → transform ───────────────────────────────────── */
@@ -219,7 +339,7 @@
   let progress = 0;
 
   function apply() {
-    const raw = Math.min(1, Math.max(0, window.scrollY / travel));
+    raw = Math.min(1, Math.max(0, window.scrollY / travel));
     progress = easeInOut(raw);
 
     const s  = 1 + (maxScale - 1) * progress;
@@ -252,8 +372,10 @@
 
     cine.dataset.p = raw < 0.02 ? 'start' : raw > 0.98 ? 'end' : 'mid';
     stage.style.setProperty('--p', progress.toFixed(4));
+    stage.style.setProperty('--raw', raw.toFixed(4));
     if (shell)  shell.style.setProperty('--reveal', Math.max(0, (raw - 0.78) / 0.22).toFixed(3));
     if (topbar) topbar.classList.toggle('is-hidden', raw < 0.9);
+    if (raw > 0.05) dismissAsk();
 
     rain.setZoom(progress);
   }
@@ -270,6 +392,7 @@
       rx: L.rx * RIM * fw, ry: L.ry * RIM * fh
     }));
     compose();
+    initCam().then(() => compose());
     return;
   }
 
@@ -277,6 +400,8 @@
   const FRAME_MS = 55;
   function loop(t) {
     requestAnimationFrame(loop);
+    // with a live camera the lens has to repaint every frame, not every 55ms
+    if (camLive) { if (t - last >= FRAME_MS) { last = t; rain.frame(); } compose(); return; }
     if (t - last >= FRAME_MS) { last = t; rain.frame(); compose(); }
   }
 
@@ -293,7 +418,18 @@
   else img.addEventListener('load', start, { once: true });
   start();
 
+  /* The headline is filled in by the content script and changes length with
+     the language, and its height is what the portrait is sized against. */
+  if (intro && 'ResizeObserver' in window) {
+    let first = true;
+    new ResizeObserver(() => {
+      if (first) { first = false; return; }
+      start();
+    }).observe(intro);
+  }
+
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', () => { measure(); apply(); });
   requestAnimationFrame(loop);
+  initCam();
 })();

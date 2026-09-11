@@ -93,17 +93,21 @@ html[lang="fa"] .mono{letter-spacing:0;font-size:12px}
 .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
 
 /* ── cinematic landing ────────────────────────────────────── */
-.cine{position:relative;z-index:2;height:340vh}
+.cine{position:relative;z-index:2;height:820vh}
 .cine.is-static{height:100svh}
 
+/* A column, not a stack: the portrait gets the space that is left after the
+   headline and the scroll hint have taken theirs, so nothing is ever painted
+   over the artwork. JS measures that leftover box and fits the image into it. */
 .cine__stage{
   position:sticky;inset-block-start:0;
   width:100%;height:100svh;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding-block:clamp(6px,1.4vh,16px);
 }
 /* the portrait dissolves once the lens has taken over the screen, so we
    never paint a 40x-scaled layer we cannot see anyway */
-.cine__zoom{position:relative;z-index:1;will-change:transform;
+.cine__zoom{position:relative;z-index:1;flex:0 0 auto;will-change:transform;
   opacity:clamp(0,calc((0.98 - var(--p,0)) * 9),1)}
 .cine__frame{position:relative;width:100%;height:100%}
 .cine__img{
@@ -113,23 +117,24 @@ html[lang="fa"] .mono{letter-spacing:0;font-size:12px}
 /* the rain that shows through the lens holes; clipped in JS to the
    ellipse of whichever lens we are diving into */
 .cine__lens{position:absolute;inset:0;z-index:2;width:100%;height:100%;pointer-events:none}
+/* the camera feed is never shown directly — it is only a source for the
+   canvas above, so keep it in the render tree but out of sight */
+.cine__cam{position:absolute;inset-block-start:0;inset-inline-start:0;
+  width:2px;height:2px;opacity:0;pointer-events:none;z-index:-1}
 /* once the lens owns the screen the portrait is gone — stop it swallowing clicks */
 .cine[data-p="end"] .cine__zoom{pointer-events:none}
 
 .cine__intro{
-  position:absolute;inset-inline:0;inset-block-end:clamp(46px,7vh,84px);
-  z-index:3;text-align:center;padding-inline:var(--gutter);
-  opacity:clamp(0,calc(1 - var(--p,0) * 3.4),1);
+  position:relative;z-index:3;flex:0 0 auto;width:100%;
+  margin-block-start:clamp(8px,1.8vh,22px);
+  text-align:center;padding-inline:var(--gutter);
+  opacity:clamp(0,calc(1 - var(--raw,0) * 9),1);
   transform:translateY(calc(var(--p,0) * -20px));
   pointer-events:none;
 }
-.cine__intro::before{
-  content:"";position:absolute;inset:-40px -10% -70px;z-index:-1;
-  background:radial-gradient(60% 120% at 50% 60%,color-mix(in srgb,var(--paper) 78%,transparent),transparent 72%);
-}
 .cine__intro h1{
   font-family:var(--display);font-variation-settings:"wdth" 108,"wght" 800;
-  font-size:clamp(21px,2.7vw,32px);line-height:1.12;letter-spacing:-.02em;margin:0 0 10px;
+  font-size:clamp(20px,2.5vw,30px);line-height:1.12;letter-spacing:-.02em;margin:0 0 7px;
   text-wrap:balance;
 }
 html[lang="fa"] .cine__intro h1{font-weight:800;line-height:1.45;letter-spacing:0;font-size:clamp(19px,2.5vw,28px)}
@@ -137,18 +142,78 @@ html[lang="fa"] .cine__intro h1{font-weight:800;line-height:1.45;letter-spacing:
 .cine__intro h1 em::after{content:"";position:absolute;inset-inline:0;inset-block-end:.06em;height:2px;background:var(--signal);transform:scaleX(0);transform-origin:left;animation:swipe 1.1s .55s var(--e) forwards}
 html[dir="rtl"] .cine__intro h1 em::after{transform-origin:right}
 @keyframes swipe{to{transform:scaleX(1)}}
-.hero__eyebrow{display:flex;justify-content:center;margin-block-end:12px}
-.hero__sub{max-width:56ch;margin-inline:auto;color:var(--slate);font-size:clamp(13px,1.2vw,15px)}
-html[lang="fa"] .hero__sub{max-width:52ch}
+.hero__eyebrow{display:flex;justify-content:center;margin-block-end:9px}
+.hero__sub{max-width:66ch;margin-inline:auto;color:var(--slate);font-size:clamp(12px,1.05vw,14px);line-height:1.6}
+html[lang="fa"] .hero__sub{max-width:60ch;line-height:1.95}
 
 .cine__hint{
-  position:absolute;inset-inline:0;inset-block-end:16px;z-index:3;
+  position:relative;z-index:3;flex:0 0 auto;
+  margin-block-start:clamp(6px,1.2vh,14px);
   display:flex;flex-direction:column;align-items:center;gap:7px;
-  opacity:clamp(0,calc(1 - var(--p,0) * 5),1);pointer-events:none;
+  opacity:clamp(0,calc(1 - var(--raw,0) * 12),1);pointer-events:none;
 }
 .cine__hint-line{width:1px;height:26px;background:linear-gradient(var(--signal),transparent);animation:hintDrop 1.8s var(--e) infinite}
 @keyframes hintDrop{0%{transform:scaleY(.2);transform-origin:top;opacity:0}40%{opacity:1}100%{transform:scaleY(1);transform-origin:top;opacity:0}}
 @media (max-height:560px){.cine__hint{display:none}}
+
+/* ── camera prompt ────────────────────────────────────────────
+   Points at wherever the browser puts its permission bubble: up and to the
+   start edge on a desktop omnibox, straight up on a phone. It shows only
+   while the request is pending and leaves as soon as it is answered. */
+.camask{
+  position:absolute;z-index:40;pointer-events:none;
+  inset-block-start:clamp(10px,2.2vh,26px);
+  inset-inline-start:clamp(12px,3vw,48px);
+  display:flex;align-items:flex-start;gap:10px;max-width:min(78vw,360px);
+  animation:camaskIn .5s var(--e) both;
+}
+.camask[hidden]{display:none}
+.camask.is-out{animation:camaskOut .45s var(--e) forwards}
+@keyframes camaskIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes camaskOut{to{opacity:0;transform:translateY(-8px)}}
+
+/* the path runs bottom-right → top-left with the head at the top-left, so it
+   points at a desktop omnibox without any flipping */
+.camask__arrow{
+  flex:0 0 auto;width:clamp(52px,7vw,92px);height:auto;overflow:visible;
+  transform-origin:center;
+}
+html[dir="rtl"] .camask__arrow{transform:scaleX(-1)}
+.camask__stroke{
+  stroke:var(--signal);stroke-width:2.5;stroke-linecap:round;
+  stroke-dasharray:160;stroke-dashoffset:160;
+  animation:camaskDraw 1.5s var(--e) .15s infinite;
+}
+.camask__head{fill:var(--signal);animation:camaskTip 1.5s var(--e) .15s infinite}
+@keyframes camaskDraw{0%{stroke-dashoffset:160}45%,100%{stroke-dashoffset:0}}
+@keyframes camaskTip{0%,35%{opacity:0}55%,100%{opacity:1}}
+
+.camask__text{
+  margin:0;padding:8px 12px;border-radius:10px;
+  font-size:clamp(10px,1.05vw,12px);line-height:1.55;letter-spacing:.02em;
+  color:var(--film);background:color-mix(in srgb,var(--paper) 86%,transparent);
+  border:1px solid color-mix(in srgb,var(--signal) 34%,transparent);
+  box-shadow:0 0 24px color-mix(in srgb,var(--signal) 16%,transparent);
+  backdrop-filter:blur(6px);
+}
+html[lang="fa"] .camask__text{letter-spacing:0;line-height:1.9}
+
+/* a phone puts the permission sheet at the top centre, so centre the pointer */
+@media (max-width:720px){
+  .camask{
+    inset-inline:0;inset-block-start:clamp(8px,1.6vh,18px);
+    flex-direction:column;align-items:center;gap:6px;
+    max-width:none;padding-inline:var(--gutter);text-align:center;
+  }
+  /* a phone drops its permission sheet straight down from the top */
+  .camask__arrow{width:46px;transform:rotate(36deg)}
+  html[dir="rtl"] .camask__arrow{transform:scaleX(-1) rotate(-36deg)}
+  .camask__text{font-size:11px}
+}
+@media (prefers-reduced-motion:reduce){
+  .camask,.camask__stroke,.camask__head{animation:none}
+  .camask__stroke{stroke-dashoffset:0}
+}
 
 .pillhot{
   position:absolute;left:0;top:0;transform:translate(-50%,-50%);
