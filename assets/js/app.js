@@ -176,13 +176,9 @@ function render(){
     `<a class="cicon" href="${esc(r.href)}" title="${esc(r.k)}" aria-label="${esc(r.k)}" ${r.href.startsWith("http")?'target="_blank" rel="noopener"':""}>${ICON[r.icon]}</a>`).join("");
 
   $("#stack").innerHTML = prj.map((p,i)=>projectHTML(p,i,n)).join("");
-  $("#ticks").innerHTML = prj.map((p,i)=>
-    `<li><button class="tick" data-go="${i}" aria-current="false" title="${esc(L(p.title))}">
-       <span class="tick__bar"></span><span class="tick__n">${pad(i+1)}</span></button></li>`).join("");
 
   bindStack();
   observeAll();
-  updateRail();
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -201,17 +197,6 @@ function observeAll(){
   $$(".slice, .rise").forEach(el=>{ el.dataset.in = "0"; io.observe(el); });
 }
 
-function updateRail(){
-  const cards = $$(".slice"); if(!cards.length) return;
-  const mid = innerHeight * 0.42;
-  let best = 0, bestD = Infinity;
-  cards.forEach((c,i)=>{ const r = c.getBoundingClientRect(); const d = Math.abs(r.top + r.height/2 - mid);
-                         if (d < bestD){ bestD = d; best = i; } });
-  const p = DATA.projects[best]; if(!p) return;
-  $("#railYear").textContent = num(p.year);
-  $("#railIdx").textContent  = t("of")(pad(best+1), pad(DATA.projects.length));
-  $$(".tick").forEach((tk,i)=> tk.setAttribute("aria-current", String(i === best)));
-}
 
 function updateToTop(){
   $("#toTop")?.classList.toggle("is-visible", scrollY > innerHeight * 0.6);
@@ -221,9 +206,8 @@ let ticking = false;
 addEventListener("scroll", ()=>{
   const y = scrollY;
   if (Math.abs(y - lastY) > 2){ dir = y > lastY ? 1 : -1; lastY = y; }
-  if (!ticking){ ticking = true; requestAnimationFrame(()=>{ updateRail(); updateToTop(); ticking = false; }); }
+  if (!ticking){ ticking = true; requestAnimationFrame(()=>{ updateToTop(); ticking = false; }); }
 }, {passive:true});
-addEventListener("resize", updateRail, {passive:true});
 
 function bindStack(){
   $$(".slice").forEach(card=>{

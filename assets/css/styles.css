@@ -13,7 +13,6 @@
   --tissue:#1a2e22;
   --iodine:#22c55e;
 
-  --rail-w:132px;
   --gutter:clamp(18px,4vw,56px);
   --maxw:1240px;
 
@@ -68,6 +67,7 @@ html[lang="fa"] .mono{letter-spacing:0;font-size:12px}
 
 /* ── top rail ─────────────────────────────────────────────── */
 .topbar{
+  transition:opacity .45s var(--e),transform .45s var(--e);
   position:fixed;inset-block-start:0;inset-inline:0;z-index:60;
   display:flex;align-items:center;gap:16px;
   padding:0 var(--gutter);height:52px;
@@ -75,6 +75,7 @@ html[lang="fa"] .mono{letter-spacing:0;font-size:12px}
   backdrop-filter:blur(10px);
   border-block-end:1px solid var(--tissue);
 }
+.topbar.is-hidden{opacity:0;transform:translateY(-100%);pointer-events:none}
 .topbar__id{display:flex;align-items:baseline;gap:10px;min-width:0}
 .topbar__name{font-family:var(--display);font-variation-settings:"wdth" 112,"wght" 700;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
 .topbar__sep{color:var(--tissue)}
@@ -87,63 +88,67 @@ html[lang="fa"] .mono{letter-spacing:0;font-size:12px}
   font-family:var(--mono);font-size:11px;letter-spacing:.1em;
 }
 .langbtn:hover{background:var(--film);color:var(--paper)}
-/* ── slice rail ───────────────────────────────────────────── */
-.rail{
-  position:fixed;inset-block-start:52px;inset-inline-start:0;z-index:40;
-  width:var(--rail-w);height:calc(100vh - 52px);
-  padding:26px 0 26px var(--gutter);
-  display:flex;flex-direction:column;gap:14px;
-  border-inline-end:1px solid var(--tissue);
-}
-html[dir="rtl"] .rail{padding:26px var(--gutter) 26px 0}
-.rail__label{margin:0}
-.rail__year{
-  font-family:var(--display);font-variation-settings:"wdth" 70,"wght" 800;
-  font-size:34px;line-height:.9;letter-spacing:-.02em;
-  font-variant-numeric:tabular-nums;
-}
-html[lang="fa"] .rail__year{font-size:30px}
-.rail__idx{font-family:var(--mono);font-size:11px;color:var(--signal);letter-spacing:.12em}
-.ticks{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
-.tick{display:block;width:100%;border:0;background:none;padding:0;height:22px;display:flex;align-items:center;gap:8px}
-.tick__bar{height:1px;background:var(--slate);width:14px;transition:width .35s var(--e),background .35s var(--e),height .35s var(--e)}
-.tick__n{font-family:var(--mono);font-size:10px;color:var(--tissue);transition:color .3s}
-.tick:hover .tick__bar{width:26px;background:var(--film)}
-.tick:hover .tick__n{color:var(--slate)}
-.tick[aria-current="true"] .tick__bar{width:40px;height:2px;background:var(--signal)}
-.tick[aria-current="true"] .tick__n{color:var(--film)}
-
 /* ── layout shell ─────────────────────────────────────────── */
-.shell{position:relative;z-index:1;padding-inline-start:var(--rail-w);}
+.shell{position:relative;z-index:1;opacity:var(--reveal,1);transition:opacity .5s var(--e)}
 .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
 
-/* ── hero ─────────────────────────────────────────────────── */
-.hero{
-  position:relative;min-height:100svh;overflow:hidden;text-align:center;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding-block:96px 60px;gap:clamp(18px,3.6vw,34px);
+/* ── cinematic landing ────────────────────────────────────── */
+.cine{position:relative;z-index:2;height:340vh}
+.cine.is-static{height:100svh}
+
+.cine__stage{
+  position:sticky;inset-block-start:0;
+  width:100%;height:100svh;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
 }
-.hero__intro{max-width:64ch;margin-inline:auto}
-.hero__eyebrow{display:flex;justify-content:center;margin-block-end:14px}
-.hero h1{
+/* the portrait dissolves once the lens has taken over the screen, so we
+   never paint a 40x-scaled layer we cannot see anyway */
+.cine__zoom{position:relative;z-index:1;will-change:transform;
+  opacity:clamp(0,calc((0.98 - var(--p,0)) * 9),1)}
+.cine__frame{position:relative;width:100%;height:100%}
+.cine__img{
+  width:100%;height:100%;object-fit:contain;display:block;
+  filter:drop-shadow(0 30px 60px rgba(0,0,0,.6));
+}
+/* the rain that shows through the lens holes; clipped in JS to the
+   ellipse of whichever lens we are diving into */
+.cine__lens{position:absolute;inset:0;z-index:2;width:100%;height:100%;pointer-events:none}
+/* once the lens owns the screen the portrait is gone — stop it swallowing clicks */
+.cine[data-p="end"] .cine__zoom{pointer-events:none}
+
+.cine__intro{
+  position:absolute;inset-inline:0;inset-block-end:clamp(46px,7vh,84px);
+  z-index:3;text-align:center;padding-inline:var(--gutter);
+  opacity:clamp(0,calc(1 - var(--p,0) * 3.4),1);
+  transform:translateY(calc(var(--p,0) * -20px));
+  pointer-events:none;
+}
+.cine__intro::before{
+  content:"";position:absolute;inset:-40px -10% -70px;z-index:-1;
+  background:radial-gradient(60% 120% at 50% 60%,color-mix(in srgb,var(--paper) 78%,transparent),transparent 72%);
+}
+.cine__intro h1{
   font-family:var(--display);font-variation-settings:"wdth" 108,"wght" 800;
-  font-size:clamp(23px,3.1vw,35px);line-height:1.1;letter-spacing:-.02em;margin:0 0 12px;
+  font-size:clamp(21px,2.7vw,32px);line-height:1.12;letter-spacing:-.02em;margin:0 0 10px;
   text-wrap:balance;
 }
-html[lang="fa"] .hero h1{font-weight:800;line-height:1.4;letter-spacing:0;font-size:clamp(20px,2.8vw,30px)}
-.hero h1 em{font-style:normal;color:var(--iodine);position:relative;white-space:nowrap}
-.hero h1 em::after{content:"";position:absolute;inset-inline:0;inset-block-end:.06em;height:2px;background:var(--signal);transform:scaleX(0);transform-origin:left;animation:swipe 1.1s .55s var(--e) forwards}
-html[dir="rtl"] .hero h1 em::after{transform-origin:right}
+html[lang="fa"] .cine__intro h1{font-weight:800;line-height:1.45;letter-spacing:0;font-size:clamp(19px,2.5vw,28px)}
+.cine__intro h1 em{font-style:normal;color:var(--iodine);position:relative;white-space:nowrap}
+.cine__intro h1 em::after{content:"";position:absolute;inset-inline:0;inset-block-end:.06em;height:2px;background:var(--signal);transform:scaleX(0);transform-origin:left;animation:swipe 1.1s .55s var(--e) forwards}
+html[dir="rtl"] .cine__intro h1 em::after{transform-origin:right}
 @keyframes swipe{to{transform:scaleX(1)}}
-.hero__sub{max-width:56ch;margin-inline:auto;color:var(--slate);font-size:clamp(14px,1.3vw,16px)}
+.hero__eyebrow{display:flex;justify-content:center;margin-block-end:12px}
+.hero__sub{max-width:56ch;margin-inline:auto;color:var(--slate);font-size:clamp(13px,1.2vw,15px)}
 html[lang="fa"] .hero__sub{max-width:52ch}
 
-/* hero photo + pill hotspots */
-.hero__visual{
-  position:relative;margin-inline:auto;aspect-ratio:1536/1024;
-  width:min(94vw,calc(70vh * 1.5),1180px);
+.cine__hint{
+  position:absolute;inset-inline:0;inset-block-end:16px;z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  opacity:clamp(0,calc(1 - var(--p,0) * 5),1);pointer-events:none;
 }
-.hero__photo{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+.cine__hint-line{width:1px;height:26px;background:linear-gradient(var(--signal),transparent);animation:hintDrop 1.8s var(--e) infinite}
+@keyframes hintDrop{0%{transform:scaleY(.2);transform-origin:top;opacity:0}40%{opacity:1}100%{transform:scaleY(1);transform-origin:top;opacity:0}}
+@media (max-height:560px){.cine__hint{display:none}}
 
 .pillhot{
   position:absolute;left:0;top:0;transform:translate(-50%,-50%);
@@ -450,20 +455,6 @@ html[dir="rtl"] .toast[data-show="1"]{transform:translate(50%,0)}
   .about{grid-template-columns:1fr}
 }
 @media (max-width:860px){
-  :root{--rail-w:0px}
-  .shell{padding-inline-start:0}
-  .rail{position:static;width:auto;height:auto;flex-direction:row;align-items:center;gap:12px;
-        border-inline-end:0;border-block-end:1px solid var(--tissue);padding:64px var(--gutter) 12px;background:none}
-  html[dir="rtl"] .rail{padding:64px var(--gutter) 12px}
-  .rail__label{display:none}
-  .rail__year{font-size:22px}
-  .ticks{flex-direction:row;gap:3px;margin:0 0 0 auto;flex-wrap:nowrap;overflow:visible}
-  html[dir="rtl"] .ticks{margin:0 auto 0 0}
-  .tick{width:auto;height:auto;flex-direction:column}
-  .tick__n{display:none}
-  .tick__bar{width:10px;height:2px}
-  .tick[aria-current="true"] .tick__bar{width:22px}
-  .hero{min-height:auto;padding-block:30px 40px}
   .slice__grid{grid-template-columns:1fr;gap:20px}
   .slice:nth-child(even) .slice__media{order:0}
   .pair{grid-template-columns:1fr}
