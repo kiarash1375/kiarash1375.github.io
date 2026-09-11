@@ -124,28 +124,6 @@ html[lang="fa"] .mono{letter-spacing:0;font-size:12px}
 /* once the lens owns the screen the portrait is gone — stop it swallowing clicks */
 .cine[data-p="end"] .cine__zoom{pointer-events:none}
 
-.cine__intro{
-  position:relative;z-index:3;flex:0 0 auto;width:100%;
-  margin-block-start:clamp(8px,1.8vh,22px);
-  text-align:center;padding-inline:var(--gutter);
-  opacity:clamp(0,calc(1 - var(--raw,0) * 9),1);
-  transform:translateY(calc(var(--p,0) * -20px));
-  pointer-events:none;
-}
-.cine__intro h1{
-  font-family:var(--display);font-variation-settings:"wdth" 108,"wght" 800;
-  font-size:clamp(20px,2.5vw,30px);line-height:1.12;letter-spacing:-.02em;margin:0 0 7px;
-  text-wrap:balance;
-}
-html[lang="fa"] .cine__intro h1{font-weight:800;line-height:1.45;letter-spacing:0;font-size:clamp(19px,2.5vw,28px)}
-.cine__intro h1 em{font-style:normal;color:var(--iodine);position:relative;white-space:nowrap}
-.cine__intro h1 em::after{content:"";position:absolute;inset-inline:0;inset-block-end:.06em;height:2px;background:var(--signal);transform:scaleX(0);transform-origin:left;animation:swipe 1.1s .55s var(--e) forwards}
-html[dir="rtl"] .cine__intro h1 em::after{transform-origin:right}
-@keyframes swipe{to{transform:scaleX(1)}}
-.hero__eyebrow{display:flex;justify-content:center;margin-block-end:9px}
-.hero__sub{max-width:66ch;margin-inline:auto;color:var(--slate);font-size:clamp(12px,1.05vw,14px);line-height:1.6}
-html[lang="fa"] .hero__sub{max-width:60ch;line-height:1.95}
-
 .cine__hint{
   position:relative;z-index:3;flex:0 0 auto;
   margin-block-start:clamp(6px,1.2vh,14px);
@@ -157,36 +135,19 @@ html[lang="fa"] .hero__sub{max-width:60ch;line-height:1.95}
 @media (max-height:560px){.cine__hint{display:none}}
 
 /* ── camera prompt ────────────────────────────────────────────
-   Points at wherever the browser puts its permission bubble: up and to the
-   start edge on a desktop omnibox, straight up on a phone. It shows only
-   while the request is pending and leaves as soon as it is answered. */
+   Browsers put their permission bubble in different places, so this points at
+   nothing and simply says what the choice is for. It shows only while the
+   request is pending and leaves as soon as it is answered. */
 .camask{
   position:absolute;z-index:40;pointer-events:none;
-  inset-block-start:clamp(10px,2.2vh,26px);
-  inset-inline-start:clamp(12px,3vw,48px);
-  display:flex;align-items:flex-start;gap:10px;max-width:min(78vw,360px);
+  inset-block-start:clamp(10px,2.2vh,26px);inset-inline:0;
+  display:flex;justify-content:center;padding-inline:var(--gutter);
   animation:camaskIn .5s var(--e) both;
 }
 .camask[hidden]{display:none}
 .camask.is-out{animation:camaskOut .45s var(--e) forwards}
 @keyframes camaskIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 @keyframes camaskOut{to{opacity:0;transform:translateY(-8px)}}
-
-/* the path runs bottom-right → top-left with the head at the top-left, so it
-   points at a desktop omnibox without any flipping */
-.camask__arrow{
-  flex:0 0 auto;width:clamp(52px,7vw,92px);height:auto;overflow:visible;
-  transform-origin:center;
-}
-html[dir="rtl"] .camask__arrow{transform:scaleX(-1)}
-.camask__stroke{
-  stroke:var(--signal);stroke-width:2.5;stroke-linecap:round;
-  stroke-dasharray:160;stroke-dashoffset:160;
-  animation:camaskDraw 1.5s var(--e) .15s infinite;
-}
-.camask__head{fill:var(--signal);animation:camaskTip 1.5s var(--e) .15s infinite}
-@keyframes camaskDraw{0%{stroke-dashoffset:160}45%,100%{stroke-dashoffset:0}}
-@keyframes camaskTip{0%,35%{opacity:0}55%,100%{opacity:1}}
 
 .camask__text{
   margin:0;padding:8px 12px;border-radius:10px;
@@ -200,60 +161,12 @@ html[lang="fa"] .camask__text{letter-spacing:0;line-height:1.9}
 
 /* a phone puts the permission sheet at the top centre, so centre the pointer */
 @media (max-width:720px){
-  .camask{
-    inset-inline:0;inset-block-start:clamp(8px,1.6vh,18px);
-    flex-direction:column;align-items:center;gap:6px;
-    max-width:none;padding-inline:var(--gutter);text-align:center;
-  }
-  /* a phone drops its permission sheet straight down from the top */
-  .camask__arrow{width:46px;transform:rotate(36deg)}
-  html[dir="rtl"] .camask__arrow{transform:scaleX(-1) rotate(-36deg)}
+  .camask{inset-block-start:clamp(8px,1.6vh,18px);text-align:center}
   .camask__text{font-size:11px}
 }
 @media (prefers-reduced-motion:reduce){
-  .camask,.camask__stroke,.camask__head{animation:none}
-  .camask__stroke{stroke-dashoffset:0}
+  .camask{animation:none}
 }
-
-.pillhot{
-  position:absolute;left:0;top:0;transform:translate(-50%,-50%);
-  width:9%;min-width:38px;aspect-ratio:1;
-  display:flex;align-items:center;justify-content:center;
-  background:none;border:0;padding:0;-webkit-tap-highlight-color:transparent;
-}
-.pillhot--red{ --pc:#ff4d4d; left:23.6%; top:79.1%; }
-.pillhot--blue{ --pc:#4d8dff; left:78.3%; top:79.8%; }
-
-.pillhot__ring{
-  position:absolute;inset:0;border-radius:50%;
-  border:1.5px solid color-mix(in srgb,var(--pc) 78%,transparent);
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--pc) 14%,transparent),0 0 16px color-mix(in srgb,var(--pc) 50%,transparent);
-  animation:pillPulse 2.6s ease-in-out infinite;
-}
-.pillhot--blue .pillhot__ring{ animation-delay:-1.3s }
-@keyframes pillPulse{
-  0%,100%{ transform:scale(1); opacity:.8 }
-  50%{ transform:scale(1.16); opacity:.3 }
-}
-.pillhot:hover .pillhot__ring,.pillhot:focus-visible .pillhot__ring{
-  animation-play-state:paused;transform:scale(1.14);opacity:1;
-  box-shadow:0 0 0 4px color-mix(in srgb,var(--pc) 22%,transparent),0 0 24px color-mix(in srgb,var(--pc) 85%,transparent);
-}
-
-.pillhot__line{
-  position:absolute;top:100%;left:50%;width:1px;height:9px;
-  background:linear-gradient(color-mix(in srgb,var(--pc) 75%,transparent),transparent);
-}
-
-.pillhot__tag{
-  position:absolute;top:calc(100% + 11px);left:50%;transform:translateX(-50%);
-  white-space:nowrap;color:var(--pc);font-size:9.5px;
-  border:1px solid color-mix(in srgb,var(--pc) 45%,transparent);
-  background:color-mix(in srgb,var(--paper) 85%,transparent);backdrop-filter:blur(6px);
-  padding:5px 8px;border-radius:2px;letter-spacing:.1em;
-  transition:border-color .2s,transform .2s var(--e)
-}
-.pillhot:hover .pillhot__tag,.pillhot:focus-visible .pillhot__tag{border-color:var(--pc);transform:translate(-50%,2px)}
 
 /* ── section frame ────────────────────────────────────────── */
 .sec{padding-block:clamp(60px,9vw,120px);position:relative}
@@ -524,17 +437,12 @@ html[dir="rtl"] .toast[data-show="1"]{transform:translate(50%,0)}
   .slice:nth-child(even) .slice__media{order:0}
   .pair{grid-template-columns:1fr}
 }
-@media (max-width:640px){
-  .pillhot__tag{white-space:normal;text-align:center;max-width:96px;line-height:1.3}
-}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .matrix-bg{display:none}
   .veil,.veil__bar{display:none}
   .slice__body>*,.rise{opacity:1;transform:none;transition:none}
   .slice__img{filter:none}
-  .pillhot__ring{animation:none}
   .cta-float__dot{animation:none}
-  .hero h1 em::after{animation:none;transform:scaleX(1)}
   *{transition-duration:.01ms!important}
 }
