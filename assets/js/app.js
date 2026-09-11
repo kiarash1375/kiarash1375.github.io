@@ -150,11 +150,10 @@ function render(){
 
   $("#idName").textContent = L(P.name);
   $("#idRole").textContent = L(P.role);
-  $("#heroEyebrow").textContent = LANG === "fa"
-      ? `مجموعه · ${num(n)} برش · ${num(prj[n-1]?.year||"")}–${num(prj[0]?.year||"")}`
-      : `Series · ${n} slices · ${prj[n-1]?.year||""}–${prj[0]?.year||""}`;
-  $("#heroTitle").innerHTML = L(P.heroTitle);
-  $("#heroSub").textContent = L(P.heroSub);
+  /* The landing is the artwork alone now — these only exist while the admin
+     panel is editing the copy, so write to them only if they are on the page. */
+  if ($("#heroTitle")) $("#heroTitle").innerHTML = L(P.heroTitle);
+  if ($("#heroSub"))   $("#heroSub").textContent = L(P.heroSub);
   $("#workCount").textContent = t("count")(num(n));
   $("#aboutLoc").textContent = L(P.location);
   $("#aboutLead").textContent = L(P.aboutLead);
