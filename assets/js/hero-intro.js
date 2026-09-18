@@ -30,8 +30,24 @@
 
   /* ── the frames ───────────────────────────────────────────── */
   const COUNT = 120;                       // 10 s at 12 fps
-  const FW = 1280, FH = 720;
-  const src = (i) => `assets/hero-frames/f-${String(i + 1).padStart(3, '0')}.webp`;
+
+  /* Two renders of the same clip. The wide one is what a monitor or a
+     high-density laptop needs to stay sharp; the small one keeps phones
+     from downloading four times the pixels they can show. Phones always
+     take the small one — a portrait screen crops most of the clip away
+     anyway — and larger screens choose by the device pixels they cover. */
+  const SETS = {
+    sd: { dir: 'assets/hero-frames/960',  w: 960,  h: 540  },
+    hd: { dir: 'assets/hero-frames/1920', w: 1920, h: 1080 },
+  };
+  const SET = (() => {
+    if (window.innerWidth < 768) return SETS.sd;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const covered = Math.max(window.innerWidth, window.innerHeight * 16 / 9) * dpr;
+    return covered > 1100 ? SETS.hd : SETS.sd;
+  })();
+  const FW = SET.w, FH = SET.h;
+  const src = (i) => `${SET.dir}/f-${String(i + 1).padStart(3, '0')}.webp`;
 
   const frames = new Array(COUNT).fill(null);   // Image once decoded, else null
   let loadedCount = 0;
@@ -105,6 +121,8 @@
     const want = nearest(shown < 0 ? 0 : shown);
     if (!force && want === painted) return;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, vw, vh);
     if (!want) return;
