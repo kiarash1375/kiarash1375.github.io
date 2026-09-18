@@ -14,8 +14,36 @@ assets/css/styles.css      design tokens, layout, animation
 assets/js/content.js       ← the file you edit to change what the site says
 assets/js/i18n.js          interface strings for both languages
 assets/js/app.js           storage, rendering, scroll behaviour, admin panel
+assets/js/hero-intro.js    opening clip, scrubbed by scroll (see below)
+assets/js/hero-cinema.js   the portrait zoom that follows it
+assets/hero-frames/        the opening clip as 120 still frames
+assets/hero-video.mp4      source of those frames; not loaded by the site
 .github/workflows/deploy.yml   publishes to GitHub Pages on push to main
 ```
+
+## The opening clip
+
+The page opens on a short film — Earth, Iran, an office, a man at a laptop,
+the black of the laptop screen — that does not play on its own: scrolling
+moves it forward and back. Browsers cannot seek a `<video>` smoothly enough
+for that, so `hero-intro.js` paints still frames from `assets/hero-frames/`
+onto a fixed canvas instead. When the clip reaches the black screen, the
+canvas dissolves and the portrait section underneath is what remains, so the
+rest of the site appears inside the laptop.
+
+To change the clip, replace `assets/hero-video.mp4` and regenerate the
+frames (any length; 12 fps is plenty for scroll):
+
+```bash
+ffmpeg -i assets/hero-video.mp4 -vf "fps=12,scale=1280:-2" \
+  -c:v libwebp -quality 72 assets/hero-frames/f-%03d.webp
+```
+
+Then set `COUNT` at the top of `hero-intro.js` to the number of frames
+written. The clip should end on a dark frame so the hand-off reads as a
+screen switching on; `--intro-fade` in the stylesheet sets how much scroll
+that hand-off takes, and the height of `.intro` sets how much the whole clip
+takes.
 
 The scripts are plain classic scripts loaded in order, not ES modules. That is
 deliberate: it means `index.html` opens correctly straight from the filesystem,

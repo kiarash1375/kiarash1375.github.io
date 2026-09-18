@@ -52,6 +52,7 @@
   let fx = 0, fy = 0;          // its top-left inside the stage
   let maxScale = 1;            // scale at which the lens covers the viewport
   let travel = 1;              // scrollable distance of the pinned stage
+  let top = 0;                 // where the section starts — the opening clip sits above it
 
   const outerH = (el) => {
     if (!el || el.hidden || getComputedStyle(el).display === 'none') return 0;
@@ -96,7 +97,13 @@
     const needY = vh / (2 * LENS.ry * RIM * fh);
     maxScale = Math.hypot(needX, needY) * 1.04;
 
-    travel = Math.max(1, cine.offsetHeight - vh);
+    /* The opening clip pulls this section up under itself by a negative
+       margin and dissolves over that overlap, so the zoom only begins once
+       the overlap has scrolled past — the portrait is still whole when it
+       first appears — and it ends where the pinned stage lets go. */
+    const lead = Math.max(0, -parseFloat(getComputedStyle(cine).marginBlockStart) || 0);
+    travel = Math.max(1, cine.offsetHeight - vh - lead);
+    top = cine.getBoundingClientRect().top + window.scrollY + lead;
 
     /* Touching canvas.width clears the bitmap, so only touch it when the size
        really changed — a phone fires resize on every URL-bar nudge and the
@@ -319,7 +326,7 @@
   let progress = 0;
 
   function apply() {
-    raw = Math.min(1, Math.max(0, window.scrollY / travel));
+    raw = Math.min(1, Math.max(0, (window.scrollY - top) / travel));
     progress = easeInOut(raw);
 
     const s  = 1 + (maxScale - 1) * progress;

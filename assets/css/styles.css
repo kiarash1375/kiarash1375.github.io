@@ -92,6 +92,38 @@ html[lang="fa"] .mono{letter-spacing:0;font-size:12px}
 .shell{position:relative;z-index:1;opacity:var(--reveal,1);transition:opacity .5s var(--e)}
 .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
 
+/* ── opening sequence ─────────────────────────────────────────
+   The section is only a spacer: it sets how much scroll the clip takes.
+   The stage is fixed and painted by hero-intro.js, one still per scroll
+   position. The portrait section that follows is pulled up by --intro-fade
+   so it is already pinned under the black laptop screen while that screen
+   dissolves — the site appears inside the laptop rather than sliding in. */
+:root{--intro-fade:60vh}
+.intro{position:relative;height:360vh}
+.intro__stage{
+  position:fixed;inset:0;z-index:5;overflow:hidden;background:#000;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding-block-end:clamp(6px,1.4vh,16px);
+}
+.intro__stage.is-done{visibility:hidden;pointer-events:none}
+.intro__canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.intro__hint{
+  position:relative;z-index:1;flex:0 0 auto;
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  opacity:clamp(0,calc(1 - var(--raw,0) * 12),1);pointer-events:none;
+}
+.intro__hint .mono{color:var(--film);text-shadow:0 1px 8px rgba(0,0,0,.8)}
+.intro__hint-line{width:1px;height:26px;background:linear-gradient(var(--signal),transparent);animation:hintDrop 1.8s var(--e) infinite}
+.intro + .cine{margin-block-start:calc(-1 * var(--intro-fade))}
+/* the floating buttons stay out of the film until the site is on screen */
+body .cta-float{transition:transform .2s var(--e),border-color .2s,background .2s,opacity .3s var(--e)}
+body.intro-active .cta-float,body.intro-active .cta-top{opacity:0;pointer-events:none}
+@media (max-height:560px){.intro__hint{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .intro{display:none}
+  .intro + .cine{margin-block-start:0}
+}
+
 /* ── cinematic landing ────────────────────────────────────── */
 .cine{position:relative;z-index:2;height:820vh}
 .cine.is-static{height:100svh}

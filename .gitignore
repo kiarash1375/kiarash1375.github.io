@@ -20,3 +20,6 @@ node_modules/
 # Exported content — keep drafts out of the repo until you paste them
 # into assets/js/content.js on purpose.
 portfolio-content.json
+
+# Delivery archive of assets/hero-frames/ — the unpacked folder is what ships
+assets/hero-frames.zip

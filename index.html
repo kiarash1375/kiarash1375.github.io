@@ -28,6 +28,16 @@
   </nav>
 </header>
 
+<section class="intro" id="intro" aria-label="Opening sequence">
+  <div class="intro__stage" id="introStage">
+    <canvas class="intro__canvas" id="introCanvas" aria-hidden="true"></canvas>
+    <div class="intro__hint" aria-hidden="true">
+      <span class="mono">SCROLL</span>
+      <span class="intro__hint-line"></span>
+    </div>
+  </div>
+</section>
+
 <section class="cine" id="cine" data-p="start">
   <div class="cine__stage" id="cineStage">
     <div class="cine__zoom" id="cineZoom">
@@ -163,6 +173,7 @@
 <script src="assets/js/content.js"></script>
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/hero-intro.js"></script>
 <script src="assets/js/hero-cinema.js"></script>
 </body>
 </html>
