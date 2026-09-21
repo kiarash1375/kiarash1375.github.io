@@ -3,7 +3,7 @@
 
    Before the portrait there is a clip: the Earth, then Iran, then an
    office, then a man at a laptop, then the black of the laptop screen.
-   It never plays on its own. The clip is stored as a folder of still
+   It never plays on its own. The clip is stored as folders of still
    frames (assets/hero-frames/) and the scroll position picks which one
    is painted on a fixed canvas, so the visitor drives the zoom in either
    direction and it never stutters the way a scrubbed <video> does.
@@ -12,45 +12,68 @@
    that black dissolves, and what is underneath is the portrait section —
    which the stylesheet has already pinned to the top of the viewport by
    then — so the rest of the site appears inside the laptop. From there
-   hero-cinema.js takes over unchanged.
+   hero-cinema.js takes over.
+
+   While the clip is on screen the body carries the class `intro-active`
+   and, the first time it has fully dissolved, the document receives an
+   `intro:done` event. The other scripts use those to stay idle behind the
+   clip — on a phone the code rain, the lens and the camera would otherwise
+   all be running under an opaque canvas and stealing the frames the scroll
+   needs.
    ───────────────────────────────────────────────────────────── */
 (() => {
   const intro  = document.getElementById('intro');
   const stage  = document.getElementById('introStage');
   const canvas = document.getElementById('introCanvas');
   const cine   = document.getElementById('cine');
-  if (!intro || !stage || !canvas || !cine) return;
+
+  let announced = false;
+  const finish = () => {
+    if (announced) return;
+    announced = true;
+    document.body.classList.remove('intro-active');
+    document.dispatchEvent(new Event('intro:done'));
+  };
+
+  if (!intro || !stage || !canvas || !cine) { finish(); return; }
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) {
     // the stylesheet has already removed the spacer; just make sure nothing paints
     stage.classList.add('is-done');
+    finish();
     return;
   }
+  document.body.classList.add('intro-active');
 
   /* ── the frames ───────────────────────────────────────────── */
-  const COUNT = 120;                       // 10 s at 12 fps
-
-  /* Two renders of the same clip. The wide one is what a monitor or a
-     high-density laptop needs to stay sharp; the small one keeps phones
-     from downloading four times the pixels they can show. Phones always
-     take the small one — a portrait screen crops most of the clip away
-     anyway — and larger screens choose by the device pixels they cover. */
+  /* Three renders of the same clip.
+       hd        1920×1080, 12 fps — monitors and high-density laptops
+       sd         960×540,  12 fps — small landscape screens
+       portrait   720×1080, 24 fps — phones held upright
+     A portrait screen only ever shows the middle third of a 16:9 frame, so
+     the phone set is that third cut out at the source's full resolution
+     rather than a whole frame shrunk down: three times the pixels on the
+     part of the picture that is actually visible, for a smaller file. It
+     also carries every frame of the source, because a thumb flick on a
+     phone covers far more of the clip per event than a wheel notch does,
+     and the finer steps are what keep it from looking like a slideshow. */
   const SETS = {
-    sd: { dir: 'assets/hero-frames/960',  w: 960,  h: 540  },
-    hd: { dir: 'assets/hero-frames/1920', w: 1920, h: 1080 },
+    hd:       { dir: 'assets/hero-frames/1920',     w: 1920, h: 1080, count: 120 },
+    sd:       { dir: 'assets/hero-frames/960',      w: 960,  h: 540,  count: 120 },
+    portrait: { dir: 'assets/hero-frames/portrait', w: 720,  h: 1080, count: 240 },
   };
   const SET = (() => {
-    if (window.innerWidth < 768) return SETS.sd;
+    const w = window.innerWidth, h = window.innerHeight;
+    if (h > w) return SETS.portrait;
+    if (w < 768) return SETS.sd;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const covered = Math.max(window.innerWidth, window.innerHeight * 16 / 9) * dpr;
-    return covered > 1100 ? SETS.hd : SETS.sd;
+    return Math.max(w, h * 16 / 9) * dpr > 1100 ? SETS.hd : SETS.sd;
   })();
-  const FW = SET.w, FH = SET.h;
+  const COUNT = SET.count, FW = SET.w, FH = SET.h;
   const src = (i) => `${SET.dir}/f-${String(i + 1).padStart(3, '0')}.webp`;
 
   const frames = new Array(COUNT).fill(null);   // Image once decoded, else null
-  let loadedCount = 0;
 
   /* Coarse to fine: every 16th frame first, then every 8th, 4th, 2nd, then
      the rest. Scrubbing while the download is still going shows a sparse
@@ -65,6 +88,10 @@
     return out;
   })();
 
+  /* Each frame is decoded as soon as it arrives, off the main thread where
+     the browser allows it, so that painting it later is a plain copy. Left
+     to drawImage, the decode happens on the first paint — on a phone that
+     is a visible hitch on every frame the scroll lands on for the first time. */
   const PARALLEL = 4;
   let cursor = 0;
   function pump() {
@@ -72,11 +99,10 @@
       const i = order[cursor++];
       const im = new Image();
       im.decoding = 'async';
+      const ready = () => { frames[i] = im; paint(false); pump(); };
       im.onload = () => {
-        frames[i] = im;
-        loadedCount++;
-        paint(false);           // repaints only if this frame is the better one to show
-        pump();
+        if (im.decode) im.decode().then(ready, ready);
+        else ready();
       };
       im.onerror = () => pump();
       im.src = src(i);
@@ -107,11 +133,9 @@
     dpr = DPR();
     const cw = Math.round(vw * dpr), ch = Math.round(vh * dpr);
     if (canvas.width !== cw || canvas.height !== ch) {
-      canvas.width = cw;
+      canvas.width = cw;      // this also wipes the canvas; every caller repaints at once
       canvas.height = ch;
     }
-    canvas.style.width = vw + 'px';
-    canvas.style.height = vh + 'px';
   }
 
   let shown = -1;          // index of the frame on screen
@@ -140,7 +164,6 @@
   let fadeAt = 1, endAt = 2;
 
   function measure() {
-    size();
     const top = window.scrollY;
     endAt  = intro.getBoundingClientRect().top + top + intro.offsetHeight;
     fadeAt = cine.getBoundingClientRect().top + top;
@@ -149,13 +172,29 @@
 
   const ease = (t) => t * t * (3 - 2 * t);
 
+  /* The frame follows the scroll with a short lag rather than snapping to
+     it. A fast flick still lands on the right frame, but on the way it
+     passes through the ones in between instead of skipping them, which is
+     the difference between a zoom and a slideshow on a touch screen. */
+  let target = 0, current = 0, settling = false;
+  const CATCH_UP = 0.42;
+
+  function settle() {
+    const diff = target - current;
+    if (Math.abs(diff) < 0.5) { current = target; settling = false; }
+    else { current += diff * CATCH_UP; settling = true; }
+    const idx = Math.round(current);
+    if (idx !== shown) { shown = idx; paint(false); }
+    if (settling) requestAnimationFrame(settle);
+  }
+
   function apply() {
     const y = window.scrollY;
 
     // frames run over the whole distance up to where the fade begins
     const t = Math.min(1, Math.max(0, y / fadeAt));
-    const idx = Math.min(COUNT - 1, Math.round(t * (COUNT - 1)));
-    if (idx !== shown) { shown = idx; paint(false); }
+    target = Math.min(COUNT - 1, Math.round(t * (COUNT - 1)));
+    if (!settling) settle();
 
     // then the black screen thins out and the portrait is what is left
     const f = Math.min(1, Math.max(0, (y - fadeAt) / (endAt - fadeAt)));
@@ -163,6 +202,7 @@
     stage.classList.toggle('is-done', f >= 1);
     stage.style.setProperty('--raw', t.toFixed(4));
     document.body.classList.toggle('intro-active', f < 1);
+    if (f >= 1) finish();
   }
 
   let queued = false;
@@ -172,11 +212,31 @@
     requestAnimationFrame(() => { queued = false; apply(); });
   }
 
+  /* A phone's address bar shrinks and grows as the page scrolls, and each
+     step fires a resize. Reallocating a full-screen canvas on every one of
+     those would drop frames right in the middle of the scroll, so a change
+     that is only a little height is absorbed by the CSS (the canvas is
+     stretched by a few percent until the bar settles) and only the scroll
+     geometry is recomputed. A real change — rotation, a desktop window —
+     rebuilds the canvas. */
+  let lastW = 0, lastH = 0;
+  function onResize() {
+    const w = window.innerWidth, h = window.innerHeight;
+    const minor = w === lastW && Math.abs(h - lastH) < 160;
+    lastW = w; lastH = h;
+    measure();
+    if (!minor) { size(); paint(true); }
+    apply();
+  }
+
+  lastW = window.innerWidth; lastH = window.innerHeight;
+  size();
   measure();
+  current = target = 0;
   apply();
   paint(true);
   pump();
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', () => { measure(); paint(true); apply(); });
+  window.addEventListener('resize', onResize);
 })();

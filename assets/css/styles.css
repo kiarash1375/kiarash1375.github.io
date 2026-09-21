@@ -118,6 +118,12 @@ html[lang="fa"] .mono{letter-spacing:0;font-size:12px}
 /* the floating buttons stay out of the film until the site is on screen */
 body .cta-float{transition:transform .2s var(--e),border-color .2s,background .2s,opacity .3s var(--e)}
 body.intro-active .cta-float,body.intro-active .cta-top{opacity:0;pointer-events:none}
+/* On a phone the page can be dragged past its top and bounces back; the
+   fixed stage moves with it and the page background shows above the film.
+   No overscroll at the top, and a plain black behind the film in case a
+   browser bounces anyway. */
+html{overscroll-behavior-y:none}
+body.intro-active{background-image:none}
 @media (max-height:560px){.intro__hint{display:none}}
 @media (prefers-reduced-motion:reduce){
   .intro{display:none}

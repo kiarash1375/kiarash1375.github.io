@@ -385,8 +385,17 @@
 
   let last = 0;
   const FRAME_MS = 55;
+  /* Nothing here can be seen while the opening clip covers the page, so the
+     rain, the lens and the camera wait for it to finish (hero-intro.js). On
+     a phone they would otherwise be competing with the clip for every
+     scroll frame from behind an opaque canvas. */
+  const introActive = () => document.body.classList.contains('intro-active');
+  const whenIntroDone = () => (introActive()
+    ? new Promise((r) => document.addEventListener('intro:done', r, { once: true }))
+    : Promise.resolve());
   function loop(t) {
     requestAnimationFrame(loop);
+    if (introActive()) return;
     // with a live camera the lens has to repaint every frame, not every 55ms
     if (camLive) { if (t - last >= FRAME_MS) { last = t; rain.frame(); } compose(); return; }
     if (t - last >= FRAME_MS) { last = t; rain.frame(); compose(); }
@@ -408,5 +417,5 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', () => { measure(); apply(); });
   requestAnimationFrame(loop);
-  initCam();
+  whenIntroDone().then(initCam);
 })();

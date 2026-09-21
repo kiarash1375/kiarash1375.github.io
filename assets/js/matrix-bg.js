@@ -50,6 +50,8 @@
   let last = 0;
   function frame(t) {
     requestAnimationFrame(frame);
+    // idle while the opening clip covers the page (see hero-intro.js)
+    if (document.body.classList.contains('intro-active')) return;
     if (t - last < FRAME_MS) return;
     last = t;
 

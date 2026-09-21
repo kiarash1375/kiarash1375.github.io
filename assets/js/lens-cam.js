@@ -13,7 +13,14 @@
     })
   ));
 
-  new Promise((r) => setTimeout(r, 900))
+  /* Ask only once the opening clip is out of the way (hero-intro.js), so
+     the permission prompt does not land in the middle of it. */
+  const introGone = document.getElementById('intro')
+    ? new Promise((r) => document.addEventListener('intro:done', r, { once: true }))
+    : Promise.resolve();
+
+  introGone
+    .then(() => new Promise((r) => setTimeout(r, 900)))
     .then(() => window.__requestCam())
     .then((stream) => {
       videos.forEach((v) => {

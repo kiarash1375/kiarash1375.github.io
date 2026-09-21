@@ -17,7 +17,8 @@ assets/js/app.js           storage, rendering, scroll behaviour, admin panel
 assets/js/hero-intro.js    opening clip, scrubbed by scroll (see below)
 assets/js/hero-cinema.js   the portrait zoom that follows it
 assets/hero-frames/1920/   the opening clip as 120 stills for large screens
-assets/hero-frames/960/    the same stills for phones
+assets/hero-frames/960/    the same stills for small landscape screens
+assets/hero-frames/portrait/  the middle third of every source frame (240) for phones
 assets/hero-vide-1080.mp4  source of those frames; not loaded by the site
 .github/workflows/deploy.yml   publishes to GitHub Pages on push to main
 ```
@@ -32,23 +33,31 @@ onto a fixed canvas instead. When the clip reaches the black screen, the
 canvas dissolves and the portrait section underneath is what remains, so the
 rest of the site appears inside the laptop.
 
-To change the clip, replace the source video and regenerate both frame
-sets (any length; 12 fps is plenty for scroll). The `delogo` step paints
-over the generator's watermark in the bottom-right corner; drop it, or move
-the rectangle, for a different source:
+To change the clip, replace the source video and regenerate the frame
+sets (any length; 12 fps is plenty for a wheel, phones get every frame).
+The `delogo` step paints over the generator's watermark in the bottom-right
+corner; drop it, or move the rectangle, for a different source:
 
 ```bash
 ffmpeg -i assets/hero-vide-1080.mp4 -vf "delogo=x=1696:y=856:w=88:h=88,fps=12" \
   -c:v libwebp -quality 85 assets/hero-frames/1920/f-%03d.webp
 ffmpeg -i assets/hero-vide-1080.mp4 -vf "delogo=x=1696:y=856:w=88:h=88,fps=12,scale=960:-2" \
   -c:v libwebp -quality 80 assets/hero-frames/960/f-%03d.webp
+ffmpeg -i assets/hero-vide-1080.mp4 -vf "crop=720:1080:600:0" \
+  -c:v libwebp -quality 74 assets/hero-frames/portrait/f-%03d.webp
 ```
 
-Then set `COUNT` at the top of `hero-intro.js` to the number of frames
-written, and the sizes in `SETS` if the dimensions changed. The clip should end on a dark frame so the hand-off reads as a
+Then set each set's `count` and size in `SETS` at the top of
+`hero-intro.js`. The clip should end on a dark frame so the hand-off reads as a
 screen switching on; `--intro-fade` in the stylesheet sets how much scroll
 that hand-off takes, and the height of `.intro` sets how much the whole clip
 takes.
+
+While the clip is on screen the body carries `intro-active`, and the first
+time it has fully dissolved the document gets an `intro:done` event. The
+code rain, the lens and the camera request all wait on those, so nothing
+runs behind the clip and the permission prompt appears with the portrait
+rather than over the Earth.
 
 The scripts are plain classic scripts loaded in order, not ES modules. That is
 deliberate: it means `index.html` opens correctly straight from the filesystem,
