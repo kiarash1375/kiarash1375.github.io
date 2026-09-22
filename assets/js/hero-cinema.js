@@ -417,5 +417,5 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', () => { measure(); apply(); });
   requestAnimationFrame(loop);
-  whenIntroDone().then(initCam);
+  initCam();
 })();
