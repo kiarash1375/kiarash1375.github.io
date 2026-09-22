@@ -46,6 +46,23 @@
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ── the portrait past a few times its size ───────────────────
+     The CSS transform on the portrait is only used up to ZOOM_CAP. Beyond
+     that the browser would be rasterising a layer tens of thousands of
+     pixels wide on every scroll step — which is the stall on the way back
+     up from the page, and the half-drawn picture when it gives up. So from
+     there the visible part of the portrait is painted onto a canvas
+     instead: one viewport-sized copy per scroll step, whatever the
+     magnification, and the DOM portrait is hidden so it is never rasterised
+     that large at all. */
+  const ZOOM_CAP = 6;
+  const port = document.createElement('canvas');
+  port.className = 'cine__portrait';
+  port.setAttribute('aria-hidden', 'true');
+  port.style.visibility = 'hidden';
+  zoom.insertAdjacentElement('afterend', port);   // under the lens, over the portrait
+  const pctx = port.getContext('2d');
+
   /* ── geometry ─────────────────────────────────────────────── */
   let vw = 0, vh = 0;          // viewport
   let fw = 0, fh = 0;          // contain-fitted image box
@@ -114,6 +131,10 @@
     lens.height = buf.height = ch;
     lens.style.width  = vw + 'px';
     lens.style.height = vh + 'px';
+    port.width = cw;
+    port.height = ch;
+    port.style.width  = vw + 'px';
+    port.style.height = vh + 'px';
 
     /* On a phone the un-zoomed lens is barely a dozen pixels across, so the
        glyphs have to start smaller there or the hole reads as a black dot.
@@ -321,6 +342,41 @@
     }
   }
 
+  /* ── the portrait on canvas, past ZOOM_CAP ────────────────────
+     The CSS transform is translate(dx,dy) scale(s) about the lens centre
+     (lx,ly), so a point P of the un-zoomed picture lands on screen at
+     L + (P − L)·s + (dx,dy). Only the part of the picture that falls inside
+     the viewport is copied, straight from the source pixels. */
+  function paintPortrait(s, dx, dy, lx, ly) {
+    const IW = img.naturalWidth, IH = img.naturalHeight;
+    if (s <= ZOOM_CAP || !IW) {
+      zoom.style.visibility = '';
+      port.style.visibility = 'hidden';
+      return;
+    }
+    /* Between ZOOM_CAP and 1.5× it both are drawn, the canvas on top, so
+       the DOM portrait has already been rasterised by the time the canvas
+       drops out on the way back up — no blank frame at the handover. */
+    zoom.style.visibility = s > ZOOM_CAP * 1.5 ? 'hidden' : '';
+    port.style.visibility = 'visible';
+
+    const ox = lx + (fx - lx) * s + dx;     // the picture's box on screen
+    const oy = ly + (fy - ly) * s + dy;
+    const bw = fw * s, bh = fh * s;
+    const x0 = Math.max(0, ox), y0 = Math.max(0, oy);
+    const x1 = Math.min(vw, ox + bw), y1 = Math.min(vh, oy + bh);
+
+    const d = DPR();
+    pctx.setTransform(d, 0, 0, d, 0, 0);
+    pctx.clearRect(0, 0, vw, vh);
+    if (x1 <= x0 || y1 <= y0) return;
+    pctx.imageSmoothingEnabled = true;
+    pctx.imageSmoothingQuality = 'high';
+    pctx.drawImage(img,
+      (x0 - ox) / bw * IW, (y0 - oy) / bh * IH, (x1 - x0) / bw * IW, (y1 - y0) / bh * IH,
+      x0, y0, x1 - x0, y1 - y0);
+  }
+
   /* ── scroll → transform ───────────────────────────────────── */
   const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
   let progress = 0;
@@ -336,6 +392,7 @@
     const dy = (vh / 2 - ly) * progress;
 
     zoom.style.transform = `translate(${dx}px, ${dy}px) scale(${s})`;
+    paintPortrait(s, dx, dy, lx, ly);
 
     /* Every hole in screen space. The zoom is anchored on the target lens, so
        that one only translates; the other is pushed outward by the scale and
