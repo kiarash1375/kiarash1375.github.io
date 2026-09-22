@@ -127,15 +127,22 @@
   const DPR = () => Math.min(window.devicePixelRatio || 1, 2);
   let vw = 0, vh = 0, dpr = 1;
 
+  /* The canvas is sized by the stylesheet to the largest the viewport gets
+     (100lvh), not to the viewport of the moment. On a phone the browser bar
+     slides away as the page scrolls and the visible height changes several
+     times in the first second; a canvas that followed it would either be
+     rebuilt mid-scroll or stretched. This one stays put and the stage clips
+     whatever the bar covers. */
   function size() {
-    vw = window.innerWidth;
-    vh = window.innerHeight;
+    const r = canvas.getBoundingClientRect();
+    vw = Math.round(r.width);
+    vh = Math.round(r.height);
     dpr = DPR();
     const cw = Math.round(vw * dpr), ch = Math.round(vh * dpr);
-    if (canvas.width !== cw || canvas.height !== ch) {
-      canvas.width = cw;      // this also wipes the canvas; every caller repaints at once
-      canvas.height = ch;
-    }
+    if (canvas.width === cw && canvas.height === ch) return false;
+    canvas.width = cw;      // this also wipes the canvas; every caller repaints at once
+    canvas.height = ch;
+    return true;
   }
 
   let shown = -1;          // index of the frame on screen
@@ -212,24 +219,12 @@
     requestAnimationFrame(() => { queued = false; apply(); });
   }
 
-  /* A phone's address bar shrinks and grows as the page scrolls, and each
-     step fires a resize. Reallocating a full-screen canvas on every one of
-     those would drop frames right in the middle of the scroll, so a change
-     that is only a little height is absorbed by the CSS (the canvas is
-     stretched by a few percent until the bar settles) and only the scroll
-     geometry is recomputed. A real change — rotation, a desktop window —
-     rebuilds the canvas. */
-  let lastW = 0, lastH = 0;
   function onResize() {
-    const w = window.innerWidth, h = window.innerHeight;
-    const minor = w === lastW && Math.abs(h - lastH) < 160;
-    lastW = w; lastH = h;
     measure();
-    if (!minor) { size(); paint(true); }
+    if (size()) paint(true);
     apply();
   }
 
-  lastW = window.innerWidth; lastH = window.innerHeight;
   size();
   measure();
   current = target = 0;
