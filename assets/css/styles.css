@@ -14,7 +14,7 @@
   --iodine:#22c55e;
 
   --gutter:clamp(18px,4vw,56px);
-  --maxw:1240px;
+  --maxw:1400px;
 
   --display:"Archivo","Vazirmatn",system-ui,sans-serif;
   --body:"IBM Plex Sans","Vazirmatn",system-ui,sans-serif;
@@ -514,3 +514,33 @@ button.link{background:none;font:inherit;font-size:13px;cursor:pointer}
 .redact__bar{display:flex;align-items:center;gap:8px;margin-top:12px}
 .slice__text .star{margin:0 0 12px}
 .star__k{display:block;color:var(--signal);font-weight:500;margin-block-end:2px}
+
+/* ── project layout: wider image column, text centred against it ── */
+/* the image frame stretches to the height of the text beside it and the
+   screenshot sits inside it, uncropped, so both columns end level */
+.slice__grid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);align-items:stretch}
+.slice__media{display:flex;flex-direction:column}
+.slice__frame{position:relative;flex:1;min-height:clamp(260px,27vw,420px);overflow:hidden;isolation:isolate}
+/* a blurred, darkened copy of the screenshot fills whatever space it leaves */
+.slice__bg{position:absolute;inset:-30px;z-index:-1;background:center/cover no-repeat;filter:blur(26px) brightness(.45) saturate(1.2)}
+.slice__frame .slice__img{position:absolute;inset:0;width:100%;height:100%;max-height:none;object-fit:contain;padding:14px}
+.slice__frame .slice__img{filter:grayscale(1) contrast(.72) brightness(1.06) drop-shadow(0 10px 28px rgba(0,0,0,.55))}
+.slice[data-in="1"] .slice__frame .slice__img{filter:drop-shadow(0 10px 28px rgba(0,0,0,.55))}
+.slice__body{align-self:center}
+.slice__img{cursor:zoom-in}
+@media (max-width:860px){ .slice__grid{grid-template-columns:1fr} .slice__frame{min-height:0} .slice__frame .slice__img{position:static;height:auto;max-height:70vh;padding:0} }
+
+/* ── lightbox ──────────────────────────────────────────────── */
+body.lb-open{overflow:hidden}
+.lb{position:fixed;inset:0;z-index:400;background:rgba(2,4,3,.94);display:flex;flex-direction:column}
+.lb[hidden]{display:none}
+.lb__scroll{flex:1;min-height:0;overflow:auto;display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+.lb__img{display:block;max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in;box-shadow:0 20px 60px rgba(0,0,0,.6);background:#fff}
+.lb.is-zoom .lb__scroll{align-items:flex-start;justify-content:flex-start}
+.lb.is-zoom .lb__img{max-width:none;max-height:none;cursor:zoom-out;margin:auto}
+.lb__bar{display:flex;align-items:center;gap:10px;padding:10px var(--gutter);border-block-start:1px solid var(--tissue);background:var(--paper)}
+.lb__cap{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:none;letter-spacing:.02em}
+.lb__btn{width:38px;height:38px;border:1px solid var(--tissue);background:none;color:var(--film);font-size:18px;line-height:1;border-radius:2px}
+.lb__btn:hover{border-color:var(--film)}
+.lb__btn[hidden]{display:none}
+html[dir="rtl"] [data-lb=prev],html[dir="rtl"] [data-lb=next]{transform:scaleX(-1)}

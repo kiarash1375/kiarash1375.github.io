@@ -125,7 +125,7 @@ function projectHTML(p, i, total){
       <div class="slice__grid">
         <div class="slice__media">
           <span class="slice__stamp">${pad(i+1)} / ${pad(total)} · ${num(p.year)}</span>
-          <img class="slice__img" src="${esc(imgs[0].src)}" alt="${esc(L(imgs[0].alt)||L(p.title))}" loading="lazy">
+          <div class="slice__frame"><div class="slice__bg" style="background-image:url('${esc(imgs[0].src)}')"></div><img class="slice__img" src="${esc(imgs[0].src)}" alt="${esc(L(imgs[0].alt)||L(p.title))}" loading="lazy"></div>
           ${thumbs}
         </div>
         <div class="slice__body">
@@ -240,14 +240,80 @@ addEventListener("scroll", ()=>{
   if (!ticking){ ticking = true; requestAnimationFrame(()=>{ updateToTop(); ticking = false; }); }
 }, {passive:true});
 
+/* ══════════════════════════════════════════════════════════════
+   LIGHTBOX  —  click a project image to see it at full resolution
+   ══════════════════════════════════════════════════════════════ */
+const Lightbox = (()=>{
+  let el = null, list = [], k = 0, title = "";
+  function build(){
+    el = document.createElement("div");
+    el.className = "lb"; el.hidden = true;
+    el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true");
+    el.innerHTML = `<div class="lb__scroll"><img class="lb__img" alt=""></div>
+      <div class="lb__bar">
+        <span class="lb__cap mono"></span>
+        <button class="lb__btn" data-lb="prev" aria-label="Previous">‹</button>
+        <span class="lb__n mono"></span>
+        <button class="lb__btn" data-lb="next" aria-label="Next">›</button>
+        <button class="lb__btn" data-lb="close" aria-label="Close">✕</button>
+      </div>`;
+    document.body.appendChild(el);
+    el.addEventListener("click", e=>{
+      const b = e.target.closest("[data-lb]");
+      if (b){ const a = b.dataset.lb; if (a==="close") close(); else go(a==="next"?1:-1); return; }
+      if (e.target.classList.contains("lb__img")){ zoom(e); return; }
+      if (e.target.classList.contains("lb__scroll")) close();
+    });
+  }
+  function zoom(e){
+    const img = $(".lb__img", el), sc = $(".lb__scroll", el);
+    const on = !el.classList.contains("is-zoom");
+    /* zoom toward the clicked point */
+    const r = img.getBoundingClientRect(), fx = (e.clientX - r.left)/r.width, fy = (e.clientY - r.top)/r.height;
+    el.classList.toggle("is-zoom", on);
+    if (on) requestAnimationFrame(()=>{
+      sc.scrollLeft = img.offsetWidth*fx - sc.clientWidth/2;
+      sc.scrollTop  = img.offsetHeight*fy - sc.clientHeight/2;
+    });
+  }
+  function show(){
+    const im = list[k], img = $(".lb__img", el);
+    el.classList.remove("is-zoom");
+    img.src = im.src; img.alt = L(im.alt) || title;
+    $(".lb__cap", el).textContent = L(im.alt) || title;
+    $(".lb__n", el).textContent = list.length > 1 ? `${num(k+1)} / ${num(list.length)}` : "";
+    $$("[data-lb=prev],[data-lb=next]", el).forEach(b => b.hidden = list.length < 2);
+  }
+  function go(d){ k = (k + d + list.length) % list.length; show(); }
+  function key(e){
+    if (el.hidden) return;
+    if (e.key === "Escape"){ e.stopImmediatePropagation(); close(); }
+    if (e.key === "ArrowRight") go(document.dir === "rtl" ? -1 : 1);
+    if (e.key === "ArrowLeft")  go(document.dir === "rtl" ? 1 : -1);
+  }
+  function open(images, i, t){
+    if (!el){ build(); addEventListener("keydown", key, true); }
+    list = images; k = i; title = t; show();
+    el.hidden = false; document.body.classList.add("lb-open");
+  }
+  function close(){ el.hidden = true; document.body.classList.remove("lb-open"); }
+  return { open };
+})();
+
 function bindStack(){
   $$(".slice").forEach(card=>{
     card.addEventListener("click", ev=>{
+      if (ev.target.closest(".slice__img")){
+        const p = DATA.projects[+card.dataset.idx], imgs = imagesOf(p);
+        const cur = $$(".thumb", card).findIndex(t => t.getAttribute("aria-current") === "true");
+        if (p.images && p.images.length) Lightbox.open(imgs, Math.max(0,cur), L(p.title));
+        return;
+      }
       const b = ev.target.closest(".thumb"); if(!b) return;
       const p = DATA.projects[+card.dataset.idx], imgs = imagesOf(p), k = +b.dataset.img;
       const img = $(".slice__img", card);
       img.style.opacity = "0";
-      setTimeout(()=>{ img.src = imgs[k].src; img.alt = L(imgs[k].alt) || L(p.title); img.style.opacity = "1"; }, 160);
+      setTimeout(()=>{ img.src = imgs[k].src; $(".slice__bg", card).style.backgroundImage = `url('${imgs[k].src}')`; img.alt = L(imgs[k].alt) || L(p.title); img.style.opacity = "1"; }, 160);
       $$(".thumb", card).forEach((x,j)=> x.setAttribute("aria-current", String(j===k)));
     });
   });
