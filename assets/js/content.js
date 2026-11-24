@@ -3,50 +3,190 @@
    const bindings are visible to the scripts that load after this one. */
 
 /* ══════════════════════════════════════════════════════════════
-   1. TEMPLATE DATA  —  replace all of this from the admin panel
+   1. SITE DATA  —  the admin panel's Publish button rewrites this file
    ══════════════════════════════════════════════════════════════ */
 const SEED = {
+  rev:1764000000000,
   settings:{ pin:"1234" },
   profile:{
     name:{en:"Kiarash Doorandish", fa:"کیارش دوراندیش"},
-    role:{en:"Software developer", fa:"توسعه‌دهندهٔ نرم‌افزار"},
+    role:{en:"Web & automation developer", fa:"توسعه‌دهندهٔ وب و اتوماسیون کسب‌وکار"},
     location:{en:"Tehran, IR", fa:"تهران، ایران"},
     heroTitle:{
-      en:"Software that has to be <em>right about a body</em>.",
-      fa:"نرم‌افزاری که باید <em>دربارهٔ یک بدن درست بگوید</em>."
+      en:"Websites and tools that <em>take the busywork off your desk</em>.",
+      fa:"وب‌سایت‌ها و ابزارهایی که <em>کارهای تکراری را از دوش شما برمی‌دارند</em>."
     },
     heroSub:{
-      en:"Three years between medical images and the machines that act on what those images imply — posture scans, plantar pressure maps, and the printers that turn them into insoles.",
-      fa:"سه سال میان تصاویر پزشکی و ماشین‌هایی که بر اساس آن تصاویر عمل می‌کنند — اسکن وضعیت بدن، نقشه‌های فشار کف پا، و پرینترهایی که آن‌ها را به کفی طبی تبدیل می‌کنند."
+      en:"I build websites, internal panels and automation for small businesses and professionals — with a background in image processing and medical device software.",
+      fa:"برای کسب‌وکارهای کوچک و افراد حرفه‌ای وب‌سایت، پنل داخلی و ابزار اتوماسیون می‌سازم — با پیشینه‌ای در پردازش تصویر و نرم‌افزار تجهیزات پزشکی."
     },
     aboutLead:{
-      en:"I started in medical imaging — posture analysis, plantar scans, computer vision that has to work on an ordinary photo — then moved into the hardware side: sensor calibration, real-time pressure monitoring, and now production support for the 3D printers that turn those scans into insoles. Both halves come down to the same question: what is actually true about this person's body, and what do we do about it?",
-      fa:"کارم را با تصویربرداری پزشکی شروع کردم — تحلیل وضعیت بدن، اسکن کف پا، بینایی ماشینی که باید روی یک عکس معمولی هم کار کند — و از آنجا به سمت سخت‌افزار رفتم: کالیبراسیون حسگر، پایش بلادرنگ فشار، و حالا پشتیبانی تولید پرینترهای سه‌بعدی که همان اسکن‌ها را به کفی تبدیل می‌کنند. هر دو بخش به یک پرسش می‌رسند: واقعاً چه چیزی دربارهٔ بدن این فرد درست است، و با آن چه باید کرد؟"
+      en:"I build websites and business software that take repetitive work off people's desks — pricing panels, bulk-processing tools, and fast, distinctive sites for teachers, athletes and small companies. Before that I spent three years in image processing and medical device software, which is where I learned to build things that keep working when the real world gets messy.",
+      fa:"وب‌سایت و نرم‌افزارهای کاربردی می‌سازم که کارهای تکراری را از دوش آدم‌ها برمی‌دارند — پنل قیمت‌گذاری، ابزارهای پردازش انبوه، و سایت‌های سریع و متمایز برای دبیرها، ورزشکارها و شرکت‌های کوچک. پیش از این، سه سال در پردازش تصویر و نرم‌افزار تجهیزات پزشکی کار کردم؛ همان‌جا یاد گرفتم چیزی بسازم که وقتی دنیای واقعی به‌هم‌ریخته است هم کار کند."
     },
     aboutBody:{
-      en:"On the imaging side I worked on markerless posture detection and plantar scan processing — segmentation, alignment, left/right identification — with Python, OpenCV, MediaPipe, and Rembg. On the hardware side I moved into sensor calibration and real-time pressure monitoring for medical devices, then into production: customizing G-code workflows, running QA, and supporting the clinics actually running the printers.\n\nI like problems where the software has to survive contact with physical reality: a sensor that drifts, a scan taken badly, a foot that is not symmetrical, a customer who has never run a 3D printer before. I write mostly Python, and I am comfortable being the person who moves between the algorithm and the machine — or the machine and the customer.",
-      fa:"در بخش تصویربرداری، روی تشخیص وضعیت بدن بدون نشانگر و پردازش اسکن کف پا کار کردم — قطعه‌بندی، تراز تصویر، تشخیص پای چپ‌وراست — با پایتون، OpenCV، MediaPipe و Rembg. در بخش سخت‌افزار، به کالیبراسیون حسگر و پایش بلادرنگ فشار برای دستگاه‌های پزشکی رفتم و بعد به تولید: سفارشی‌سازی جریان‌های جی‌کد، اجرای کنترل کیفیت، و پشتیبانی از کلینیک‌هایی که واقعاً پرینترها را کار می‌انداختند.\n\nمسئله‌هایی را دوست دارم که نرم‌افزار باید در برخورد با واقعیت فیزیکی دوام بیاورد: حسگری که منحرف می‌شود، اسکنی که بد گرفته شده، پایی که متقارن نیست، مشتری‌ای که تا حالا پرینتر سه‌بعدی کار نینداخته. بیشتر پایتون می‌نویسم و راحتم با اینکه همان کسی باشم که میان الگوریتم و دستگاه حرکت می‌کند — یا میان دستگاه و مشتری."
+      en:"My usual starting point is a question: what does your team still do by hand? Copying prices between sheets, saving photos one by one, answering the same enquiry twenty times a day. That step is usually the first thing worth automating, and a small focused tool often pays for itself faster than a big system would.\n\nFor websites I design and build end to end, quickly, with a look that belongs to the client rather than a template. Underneath it all is an engineering background — Python, OpenCV and MediaPipe on medical imaging, sensor calibration, real-time monitoring and 3D-printing workflows — so I'm comfortable when a project needs more than a pretty front end.",
+      fa:"معمولاً کار را با یک پرسش شروع می‌کنم: تیم شما هنوز چه کاری را دستی انجام می‌دهد؟ کپی‌کردن قیمت‌ها بین جدول‌ها، ذخیرهٔ عکس‌ها یکی‌یکی، جواب دادن به یک سؤال تکراری بیست بار در روز. همان قدم معمولاً اولین چیزی است که ارزش خودکارسازی دارد، و یک ابزار کوچک و متمرکز اغلب زودتر از یک سیستم بزرگ هزینه‌اش را برمی‌گرداند.\n\nوب‌سایت‌ها را از صفر تا صد، سریع و با ظاهری که مال خود مشتری است — نه یک قالب آماده — طراحی و پیاده‌سازی می‌کنم. پشت همهٔ این‌ها پیشینهٔ مهندسی است — پایتون، OpenCV و MediaPipe در تصویربرداری پزشکی، کالیبراسیون حسگر، پایش بلادرنگ و گردش‌کار پرینت سه‌بعدی — پس وقتی پروژه به چیزی بیشتر از یک ظاهر زیبا نیاز دارد، راحتم."
     },
     contactTitle:{en:"Let's talk.", fa:"گفت‌وگو کنیم."},
     contactSub:{
-      en:"Open to work on medical imaging, digital fabrication, or anything where software meets a machine. Fastest way to reach me is email.",
-      fa:"برای همکاری در حوزهٔ تصویربرداری پزشکی، ساخت دیجیتال، یا هر جایی که نرم‌افزار به ماشین می‌رسد آماده‌ام. سریع‌ترین راه ارتباط، ایمیل است."
+      en:"Need a website, an internal panel, or a tool that does the boring part of your business automatically? Tell me what you do by hand today. Email or Telegram is fastest.",
+      fa:"وب‌سایت، پنل داخلی یا ابزاری می‌خواهید که بخش خسته‌کنندهٔ کارتان را خودکار انجام دهد؟ بگویید امروز چه کاری را دستی انجام می‌دهید. سریع‌ترین راه، ایمیل یا تلگرام است."
     },
     email:"kiarash.doorandish@gmail.com",
     github:"https://github.com/kiarash1375",
     linkedin:"https://linkedin.com/in/kiarash-doorandish",
     telegram:"kiarash_doorandish",
     skills:[
+      {label:{en:"Web",fa:"وب"}, items:["React","TypeScript","FastAPI","PostgreSQL","Three.js"]},
+      {label:{en:"Automation",fa:"اتوماسیون"}, items:["Python","Admin panels","Bulk image workflows","Pricing logic"]},
       {label:{en:"Languages",fa:"زبان‌ها"}, items:["Python","TypeScript","C++","SQL"]},
-      {label:{en:"Imaging",fa:"تصویربرداری"}, items:["DICOM","SimpleITK","PyTorch","OpenCV","3D Slicer"]},
-      {label:{en:"Web",fa:"وب"}, items:["React","FastAPI","Three.js","PostgreSQL"]},
-      {label:{en:"Fabrication",fa:"ساخت"}, items:["G-code","Slicer profiles","Marlin","Fusion 360"]},
-      {label:{en:"Leading",fa:"رهبری"}, items:["Scrum","Roadmapping","Vendor management","QA process"]}
+      {label:{en:"Image processing",fa:"پردازش تصویر"}, items:["OpenCV","MediaPipe","PyTorch","Rembg"]},
+      {label:{en:"Devices",fa:"تجهیزات"}, items:["Sensor calibration","G-code","Marlin","QA process"]}
     ]
   },
   projects:[
     {
-      id:"p-2024-insole-printing", year:2026,
+      id:"p-2026-pricing-panel", year:2026, group:"web", confidential:true,
+      period:{en:"2026", fa:"۲۰۲۶"},
+      kind:{en:"Internal tool · Business automation", fa:"ابزار داخلی · اتوماسیون کسب‌وکار"},
+      title:{en:"Pricing Panel for a Tools Retailer", fa:"پنل قیمت‌گذاری فروشگاه ابزار"},
+      role:{en:"Design & full-stack development", fa:"طراحی و توسعهٔ کامل"},
+      summary:{
+        en:"An internal web panel where a tools retailer manages and updates the prices of its catalog in one place.",
+        fa:"یک پنل وب داخلی که فروشگاه ابزار، قیمت محصولاتش را در یک جا مدیریت و به‌روز می‌کند."
+      },
+      body:{
+        en:"Pricing is the kind of work that quietly eats hours: many products, changing costs, and every change has to land everywhere at once. The panel gives the team one screen for it.\n\nThis is a private client system, so the screenshots here have prices and product details masked.",
+        fa:"قیمت‌گذاری از آن کارهایی است که بی‌صدا ساعت‌ها وقت می‌گیرد: محصولات زیاد، هزینه‌هایی که تغییر می‌کنند، و هر تغییر باید هم‌زمان همه‌جا اعمال شود. این پنل همهٔ این کار را در یک صفحه جمع می‌کند.\n\nاین یک سیستم خصوصی مشتری است؛ برای همین در تصویرهای این بخش، قیمت‌ها و جزئیات محصولات پوشانده شده‌اند."
+      },
+      metrics:[
+        {k:{en:"Type",fa:"نوع"}, v:{en:"Internal web app",fa:"وب‌اپ داخلی"}},
+        {k:{en:"Client",fa:"مشتری"}, v:{en:"Tools retail",fa:"فروش ابزار"}},
+        {k:{en:"Access",fa:"دسترسی"}, v:{en:"Private",fa:"خصوصی"}}
+      ],
+      tags:["Web App","Admin Panel","Business Automation"],
+      links:{},
+      images:[]
+    },
+    {
+      id:"p-2026-jewelry-photos", year:2026, group:"web", confidential:true,
+      period:{en:"2026", fa:"۲۰۲۶"},
+      kind:{en:"Web app · Automation", fa:"وب‌اپ · اتوماسیون"},
+      title:{en:"Jewelry Photo Auto-Downloader", fa:"وب‌اپ دانلود خودکار عکس جواهرات"},
+      role:{en:"Design & development", fa:"طراحی و توسعه"},
+      summary:{
+        en:"A web app that downloads jewelry product photos automatically and in bulk, so nobody has to save catalog images one by one.",
+        fa:"یک وب‌اپ که عکس‌های محصولات جواهرات را خودکار و یک‌جا دانلود می‌کند، تا دیگر کسی مجبور نباشد عکس‌ها را یکی‌یکی ذخیره کند."
+      },
+      body:{
+        en:"Saving product photos by hand is slow, repetitive and easy to get wrong. This tool turns it into a single action.\n\nIt was built for a private client, so the screenshots are shown with identifying details masked.",
+        fa:"ذخیرهٔ دستی عکس محصولات کند، تکراری و پر از خطاست. این ابزار همهٔ آن را به یک کار تبدیل می‌کند.\n\nاین پروژه برای یک مشتری خصوصی ساخته شده؛ برای همین تصویرها با پوشاندن جزئیات شناسایی‌کننده نمایش داده می‌شوند."
+      },
+      metrics:[
+        {k:{en:"Type",fa:"نوع"}, v:{en:"Web app",fa:"وب‌اپ"}},
+        {k:{en:"Industry",fa:"صنعت"}, v:{en:"Jewelry",fa:"جواهرات"}},
+        {k:{en:"Access",fa:"دسترسی"}, v:{en:"Private",fa:"خصوصی"}}
+      ],
+      tags:["Web App","Automation","Bulk Download"],
+      links:{},
+      images:[]
+    },
+    {
+      id:"p-2026-catalyzer", year:2026, group:"web", showcase:true,
+      period:{en:"2026", fa:"۲۰۲۶"},
+      kind:{en:"Website · Education", fa:"وب‌سایت · آموزش"},
+      title:{en:"Catalyzer — Chemistry Teacher Website", fa:"کاتالیزور — وب‌سایت دبیر شیمی"},
+      role:{en:"Design & development", fa:"طراحی و پیاده‌سازی"},
+      summary:{
+        en:"A Persian website for Dr. Sina Rezadoost, a Konkur chemistry teacher in Mashhad, presenting his Catalyzer teaching method and selling his online courses.",
+        fa:"وب‌سایت فارسی دکتر سینا رضادوست، دبیر شیمی کنکور در مشهد، برای معرفی روش تدریس «کاتالیزور» و فروش دوره‌های آنلاینش."
+      },
+      body:{
+        en:"The site walks a student from who the teacher is, to how he teaches, to which package fits them: course packages, free sample lessons, student testimonials and a consultation request form.",
+        fa:"سایت دانش‌آموز را قدم‌به‌قدم می‌برد: این دبیر کیست، چطور درس می‌دهد، و کدام بسته مناسب اوست — بسته‌های آموزشی، ویدیوهای نمونهٔ رایگان، نظر دانش‌آموزان و فرم درخواست مشاوره."
+      },
+      metrics:[
+        {k:{en:"Type",fa:"نوع"}, v:{en:"Teacher website",fa:"سایت دبیر"}},
+        {k:{en:"Language",fa:"زبان"}, v:{en:"Persian",fa:"فارسی"}},
+        {k:{en:"Status",fa:"وضعیت"}, v:{en:"Live",fa:"منتشرشده"}}
+      ],
+      tags:["Website","Education","RTL"],
+      links:{demo:"https://sina-rezadoost-website.vercel.app/"},
+      images:[
+        {src:"assets/img/showcase-1.jpg", alt:{en:"Catalyzer — Sina Rezadoost",fa:"کاتالیزور — سینا رضادوست"}}
+      ]
+    },
+    {
+      id:"p-2026-english-teacher", year:2026, group:"web", showcase:true,
+      period:{en:"2026", fa:"۲۰۲۶"},
+      kind:{en:"Website · Education", fa:"وب‌سایت · آموزش"},
+      title:{en:"English Teacher Website", fa:"وب‌سایت دبیر زبان انگلیسی"},
+      role:{en:"Design & development", fa:"طراحی و پیاده‌سازی"},
+      summary:{
+        en:"A personal website for an English teacher, presenting their classes and making it easy for students to get in touch.",
+        fa:"وب‌سایت شخصی یک دبیر زبان انگلیسی، برای معرفی کلاس‌ها و ارتباط آسان دانش‌آموزان با او."
+      },
+      body:{en:"", fa:""},
+      metrics:[
+        {k:{en:"Type",fa:"نوع"}, v:{en:"Teacher website",fa:"سایت دبیر"}}
+      ],
+      tags:["Website","Education"],
+      links:{},
+      images:[]
+    },
+    {
+      id:"p-2026-sara-bata", year:2026, group:"web", showcase:true,
+      period:{en:"2026", fa:"۲۰۲۶"},
+      kind:{en:"Website · Sports", fa:"وب‌سایت · ورزش"},
+      title:{en:"Sara Bata — Volleyball Player Portfolio", fa:"سارا باتا — پورتفولیو والیبالیست"},
+      role:{en:"Design & development", fa:"طراحی و پیاده‌سازی"},
+      summary:{
+        en:"A bilingual portfolio for a volleyball setter in Iran's women's Premier League, built as a career résumé for coaches, clubs and sponsors.",
+        fa:"پورتفولیوی دوزبانهٔ یک پاسور والیبال لیگ برتر زنان ایران، به‌عنوان رزومهٔ ورزشی برای مربی‌ها، باشگاه‌ها و اسپانسرها."
+      },
+      body:{
+        en:"Match highlights, achievements filterable by individual and team, a timeline of every club and national-team stint, and direct contact links.",
+        fa:"خلاصهٔ مسابقات، افتخارات با فیلتر فردی و تیمی، خط زمانی همهٔ باشگاه‌ها و حضور در تیم ملی، و راه‌های ارتباط مستقیم."
+      },
+      metrics:[
+        {k:{en:"Type",fa:"نوع"}, v:{en:"Athlete portfolio",fa:"پورتفولیو ورزشکار"}},
+        {k:{en:"Languages",fa:"زبان‌ها"}, v:{en:"EN / FA",fa:"انگلیسی / فارسی"}},
+        {k:{en:"Status",fa:"وضعیت"}, v:{en:"Live",fa:"منتشرشده"}}
+      ],
+      tags:["Website","Portfolio","Bilingual"],
+      links:{demo:"https://sara-bata-portfolio.vercel.app/en"},
+      images:[
+        {src:"assets/img/showcase-2.jpg", alt:{en:"Sara Bata — athlete portfolio",fa:"سارا باتا — پورتفولیو ورزشکار"}}
+      ]
+    },
+    {
+      id:"p-2026-kala-sanat", year:2026, group:"web", showcase:true,
+      period:{en:"2026", fa:"۲۰۲۶"},
+      kind:{en:"Website · Store", fa:"وب‌سایت · فروشگاه"},
+      title:{en:"Kala Sanat Hashemi — Equipment Store", fa:"کالاصنعت هاشمی — فروشگاه تجهیزات"},
+      role:{en:"Design & development", fa:"طراحی و پیاده‌سازی"},
+      summary:{
+        en:"A Persian catalog and ordering site for a construction-equipment maker and dealer: hoists, mixers, benders, compactors and parts.",
+        fa:"سایت فارسی کاتالوگ و سفارش برای یک تولیدکننده و فروشندهٔ تجهیزات ساختمانی: بالابر، میکسر، خم‌کن، کمپکتور و قطعات."
+      },
+      body:{
+        en:"Heavy machinery is ordered by quote and parts go in a cart; the quote form opens a prefilled WhatsApp message, so enquiries reach the seller where they already work.",
+        fa:"ماشین‌آلات سنگین با استعلام سفارش داده می‌شوند و قطعات به سبد خرید می‌روند؛ فرم استعلام یک پیام آمادهٔ واتس‌اپ باز می‌کند تا درخواست‌ها همان جایی برسند که فروشنده کار می‌کند."
+      },
+      metrics:[
+        {k:{en:"Type",fa:"نوع"}, v:{en:"Store + quotes",fa:"فروشگاه + استعلام"}},
+        {k:{en:"Language",fa:"زبان"}, v:{en:"Persian",fa:"فارسی"}},
+        {k:{en:"Status",fa:"وضعیت"}, v:{en:"Live",fa:"منتشرشده"}}
+      ],
+      tags:["Website","E-commerce","WhatsApp"],
+      links:{demo:"https://kala-sanat-hashemi-store.vercel.app/"},
+      images:[
+        {src:"assets/img/showcase-3.jpg", alt:{en:"Kala Sanat Hashemi — industrial store",fa:"کالاصنعت هاشمی — فروشگاه ابزار صنعتی"}}
+      ]
+    },
+    {
+      id:"p-2024-insole-printing", year:2026, group:"imaging",
       period:{en:"2024 — ongoing", fa:"۲۰۲۴ — در جریان"},
       kind:{en:"Manufacturing · Field support", fa:"تولید · پشتیبانی میدانی"},
       title:{en:"Medical Insole 3D Printing System", fa:"سیستم چاپ سه‌بعدی کفی طبی"},
@@ -71,7 +211,7 @@ const SEED = {
       ]
     },
     {
-      id:"p-2024-sensor-calibration", year:2024,
+      id:"p-2024-sensor-calibration", year:2024, group:"imaging",
       period:{en:"Mar – Jun 2024", fa:"مارس تا ژوئن ۲۰۲۴"},
       kind:{en:"Hardware · Firmware", fa:"سخت‌افزار · فرم‌ور"},
       title:{en:"Sensor Calibration for Pressure Monitoring Devices", fa:"کالیبراسیون حسگر برای دستگاه‌های پایش فشار"},
@@ -96,7 +236,7 @@ const SEED = {
       ]
     },
     {
-      id:"p-2024-pressure-monitoring", year:2024,
+      id:"p-2024-pressure-monitoring", year:2024, group:"imaging",
       period:{en:"Jan – Mar 2024", fa:"ژانویه تا مارس ۲۰۲۴"},
       kind:{en:"Medical device", fa:"دستگاه پزشکی"},
       title:{en:"Body Pressure Monitoring System", fa:"سیستم پایش فشار بدن"},
@@ -121,7 +261,7 @@ const SEED = {
       ]
     },
     {
-      id:"p-2023-plantar-scan", year:2023,
+      id:"p-2023-plantar-scan", year:2023, group:"imaging",
       period:{en:"Oct – Dec 2023", fa:"اکتبر تا دسامبر ۲۰۲۳"},
       kind:{en:"Medical imaging", fa:"تصویربرداری پزشکی"},
       title:{en:"Plantar Scan Image Processing System", fa:"سیستم پردازش تصویر اسکن کف پا"},
@@ -146,7 +286,7 @@ const SEED = {
       ]
     },
     {
-      id:"p-2023-posture-analysis", year:2023,
+      id:"p-2023-posture-analysis", year:2023, group:"imaging",
       period:{en:"Jul – Sep 2023", fa:"ژوئیه تا سپتامبر ۲۰۲۳"},
       kind:{en:"Medical imaging · Computer vision", fa:"تصویربرداری پزشکی · بینایی ماشین"},
       title:{en:"AI-Assisted Posture Analysis System", fa:"سیستم تحلیل وضعیت بدن با هوش مصنوعی"},

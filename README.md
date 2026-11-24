@@ -14,6 +14,7 @@ assets/css/styles.css      design tokens, layout, animation
 assets/js/content.js       ← the file you edit to change what the site says
 assets/js/i18n.js          interface strings for both languages
 assets/js/app.js           storage, rendering, scroll behaviour, admin panel
+assets/js/admin-tools.js   screenshot masking editor and GitHub publishing
 assets/js/hero-intro.js    opening clip, scrubbed by scroll (see below)
 assets/js/hero-cinema.js   the portrait zoom that follows it
 assets/hero-frames/1920/   the opening clip as 120 stills for large screens
@@ -116,6 +117,30 @@ runtime; if a Persian value is missing the English one is shown instead.
 
 When `images` is empty the site generates a contour-map placeholder derived from
 the project `id`, so a half-finished entry still looks intentional.
+
+## Language by domain
+
+The page opens in Persian on any `.ir` host (kiarash-doorandish.ir) and in
+English everywhere else (kiarash1375.github.io). `?lang=fa` or `?lang=en` in
+the URL overrides that, and the switch in the top bar still works as before.
+
+## Screenshots and publishing from the admin panel
+
+1. Open `#admin`, unlock, and in the **Data** tab paste a GitHub
+   fine-grained token with **Contents: Read and write** on this repository
+   only. It stays in that browser and is never exported or published.
+2. Edit a project and choose **Upload image** (several at once is fine).
+   A masking window opens: drag over prices, names or anything private and
+   it is pixelated before the image is kept. Images are resized to 1600 px
+   and saved as WebP.
+3. Press **Publish now**. The images go to `assets/img/projects/` and
+   `assets/js/content.js` is rewritten, all in one commit to `main`; the
+   Pages workflow deploys it about a minute later.
+
+Projects carry a few flags: `group` (`web` or `imaging`) decides which
+heading they sit under, `showcase` puts a website in the rotating carousel
+(once it has a screenshot), and `confidential` adds a "details masked" badge
+and a "request a demo" button in place of a public link.
 
 ## Deploying to GitHub Pages
 

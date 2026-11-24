@@ -3,8 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portfolio — Software Developer</title>
-<meta name="description" content="Portfolio of a software developer working across medical image processing and 3D-printed medical insoles.">
+<title>Kiarash Doorandish — Web & Automation Developer</title>
+<meta name="description" content="Websites, internal panels and business automation by Kiarash Doorandish — with a background in image processing and medical device software.">
+<script>
+/* Persian by default on the .ir domain, English on github.io; ?lang=fa|en overrides.
+   Set before first paint so the page never flashes the wrong direction. */
+(function(){
+  var q = new URLSearchParams(location.search).get("lang");
+  var l = (q === "fa" || q === "en") ? q : (/\.ir$/i.test(location.hostname) ? "fa" : "en");
+  window.INITIAL_LANG = l;
+  document.documentElement.lang = l;
+  document.documentElement.dir = l === "fa" ? "rtl" : "ltr";
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Vazirmatn:wght@300..900&display=swap" rel="stylesheet">
@@ -20,8 +31,8 @@
     <span class="topbar__role mono" id="idRole">—</span>
   </div>
   <nav class="topbar__nav">
-    <button class="navlink" data-jump="work" data-i18n="nav.work">Work</button>
-    <button class="navlink" data-jump="webdesign" data-i18n="nav.design">Design</button>
+    <button class="navlink" data-jump="webdesign" data-i18n="nav.design">Websites</button>
+    <button class="navlink" data-jump="work" data-i18n="nav.work">Projects</button>
     <button class="navlink" data-jump="about" data-i18n="nav.about">About</button>
     <button class="navlink" data-jump="contact" data-i18n="nav.contact">Contact</button>
     <button class="langbtn" id="langBtn">فارسی</button>
@@ -63,45 +74,32 @@
 
 <div class="shell">
   <main class="wrap">
+    <section class="sec" id="webdesign">
+      <div class="sec__head rise">
+        <h2 class="sec__title" data-i18n="webdesign.title">Websites</h2>
+        <div class="sec__note">
+          <div class="mono" id="designCount">—</div>
+        </div>
+      </div>
+      <p class="showcase__lead rise" data-i18n="webdesign.lead"></p>
+
+      <div class="showcase rise">
+        <div class="wrapper">
+          <div class="inner" id="showcaseInner" style="--quantity:1"></div>
+        </div>
+        <p class="showcase__hint mono" data-i18n="webdesign.hint">Hover to slow down · Click to visit</p>
+      </div>
+    </section>
+
     <section class="sec" id="work">
       <div class="sec__head rise">
-        <h2 class="sec__title" data-i18n="work.title">Work</h2>
+        <h2 class="sec__title" data-i18n="work.title">Projects</h2>
         <div class="sec__note">
           <div class="mono" id="workCount">—</div>
           <div class="mono" data-i18n="work.order">Newest first</div>
         </div>
       </div>
       <div class="stack" id="stack"></div>
-    </section>
-
-    <section class="sec" id="webdesign">
-      <div class="sec__head rise">
-        <h2 class="sec__title" data-i18n="webdesign.title">Web Design</h2>
-        <div class="sec__note">
-          <div class="mono" data-i18n="webdesign.kicker">3 sites · shipped fast</div>
-        </div>
-      </div>
-      <p class="showcase__lead rise" data-i18n="webdesign.lead">I also design and vibe-code full websites end to end — fast, distinctive, with a signature that's unmistakably mine.</p>
-
-      <div class="showcase rise">
-        <div class="wrapper">
-          <div class="inner" style="--quantity:3">
-            <a class="card" style="--index:0" href="https://sina-rezadoost-website.vercel.app/" target="_blank" rel="noopener">
-              <img class="card__img" src="assets/img/showcase-1.jpg" alt="Catalyzer — Sina Rezadoost" loading="lazy">
-              <span class="card__cap"><strong>Catalyzer</strong><span data-i18n="webdesign.s1">Konkur chemistry courses</span></span>
-            </a>
-            <a class="card" style="--index:1" href="https://sara-bata-portfolio.vercel.app/en" target="_blank" rel="noopener">
-              <img class="card__img" src="assets/img/showcase-2.jpg" alt="Sara Bata — athlete portfolio" loading="lazy">
-              <span class="card__cap"><strong>Sara Bata</strong><span data-i18n="webdesign.s2">Athlete portfolio</span></span>
-            </a>
-            <a class="card" style="--index:2" href="https://kala-sanat-hashemi-store.vercel.app/" target="_blank" rel="noopener">
-              <img class="card__img" src="assets/img/showcase-3.jpg" alt="Kala Sanat Hashemi — industrial store" loading="lazy">
-              <span class="card__cap"><strong>Kala Sanat Hashemi</strong><span data-i18n="webdesign.s3">Industrial equipment store</span></span>
-            </a>
-          </div>
-        </div>
-        <p class="showcase__hint mono" data-i18n="webdesign.hint">Hover to slow down · Click to visit</p>
-      </div>
     </section>
 
     <section class="sec" id="about">
@@ -150,7 +148,8 @@
   <div class="admin__bar">
     <strong style="font-family:var(--display);font-variation-settings:'wdth' 112,'wght' 700;font-size:15px" data-i18n="admin.title">Content admin</strong>
     <span class="mono" id="adminStatus"></span>
-    <button class="mini" id="adminClose" style="margin-inline-start:auto;border-color:rgba(5,8,6,.4);color:var(--paper)" data-i18n="admin.close">Close</button>
+    <button class="mini" data-publish style="margin-inline-start:auto;border-color:rgba(5,8,6,.4);color:var(--paper)" data-i18n="ghPublish">Publish now</button>
+    <button class="mini" id="adminClose" style="border-color:rgba(5,8,6,.4);color:var(--paper)" data-i18n="admin.close">Close</button>
   </div>
   <div class="admin__wrap" id="adminWrap"></div>
 </section>
@@ -172,6 +171,7 @@
 <script src="assets/js/lens-matrix.js"></script>
 <script src="assets/js/content.js"></script>
 <script src="assets/js/i18n.js"></script>
+<script src="assets/js/admin-tools.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/hero-intro.js"></script>
 <script src="assets/js/hero-cinema.js"></script>

@@ -25,7 +25,7 @@ const Store = {
 /* ══════════════════════════════════════════════════════════════
    4. HELPERS
    ══════════════════════════════════════════════════════════════ */
-let LANG = "en";
+let LANG = window.INITIAL_LANG === "fa" ? "fa" : "en";
 let DATA = structuredClone(SEED);
 const $  = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
@@ -108,6 +108,7 @@ function projectHTML(p, i, total){
   if (p.links?.github) links.push(`<a class="link" href="${esc(p.links.github)}" target="_blank" rel="noopener">${ICON.github}${esc(t("code"))}</a>`);
   if (p.links?.demo)   links.push(`<a class="link" href="${esc(p.links.demo)}" target="_blank" rel="noopener">${ICON.link}${esc(t("live"))}</a>`);
   if (p.links?.paper)  links.push(`<a class="link" href="${esc(p.links.paper)}" target="_blank" rel="noopener">${ICON.doc}${esc(t("paper"))}</a>`);
+  if (p.confidential && !p.links?.demo) links.push(`<button class="link" type="button" data-jump="contact">${ICON.email}${esc(t("conf.ask"))}</button>`);
 
   const readout = (p.metrics||[]).length ? `<div class="readout">${p.metrics.map(m=>
       `<div class="readout__cell"><span class="readout__k">${esc(L(m.k))}</span><span class="readout__v">${esc(L(m.v))}</span></div>`).join("")}</div>` : "";
@@ -125,7 +126,7 @@ function projectHTML(p, i, total){
           ${thumbs}
         </div>
         <div class="slice__body">
-          <div class="slice__kicker"><span class="mono">${esc(L(p.period))}</span><span class="dot"></span><span class="mono">${esc(L(p.kind))}</span></div>
+          <div class="slice__kicker"><span class="mono">${esc(L(p.period))}</span><span class="dot"></span><span class="mono">${esc(L(p.kind))}</span>${p.confidential ? `<span class="badge mono">${esc(t("conf.badge"))}</span>` : ""}</div>
           <h3 class="slice__title">${esc(L(p.title))}</h3>
           <p class="slice__role">${esc(L(p.role))}</p>
           <div class="slice__text"><p>${esc(L(p.summary))}</p>${paras}</div>
@@ -146,7 +147,7 @@ function render(){
   document.documentElement.dir  = LANG === "fa" ? "rtl" : "ltr";
   document.title = `${L(P.name)} — ${L(P.role)}`;
   $("#langBtn").textContent = LANG === "en" ? "فارسی" : "English";
-  $$("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
+  $$("[data-i18n]").forEach(el => { const v = t(el.dataset.i18n); if (typeof v === "string") el.textContent = v; });
 
   $("#idName").textContent = L(P.name);
   $("#idRole").textContent = L(P.role);
@@ -174,7 +175,33 @@ function render(){
   $("#contactRows").innerHTML = rows.map(r =>
     `<a class="cicon" href="${esc(r.href)}" title="${esc(r.k)}" aria-label="${esc(r.k)}" ${r.href.startsWith("http")?'target="_blank" rel="noopener"':""}>${ICON[r.icon]}</a>`).join("");
 
-  $("#stack").innerHTML = prj.map((p,i)=>projectHTML(p,i,n)).join("");
+  /* consecutive projects with the same group share one heading */
+  let html = "", cur = null;
+  prj.forEach((p,i)=>{
+    const g = p.group || "web";
+    if (g !== cur){
+      if (cur !== null) html += `</div></section>`;
+      html += `<section class="pgroup"><h3 class="pgroup__head mono rise">${esc(t("group."+g))}</h3><div class="pgroup__list">`;
+      cur = g;
+    }
+    html += projectHTML(p,i,n);
+  });
+  if (cur !== null) html += `</div></section>`;
+  $("#stack").innerHTML = html;
+
+  /* the carousel shows every project flagged as a website that has a real screenshot */
+  const sites = prj.filter(p => p.showcase && p.images && p.images.length);
+  $("#designCount").textContent = t("webdesign.kicker")(num(sites.length));
+  const inner = $("#showcaseInner");
+  inner.style.setProperty("--quantity", Math.max(sites.length,1));
+  inner.innerHTML = sites.map((p,k)=>{
+    const href = p.links?.demo || ("#" + p.id);
+    const ext = p.links?.demo ? 'target="_blank" rel="noopener"' : "";
+    return `<a class="card" style="--index:${k}" href="${esc(href)}" ${ext}>
+      <img class="card__img" src="${esc(p.images[0].src)}" alt="${esc(L(p.images[0].alt)||L(p.title))}" loading="lazy">
+      <span class="card__cap"><strong>${esc(L(p.title).split(" — ")[0])}</strong><span>${esc(L(p.kind))}</span></span></a>`;
+  }).join("");
+  $("#webdesign").hidden = !sites.length;
 
   bindStack();
   observeAll();
@@ -283,6 +310,14 @@ function projectEditor(p){
       ${oneField("year", t("fYear"), p.year, "number")}
       <div></div>
     </div>
+    <div class="pair">
+      <div class="field"><label>${esc(t("fGroup"))}</label>
+        <select data-f="group">${["web","imaging"].map(g=>`<option value="${g}" ${(p.group||"web")===g?"selected":""}>${esc(t("group."+g))}</option>`).join("")}</select></div>
+      <div class="field checks">
+        <label class="check"><input type="checkbox" data-c="showcase" ${p.showcase?"checked":""}> ${esc(t("fShowcase"))}</label>
+        <label class="check"><input type="checkbox" data-c="confidential" ${p.confidential?"checked":""}> ${esc(t("fConf"))}</label>
+      </div>
+    </div>
     ${pairField("period", t("fPeriod"), p.period)}
     ${pairField("kind", t("fKind"), p.kind)}
     ${pairField("role", t("fRole"), p.role)}
@@ -305,7 +340,7 @@ function projectEditor(p){
         || `<p class="hint" style="margin:0">${LANG==="fa"?"بدون تصویر — تصویر نمونه نمایش داده می‌شود.":"No images yet — a generated placeholder is shown instead."}</p>`}</div>
       <div class="pair">
         <div><input type="url" data-imgurl placeholder="https://…"><p class="hint">${esc(t("addImgUrl"))} — <button class="mini" data-addurl>+</button></p></div>
-        <div><input type="file" data-imgfile accept="image/*"><p class="hint">${esc(t("addImgFile"))}</p></div>
+        <div><input type="file" data-imgfile accept="image/*" multiple><p class="hint">${esc(t("addImgFile"))}</p></div>
       </div>
     </div>
     <button class="btn" data-saveproj>${esc(t("save"))}</button>
@@ -315,7 +350,7 @@ function projectEditor(p){
 
 function renderAdmin(){
   const wrap = $("#adminWrap"); if(!wrap) return;
-  $("#adminStatus").textContent = unlocked ? "" : "";
+  updateDirty();
   $$("[data-i18n]", $("#admin")).forEach(el => el.textContent = t(el.dataset.i18n));
 
   if (!unlocked){
@@ -379,6 +414,16 @@ function renderAdmin(){
 
   if (tab === "data"){
     html += `<div class="rowcard" style="padding:16px 18px;margin-bottom:12px">
+        <h4 style="margin:0 0 4px">${esc(t("ghT"))}</h4><p class="hint" style="margin:0 0 12px">${esc(t("ghD"))}</p>
+        <div class="field"><label>${esc(t("ghToken"))}</label><input type="password" id="ghToken" value="${esc(GH.cfg().token)}" autocomplete="off" dir="ltr"></div>
+        <div class="pair">
+          <div class="field"><label>${esc(t("ghRepo"))}</label><input type="text" id="ghRepo" value="${esc(GH.cfg().repo)}" dir="ltr"></div>
+          <div class="field"><label>${esc(t("ghBranch"))}</label><input type="text" id="ghBranch" value="${esc(GH.cfg().branch)}" dir="ltr"></div>
+        </div>
+        <p class="hint" style="margin:0 0 12px">${esc(t("ghTokenNote"))}</p>
+        <button class="mini" data-ghsave>${esc(t("ghSaveCfg"))}</button>
+        <button class="btn" data-publish style="margin-inline-start:8px">${esc(t("ghPublish"))}</button></div>
+      <div class="rowcard" style="padding:16px 18px;margin-bottom:12px">
         <h4 style="margin:0 0 4px">${esc(t("exportT"))}</h4><p class="hint" style="margin:0 0 12px">${esc(t("exportD"))}</p>
         <button class="btn" data-export>${esc(t("doExport"))}</button></div>
       <div class="rowcard" style="padding:16px 18px;margin-bottom:12px">
@@ -397,7 +442,11 @@ function renderAdmin(){
   wrap.innerHTML = html;
 }
 
-async function persist(){ await Store.save(DATA); render(); toast(t("saved")); }
+async function persist(){
+  const ok = await Store.save(DATA);
+  render(); updateDirty();
+  toast(ok ? t("saved") : t("storeFull"));
+}
 
 function collect(root){
   const out = {};
@@ -430,7 +479,7 @@ $("#admin").addEventListener("click", async e => {
   }
   if (el.hasAttribute("data-newproj")){
     const id = "p-" + Date.now();
-    DATA.projects.unshift({ id, year:new Date().getFullYear(),
+    DATA.projects.unshift({ id, year:new Date().getFullYear(), group:"web",
       period:{en:"",fa:""}, kind:{en:"",fa:""}, title:{en:t("newProject"),fa:t("newProject")},
       role:{en:"",fa:""}, summary:{en:"",fa:""}, body:{en:"",fa:""},
       metrics:[], tags:[], links:{}, images:[] });
@@ -445,6 +494,8 @@ $("#admin").addEventListener("click", async e => {
     p.tags = String(f.tags||"").split(",").map(s=>s.trim()).filter(Boolean);
     p.links = { github:f["links.github"]||"", demo:f["links.demo"]||"", paper:f["links.paper"]||"" };
     p.metrics = parseMetrics(f["metrics.en"], f["metrics.fa"]);
+    p.group = f.group || "web";
+    $$("[data-c]", ed).forEach(c => { if (c.checked) p[c.dataset.c] = true; else delete p[c.dataset.c]; });
     await persist(); renderAdmin(); return;
   }
   if (el.hasAttribute("data-addurl")){
@@ -467,6 +518,24 @@ $("#admin").addEventListener("click", async e => {
     P.skills = parseSkills(f.skills);
     await persist(); return;
   }
+  if (el.hasAttribute("data-ghsave")){
+    GH.save({ token:$("#ghToken").value.trim(), repo:$("#ghRepo").value.trim(), branch:$("#ghBranch").value.trim() });
+    toast(t("saved")); return;
+  }
+  if (el.hasAttribute("data-publish")){
+    if (!unlocked) return;
+    if ($("#ghToken")) GH.save({ token:$("#ghToken").value.trim(), repo:$("#ghRepo").value.trim(), branch:$("#ghBranch").value.trim() });
+    if (!GH.cfg().token){ tab = "data"; renderAdmin(); toast(t("ghNoToken")); return; }
+    $$("[data-publish]").forEach(b => { b.disabled = true; b.textContent = t("ghBusy"); });
+    try{
+      await GH.publish();
+      await Store.save(DATA); render(); renderAdmin(); updateDirty(); toast(t("ghDone"));
+    }catch(err){
+      console.error(err); toast("GitHub: " + (err.message || err));
+      $$("[data-publish]").forEach(b => { b.disabled = false; b.textContent = t("ghPublish"); });
+    }
+    return;
+  }
   if (el.hasAttribute("data-savepin")){ DATA.settings.pin = $("#pinNew").value || "1234"; await persist(); return; }
 
   if (el.hasAttribute("data-export")){
@@ -478,7 +547,7 @@ $("#admin").addEventListener("click", async e => {
   if (el.hasAttribute("data-import")){
     try{
       const parsed = JSON.parse($("#importBox").value);
-      DATA = { settings:{...SEED.settings, ...(parsed.settings||{})},
+      DATA = { rev: DATA.rev, settings:{...SEED.settings, ...(parsed.settings||{})},
                profile:{...SEED.profile, ...(parsed.profile||{})},
                projects: parsed.projects || DATA.projects };
       await persist(); renderAdmin(); toast(t("imported"));
@@ -492,13 +561,14 @@ $("#admin").addEventListener("click", async e => {
 });
 
 $("#admin").addEventListener("change", async e => {
-  const inp = e.target.closest("[data-imgfile]"); if(!inp || !inp.files[0]) return;
-  const file = inp.files[0];
-  if (file.size > 2_000_000){ toast(LANG==="fa" ? "تصویر بزرگ‌تر از ۲ مگابایت است." : "Image is larger than 2 MB."); return; }
+  const inp = e.target.closest("[data-imgfile]"); if(!inp || !inp.files.length) return;
   const ed = inp.closest("[data-editor]"), p = DATA.projects.find(x => x.id === ed.dataset.editor);
-  const reader = new FileReader();
-  reader.onload = async () => { (p.images = p.images || []).push({ src:reader.result, alt:{en:"",fa:""} }); await persist(); renderAdmin(); };
-  reader.readAsDataURL(file);
+  for (const file of [...inp.files]){
+    const src = await Redact.open(file);
+    if (src) (p.images = p.images || []).push({ src, alt:{en:L2(p.title,"en"), fa:L2(p.title,"fa")} });
+  }
+  inp.value = "";
+  await persist(); renderAdmin();
 });
 
 function routeAdmin(){
@@ -516,8 +586,8 @@ addEventListener("keydown", e => { if (e.key === "Escape" && location.hash === "
    ══════════════════════════════════════════════════════════════ */
 (async function boot(){
   const stored = await Store.load();
-  if (stored && stored.profile && stored.projects){
-    DATA = { settings:{...SEED.settings, ...(stored.settings||{})},
+  if (stored && stored.profile && stored.projects && (stored.rev||0) >= (SEED.rev||0)){
+    DATA = { rev: stored.rev, settings:{...SEED.settings, ...(stored.settings||{})},
              profile:{...SEED.profile, ...stored.profile},
              projects: stored.projects };
   }
