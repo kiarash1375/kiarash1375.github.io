@@ -534,7 +534,7 @@ button.link{background:none;font:inherit;font-size:13px;cursor:pointer}
 body.lb-open{overflow:hidden}
 .lb{position:fixed;inset:0;z-index:400;background:rgba(2,4,3,.94);display:flex;flex-direction:column}
 .lb[hidden]{display:none}
-.lb__scroll{flex:1;min-height:0;overflow:auto;display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+.lb__scroll{flex:1;min-width:0;min-height:0;overflow:auto;display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
 .lb__img{display:block;max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in;box-shadow:0 20px 60px rgba(0,0,0,.6);background:#fff}
 .lb.is-zoom .lb__scroll{align-items:flex-start;justify-content:flex-start}
 .lb.is-zoom .lb__img{max-width:none;max-height:none;cursor:zoom-out;margin:auto}
@@ -543,4 +543,22 @@ body.lb-open{overflow:hidden}
 .lb__btn{width:38px;height:38px;border:1px solid var(--tissue);background:none;color:var(--film);font-size:18px;line-height:1;border-radius:2px}
 .lb__btn:hover{border-color:var(--film)}
 .lb__btn[hidden]{display:none}
-html[dir="rtl"] [data-lb=prev],html[dir="rtl"] [data-lb=next]{transform:scaleX(-1)}
+/* prev/next sit on the two sides of the image; in a right-to-left page
+   "previous" is on the right, so the chevrons flip with the layout */
+.lb__side{position:absolute;inset-block-start:50%;transform:translateY(-50%);z-index:2;width:48px;height:64px;
+  display:flex;align-items:center;justify-content:center;border:1px solid var(--tissue);border-radius:2px;
+  background:rgba(5,8,6,.72);color:var(--film)}
+.lb__side:hover{border-color:var(--film)}
+.lb__side[hidden]{display:none}
+.lb__side svg{width:22px;height:22px}
+.lb__side--prev{inset-inline-start:16px}
+.lb__side--next{inset-inline-end:16px}
+html[dir="rtl"] .lb__side svg{transform:scaleX(-1)}
+.lb__main{position:relative;flex:1;min-height:0;display:flex}
+
+/* The lens and portrait canvases get an explicit pixel width from
+   hero-cinema.js (the full window width). With inset:0 that over-constrains
+   the box, and in a right-to-left page the browser then anchors it to the
+   right edge instead of the left, which slid the lens holes off the glasses
+   by the scrollbar's width. Pin both to the top-left whatever the direction. */
+.cine__lens,.cine__portrait{left:0;right:auto;top:0}

@@ -249,12 +249,17 @@ const Lightbox = (()=>{
     el = document.createElement("div");
     el.className = "lb"; el.hidden = true;
     el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true");
-    el.innerHTML = `<div class="lb__scroll"><img class="lb__img" alt=""></div>
+    /* SVG chevrons, not ‹ › characters: those are mirrored by the browser in
+       right-to-left text, which pointed the arrows the wrong way */
+    const chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+    el.innerHTML = `<div class="lb__main">
+        <div class="lb__scroll"><img class="lb__img" alt=""></div>
+        <button class="lb__side lb__side--prev" data-lb="prev" aria-label="Previous">${chev}</button>
+        <button class="lb__side lb__side--next" data-lb="next" aria-label="Next"><span style="display:flex;transform:scaleX(-1)">${chev}</span></button>
+      </div>
       <div class="lb__bar">
         <span class="lb__cap mono"></span>
-        <button class="lb__btn" data-lb="prev" aria-label="Previous">‹</button>
         <span class="lb__n mono"></span>
-        <button class="lb__btn" data-lb="next" aria-label="Next">›</button>
         <button class="lb__btn" data-lb="close" aria-label="Close">✕</button>
       </div>`;
     document.body.appendChild(el);
