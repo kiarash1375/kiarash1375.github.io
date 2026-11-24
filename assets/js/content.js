@@ -6,7 +6,7 @@
    1. SITE DATA  —  the admin panel's Publish button rewrites this file
    ══════════════════════════════════════════════════════════════ */
 const SEED = {
-  rev:1764000000000,
+  rev:1795525088000,
   settings:{ pin:"1234" },
   profile:{
     name:{en:"Kiarash Doorandish", fa:"کیارش دوراندیش"},
@@ -49,23 +49,23 @@ const SEED = {
     {
       id:"p-2026-pricing-panel", year:2026, group:"web", confidential:true,
       period:{en:"2026", fa:"۲۰۲۶"},
-      kind:{en:"Internal tool · Business automation", fa:"ابزار داخلی · اتوماسیون کسب‌وکار"},
-      title:{en:"Pricing Panel for a Tools Retailer", fa:"پنل قیمت‌گذاری فروشگاه ابزار"},
+      kind:{en:"Internal tool · Pricing automation", fa:"ابزار داخلی · اتوماسیون قیمت‌گذاری"},
+      title:{en:"Online Sales Pricing Panel (based on competitors' prices on Torob)", fa:"پنل قیمت‌گذاری فروش آنلاین (بر اساس قیمت رقبا در ترب)"},
       role:{en:"Design & full-stack development", fa:"طراحی و توسعهٔ کامل"},
       summary:{
-        en:"An internal web panel where a tools retailer manages and updates the prices of its catalog in one place.",
-        fa:"یک پنل وب داخلی که فروشگاه ابزار، قیمت محصولاتش را در یک جا مدیریت و به‌روز می‌کند."
+        en:"A panel that finds what competitors charge for each product on Torob and updates the store's own prices from it, automatically.",
+        fa:"پنلی که برای هر محصول، قیمت رقبا در ترب را خودکار پیدا می‌کند و قیمت‌های سایت را بر اساس آن به‌روز می‌کند."
       },
       body:{
-        en:"Pricing is the kind of work that quietly eats hours: many products, changing costs, and every change has to land everywhere at once. The panel gives the team one screen for it.\n\nThis is a private client system, so the screenshots here have prices and product details masked.",
-        fa:"قیمت‌گذاری از آن کارهایی است که بی‌صدا ساعت‌ها وقت می‌گیرد: محصولات زیاد، هزینه‌هایی که تغییر می‌کنند، و هر تغییر باید هم‌زمان همه‌جا اعمال شود. این پنل همهٔ این کار را در یک صفحه جمع می‌کند.\n\nاین یک سیستم خصوصی مشتری است؛ برای همین در تصویرهای این بخش، قیمت‌ها و جزئیات محصولات پوشانده شده‌اند."
+        en:"Situation: The client sells tools online, in a market where product prices move constantly. Checking competitors by hand, product by product, could never keep up — and a stale price either loses the sale or gives away margin.\n\nTask: The client wanted a panel that, for every product, could automatically find the prices that competitors and other sellers list on Torob, and update the prices on their own site based on them.\n\nAction: I built a web panel that links each product to its listings on Torob, collects competitor prices automatically, and updates the store's prices from that data — all from one clean, simple screen the team actually enjoys using.\n\nResult: The daily routine of searching and comparing prices is gone. The store's prices follow the market on their own, and the owner spends their time on decisions instead of lookups.",
+        fa:"موقعیت: مشتری ابزار را آنلاین می‌فروشد، در بازاری که قیمت محصولات مدام نوسان دارد. بررسی دستی قیمت رقبا، محصول به محصول، هیچ‌وقت به این سرعت نمی‌رسید — و قیمت به‌روزنشده یا فروش را از دست می‌دهد یا سود را.\n\nوظیفه: کارفرما پنلی می‌خواست که برای هر محصول، قیمتی را که رقبا و هم‌صنفی‌هایش در ترب دارند خودکار پیدا کند و قیمت‌های سایت خودش را بر اساس آن‌ها به‌روز کند.\n\nاقدام: پنلی ساختم که هر محصول را به آگهی‌هایش در ترب وصل می‌کند، قیمت رقبا را خودکار جمع‌آوری می‌کند و قیمت‌های فروشگاه را بر همان اساس به‌روز می‌کند — همه در یک صفحهٔ تمیز و ساده که کار با آن لذت‌بخش است.\n\nنتیجه: کار روزانهٔ جست‌وجو و مقایسهٔ قیمت حذف شد. قیمت‌های فروشگاه خودشان همراه بازار حرکت می‌کنند و صاحب کسب‌وکار وقتش را صرف تصمیم‌گیری می‌کند، نه گشتن دنبال قیمت."
       },
       metrics:[
-        {k:{en:"Type",fa:"نوع"}, v:{en:"Internal web app",fa:"وب‌اپ داخلی"}},
-        {k:{en:"Client",fa:"مشتری"}, v:{en:"Tools retail",fa:"فروش ابزار"}},
+        {k:{en:"Source",fa:"منبع"}, v:{en:"Torob",fa:"ترب"}},
+        {k:{en:"Updates",fa:"به‌روزرسانی"}, v:{en:"Automatic",fa:"خودکار"}},
         {k:{en:"Access",fa:"دسترسی"}, v:{en:"Private",fa:"خصوصی"}}
       ],
-      tags:["Web App","Admin Panel","Business Automation"],
+      tags:["Web App","Price Tracking","Business Automation"],
       links:{},
       images:[]
     },
@@ -76,113 +76,68 @@ const SEED = {
       title:{en:"Jewelry Photo Auto-Downloader", fa:"وب‌اپ دانلود خودکار عکس جواهرات"},
       role:{en:"Design & development", fa:"طراحی و توسعه"},
       summary:{
-        en:"A web app that downloads jewelry product photos automatically and in bulk, so nobody has to save catalog images one by one.",
-        fa:"یک وب‌اپ که عکس‌های محصولات جواهرات را خودکار و یک‌جا دانلود می‌کند، تا دیگر کسی مجبور نباشد عکس‌ها را یکی‌یکی ذخیره کند."
+        en:"A web app that keeps jewelers' galleries fresh by automatically collecting photos from Pinterest, Instagram and well-known brand websites.",
+        fa:"وب‌اپی که گالری جواهرفروشی‌ها را با جمع‌آوری خودکار عکس از پینترست، اینستاگرام و سایت برندهای معروف همیشه به‌روز نگه می‌دارد."
       },
       body:{
-        en:"Saving product photos by hand is slow, repetitive and easy to get wrong. This tool turns it into a single action.\n\nIt was built for a private client, so the screenshots are shown with identifying details masked.",
-        fa:"ذخیرهٔ دستی عکس محصولات کند، تکراری و پر از خطاست. این ابزار همهٔ آن را به یک کار تبدیل می‌کند.\n\nاین پروژه برای یک مشتری خصوصی ساخته شده؛ برای همین تصویرها با پوشاندن جزئیات شناسایی‌کننده نمایش داده می‌شوند."
+        en:"Situation: Jewelers need a steady stream of new designs in their gallery to show customers, and finding and saving those photos one by one across several platforms takes hours.\n\nTask: Automate the whole job of gathering photos, so the gallery stays current without anyone doing it by hand.\n\nAction: I built a web app that goes to Pinterest, Instagram and the websites of major brands, downloads the photos automatically and smartly, and delivers them neatly into the user's own panel — complete and organised.\n\nResult: Updating the gallery went from a tedious manual chore to a single action, and the jeweler always has new designs ready to show.",
+        fa:"موقعیت: جواهرفروش‌ها برای نشان دادن به مشتری به جریان مداومی از طرح‌های جدید در گالری‌شان نیاز دارند، و پیدا کردن و ذخیرهٔ یکی‌یکی این عکس‌ها از چند پلتفرم ساعت‌ها وقت می‌گیرد.\n\nوظیفه: خودکارسازی کامل جمع‌آوری عکس‌ها، تا گالری بدون کار دستی همیشه به‌روز بماند.\n\nاقدام: وب‌اپی ساختم که به‌صورت خودکار و هوشمند از پینترست، اینستاگرام و سایت برندهای معروف عکس‌ها را دانلود می‌کند و مرتب، جامع و کامل در پنل خود کاربر قرار می‌دهد.\n\nنتیجه: به‌روزرسانی گالری از یک کار دستی خسته‌کننده به یک اقدام ساده تبدیل شد و جواهرفروش همیشه طرح‌های تازه برای نمایش دارد."
       },
       metrics:[
-        {k:{en:"Type",fa:"نوع"}, v:{en:"Web app",fa:"وب‌اپ"}},
+        {k:{en:"Sources",fa:"منابع"}, v:{en:"Pinterest · Instagram · Brands",fa:"پینترست · اینستاگرام · برندها"}},
         {k:{en:"Industry",fa:"صنعت"}, v:{en:"Jewelry",fa:"جواهرات"}},
         {k:{en:"Access",fa:"دسترسی"}, v:{en:"Private",fa:"خصوصی"}}
       ],
-      tags:["Web App","Automation","Bulk Download"],
+      tags:["Web App","Automation","Image Collection"],
       links:{},
       images:[]
     },
     {
-      id:"p-2026-catalyzer", year:2026, group:"web", showcase:true,
+      id:"p-2026-tutor-platform", year:2026, group:"web",
       period:{en:"2026", fa:"۲۰۲۶"},
-      kind:{en:"Website · Education", fa:"وب‌سایت · آموزش"},
-      title:{en:"Catalyzer — Chemistry Teacher Website", fa:"کاتالیزور — وب‌سایت دبیر شیمی"},
-      role:{en:"Design & development", fa:"طراحی و پیاده‌سازی"},
+      kind:{en:"Website + management panel · Education", fa:"وب‌سایت + پنل مدیریت · آموزش"},
+      title:{en:"Private Tutor Website & Class Management Panel", fa:"وب‌سایت و پنل مدیریت کلاس‌های دبیر خصوصی"},
+      role:{en:"Design & full-stack development", fa:"طراحی و توسعهٔ کامل"},
       summary:{
-        en:"A Persian website for Dr. Sina Rezadoost, a Konkur chemistry teacher in Mashhad, presenting his Catalyzer teaching method and selling his online courses.",
-        fa:"وب‌سایت فارسی دکتر سینا رضادوست، دبیر شیمی کنکور در مشهد، برای معرفی روش تدریس «کاتالیزور» و فروش دوره‌های آنلاینش."
+        en:"A platform that simplifies the whole relationship between a private tutor and their students — scheduling, levels, homework, projects and quizzes in one place.",
+        fa:"پلتفرمی که کل ارتباط دبیر خصوصی و شاگردانش را ساده می‌کند — زمان‌بندی، سطح‌بندی، تمرین، پروژه و آزمون در یک جا."
       },
       body:{
-        en:"The site walks a student from who the teacher is, to how he teaches, to which package fits them: course packages, free sample lessons, student testimonials and a consultation request form.",
-        fa:"سایت دانش‌آموز را قدم‌به‌قدم می‌برد: این دبیر کیست، چطور درس می‌دهد، و کدام بسته مناسب اوست — بسته‌های آموزشی، ویدیوهای نمونهٔ رایگان، نظر دانش‌آموزان و فرم درخواست مشاوره."
+        en:"Situation: A private tutor juggling many students was coordinating everything through messages: who comes when, which class is full, who is at what level, and which exercises went to whom.\n\nTask: Bring the whole teacher–student relationship onto one platform that both sides can rely on.\n\nAction: I built a public website plus a management panel where the tutor sets class times and capacity, records each student's level, assigns exercises, projects and handouts per student, and runs quizzes right on the site.\n\nResult: Scheduling and follow-up no longer live in chat threads. Students see what they need to do and when, and the tutor runs the classes from a single panel.",
+        fa:"موقعیت: یک دبیر خصوصی با شاگردهای زیاد، همه‌چیز را با پیام هماهنگ می‌کرد: چه کسی کی بیاید، کدام کلاس پر شده، هر شاگرد در چه سطحی است و چه تمرینی برای چه کسی فرستاده شده.\n\nوظیفه: آوردن کل ارتباط استاد و شاگرد روی یک پلتفرم که هر دو طرف بتوانند به آن تکیه کنند.\n\nاقدام: یک وب‌سایت به‌همراه پنل مدیریت ساختم که دبیر در آن زمان و ظرفیت کلاس‌ها را تعیین می‌کند، سطح هر شاگرد را ثبت می‌کند، برای هر نفر تمرین، پروژه و جزوه تعریف می‌کند و آزمون را مستقیم در خود سایت برگزار می‌کند.\n\nنتیجه: زمان‌بندی و پیگیری دیگر در پیام‌ها گم نمی‌شود. شاگردها می‌بینند چه کاری را تا کی باید انجام دهند و دبیر همهٔ کلاس‌ها را از یک پنل مدیریت می‌کند."
       },
       metrics:[
-        {k:{en:"Type",fa:"نوع"}, v:{en:"Teacher website",fa:"سایت دبیر"}},
-        {k:{en:"Language",fa:"زبان"}, v:{en:"Persian",fa:"فارسی"}},
-        {k:{en:"Status",fa:"وضعیت"}, v:{en:"Live",fa:"منتشرشده"}}
+        {k:{en:"Scheduling",fa:"زمان‌بندی"}, v:{en:"Times + capacity",fa:"زمان + ظرفیت"}},
+        {k:{en:"Learning",fa:"آموزش"}, v:{en:"Levels · homework · quizzes",fa:"سطح · تمرین · آزمون"}},
+        {k:{en:"Users",fa:"کاربران"}, v:{en:"Tutor + students",fa:"دبیر + شاگردان"}}
       ],
-      tags:["Website","Education","RTL"],
-      links:{demo:"https://sina-rezadoost-website.vercel.app/"},
-      images:[
-        {src:"assets/img/showcase-1.jpg", alt:{en:"Catalyzer — Sina Rezadoost",fa:"کاتالیزور — سینا رضادوست"}}
-      ]
-    },
-    {
-      id:"p-2026-english-teacher", year:2026, group:"web", showcase:true,
-      period:{en:"2026", fa:"۲۰۲۶"},
-      kind:{en:"Website · Education", fa:"وب‌سایت · آموزش"},
-      title:{en:"English Teacher Website", fa:"وب‌سایت دبیر زبان انگلیسی"},
-      role:{en:"Design & development", fa:"طراحی و پیاده‌سازی"},
-      summary:{
-        en:"A personal website for an English teacher, presenting their classes and making it easy for students to get in touch.",
-        fa:"وب‌سایت شخصی یک دبیر زبان انگلیسی، برای معرفی کلاس‌ها و ارتباط آسان دانش‌آموزان با او."
-      },
-      body:{en:"", fa:""},
-      metrics:[
-        {k:{en:"Type",fa:"نوع"}, v:{en:"Teacher website",fa:"سایت دبیر"}}
-      ],
-      tags:["Website","Education"],
+      tags:["Website","Admin Panel","Scheduling","Online Quizzes"],
       links:{},
       images:[]
     },
     {
-      id:"p-2026-sara-bata", year:2026, group:"web", showcase:true,
+      id:"p-2026-sara-bata", year:2026, group:"web",
       period:{en:"2026", fa:"۲۰۲۶"},
-      kind:{en:"Website · Sports", fa:"وب‌سایت · ورزش"},
-      title:{en:"Sara Bata — Volleyball Player Portfolio", fa:"سارا باتا — پورتفولیو والیبالیست"},
-      role:{en:"Design & development", fa:"طراحی و پیاده‌سازی"},
+      kind:{en:"Personal portfolio · Sports", fa:"پورتفولیوی شخصی · ورزش"},
+      title:{en:"Personal Portfolio — Sara Bata, Volleyball Player", fa:"پورتفولیوی شخصی — سارا بتا، والیبالیست"},
+      role:{en:"Concept, design & development", fa:"ایده، طراحی و پیاده‌سازی"},
       summary:{
-        en:"A bilingual portfolio for a volleyball setter in Iran's women's Premier League, built as a career résumé for coaches, clubs and sponsors.",
-        fa:"پورتفولیوی دوزبانهٔ یک پاسور والیبال لیگ برتر زنان ایران، به‌عنوان رزومهٔ ورزشی برای مربی‌ها، باشگاه‌ها و اسپانسرها."
+        en:"A one-of-a-kind personal portfolio for a volleyball setter in Iran's women's Premier League — one example of the custom portfolios I build.",
+        fa:"یک پورتفولیوی شخصی منحصربه‌فرد برای پاسور والیبال لیگ برتر زنان ایران — نمونه‌ای از پورتفولیوهای اختصاصی که می‌سازم."
       },
       body:{
-        en:"Match highlights, achievements filterable by individual and team, a timeline of every club and national-team stint, and direct contact links.",
-        fa:"خلاصهٔ مسابقات، افتخارات با فیلتر فردی و تیمی، خط زمانی همهٔ باشگاه‌ها و حضور در تیم ملی، و راه‌های ارتباط مستقیم."
+        en:"Situation: An athlete's career is usually scattered across news clips and Instagram posts, with nowhere a coach, club or sponsor can see the whole story at once.\n\nTask: Build a portfolio that presents her career as a résumé — and looks like nothing else out there.\n\nAction: Match highlights, achievements filterable by individual and team, a timeline of every club and national-team stint, and direct contact links, in English and Persian. As with every portfolio I make, including this site, the look is built from scratch: cinematic scroll, animations chosen with the client, and a visual identity that belongs to that one person.\n\nResult: A single link that tells her story and is remembered, because it doesn't look like a template.",
+        fa:"موقعیت: سوابق یک ورزشکار معمولاً میان خبرها و پست‌های اینستاگرام پراکنده است و جایی نیست که مربی، باشگاه یا اسپانسر کل مسیر را یک‌جا ببیند.\n\nوظیفه: ساختن پورتفولیویی که کارنامهٔ ورزشی او را مثل یک رزومه نشان دهد — و شبیه هیچ سایت دیگری نباشد.\n\nاقدام: خلاصهٔ مسابقات، افتخارات با فیلتر فردی و تیمی، خط زمانی همهٔ باشگاه‌ها و حضور در تیم ملی، و راه‌های ارتباط مستقیم، به دو زبان انگلیسی و فارسی. مثل همهٔ پورتفولیوهایی که می‌سازم، از جمله همین سایت، ظاهر از صفر ساخته شد: اسکرول سینمایی، انیمیشن‌هایی که با سلیقهٔ خود فرد انتخاب می‌شوند، و هویت بصری‌ای که فقط مال همان یک نفر است.\n\nنتیجه: یک لینک که داستان او را تعریف می‌کند و در ذهن می‌ماند، چون شبیه یک قالب آماده نیست."
       },
       metrics:[
-        {k:{en:"Type",fa:"نوع"}, v:{en:"Athlete portfolio",fa:"پورتفولیو ورزشکار"}},
+        {k:{en:"Style",fa:"سبک"}, v:{en:"Custom, cinematic",fa:"اختصاصی، سینمایی"}},
         {k:{en:"Languages",fa:"زبان‌ها"}, v:{en:"EN / FA",fa:"انگلیسی / فارسی"}},
         {k:{en:"Status",fa:"وضعیت"}, v:{en:"Live",fa:"منتشرشده"}}
       ],
-      tags:["Website","Portfolio","Bilingual"],
+      tags:["Portfolio","Custom Design","Animation","Bilingual"],
       links:{demo:"https://sara-bata-portfolio.vercel.app/en"},
       images:[
-        {src:"assets/img/showcase-2.jpg", alt:{en:"Sara Bata — athlete portfolio",fa:"سارا باتا — پورتفولیو ورزشکار"}}
-      ]
-    },
-    {
-      id:"p-2026-kala-sanat", year:2026, group:"web", showcase:true,
-      period:{en:"2026", fa:"۲۰۲۶"},
-      kind:{en:"Website · Store", fa:"وب‌سایت · فروشگاه"},
-      title:{en:"Kala Sanat Hashemi — Equipment Store", fa:"کالاصنعت هاشمی — فروشگاه تجهیزات"},
-      role:{en:"Design & development", fa:"طراحی و پیاده‌سازی"},
-      summary:{
-        en:"A Persian catalog and ordering site for a construction-equipment maker and dealer: hoists, mixers, benders, compactors and parts.",
-        fa:"سایت فارسی کاتالوگ و سفارش برای یک تولیدکننده و فروشندهٔ تجهیزات ساختمانی: بالابر، میکسر، خم‌کن، کمپکتور و قطعات."
-      },
-      body:{
-        en:"Heavy machinery is ordered by quote and parts go in a cart; the quote form opens a prefilled WhatsApp message, so enquiries reach the seller where they already work.",
-        fa:"ماشین‌آلات سنگین با استعلام سفارش داده می‌شوند و قطعات به سبد خرید می‌روند؛ فرم استعلام یک پیام آمادهٔ واتس‌اپ باز می‌کند تا درخواست‌ها همان جایی برسند که فروشنده کار می‌کند."
-      },
-      metrics:[
-        {k:{en:"Type",fa:"نوع"}, v:{en:"Store + quotes",fa:"فروشگاه + استعلام"}},
-        {k:{en:"Language",fa:"زبان"}, v:{en:"Persian",fa:"فارسی"}},
-        {k:{en:"Status",fa:"وضعیت"}, v:{en:"Live",fa:"منتشرشده"}}
-      ],
-      tags:["Website","E-commerce","WhatsApp"],
-      links:{demo:"https://kala-sanat-hashemi-store.vercel.app/"},
-      images:[
-        {src:"assets/img/showcase-3.jpg", alt:{en:"Kala Sanat Hashemi — industrial store",fa:"کالاصنعت هاشمی — فروشگاه ابزار صنعتی"}}
+        {src:"assets/img/showcase-2.jpg", alt:{en:"Sara Bata — volleyball player portfolio",fa:"سارا بتا — پورتفولیوی والیبالیست"}}
       ]
     },
     {

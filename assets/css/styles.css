@@ -512,3 +512,5 @@ button.link{background:none;font:inherit;font-size:13px;cursor:pointer}
 .redact__stage{overflow:auto;min-height:0;flex:1;border:1px solid var(--tissue);background:var(--paper-2)}
 .redact__cv{display:block;max-width:100%;max-height:70vh;width:auto;height:auto;margin:auto;cursor:crosshair;touch-action:none}
 .redact__bar{display:flex;align-items:center;gap:8px;margin-top:12px}
+.slice__text .star{margin:0 0 12px}
+.star__k{display:block;color:var(--signal);font-weight:500;margin-block-end:2px}

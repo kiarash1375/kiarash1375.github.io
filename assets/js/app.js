@@ -108,12 +108,15 @@ function projectHTML(p, i, total){
   if (p.links?.github) links.push(`<a class="link" href="${esc(p.links.github)}" target="_blank" rel="noopener">${ICON.github}${esc(t("code"))}</a>`);
   if (p.links?.demo)   links.push(`<a class="link" href="${esc(p.links.demo)}" target="_blank" rel="noopener">${ICON.link}${esc(t("live"))}</a>`);
   if (p.links?.paper)  links.push(`<a class="link" href="${esc(p.links.paper)}" target="_blank" rel="noopener">${ICON.doc}${esc(t("paper"))}</a>`);
-  if (p.confidential && !p.links?.demo) links.push(`<button class="link" type="button" data-jump="contact">${ICON.email}${esc(t("conf.ask"))}</button>`);
+  if ((p.confidential || p.group === "web") && !p.links?.demo) links.push(`<button class="link" type="button" data-jump="contact">${ICON.email}${esc(t("conf.ask"))}</button>`);
 
   const readout = (p.metrics||[]).length ? `<div class="readout">${p.metrics.map(m=>
       `<div class="readout__cell"><span class="readout__k">${esc(L(m.k))}</span><span class="readout__v">${esc(L(m.v))}</span></div>`).join("")}</div>` : "";
   const tags = (p.tags||[]).length ? `<ul class="tags">${p.tags.map(x=>`<li class="tag">${esc(x)}</li>`).join("")}</ul>` : "";
-  const paras = String(L(p.body)||"").split(/\n{2,}/).filter(Boolean).map(x=>`<p>${esc(x)}</p>`).join("");
+  const paras = String(L(p.body)||"").split(/\n{2,}/).filter(Boolean).map(x=>{
+    const m = /^(Situation|Task|Action|Result|موقعیت|وظیفه|اقدام|نتیجه)\s*[:：]\s*/.exec(x);
+    return m ? `<p class="star"><strong class="star__k mono">${esc(m[1])}</strong>${esc(x.slice(m[0].length))}</p>` : `<p>${esc(x)}</p>`;
+  }).join("");
   const thumbs = imgs.length > 1 ? `<div class="slice__thumbs">${imgs.map((im,k)=>
       `<button class="thumb" data-img="${k}" aria-current="${k===0}" aria-label="${esc(t("of")(num(k+1),num(imgs.length)))}"><img src="${esc(im.src)}" alt=""></button>`).join("")}</div>` : "";
 
@@ -191,6 +194,7 @@ function render(){
 
   /* the carousel shows every project flagged as a website that has a real screenshot */
   const sites = prj.filter(p => p.showcase && p.images && p.images.length);
+  if ($("#showcaseInner")){
   $("#designCount").textContent = t("webdesign.kicker")(num(sites.length));
   const inner = $("#showcaseInner");
   inner.style.setProperty("--quantity", Math.max(sites.length,1));
@@ -202,6 +206,7 @@ function render(){
       <span class="card__cap"><strong>${esc(L(p.title).split(" — ")[0])}</strong><span>${esc(L(p.kind))}</span></span></a>`;
   }).join("");
   $("#webdesign").hidden = !sites.length;
+  }
 
   bindStack();
   observeAll();
