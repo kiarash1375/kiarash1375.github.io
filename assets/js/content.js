@@ -6,7 +6,7 @@
    1. SITE DATA  —  the admin panel's Publish button rewrites this file
    ══════════════════════════════════════════════════════════════ */
 const SEED = {
-  rev:1795525088000,
+  rev:1795525935736,
   settings:{ pin:"1234" },
   profile:{
     name:{en:"Kiarash Doorandish", fa:"کیارش دوراندیش"},
@@ -67,7 +67,10 @@ const SEED = {
       ],
       tags:["Web App","Price Tracking","Business Automation"],
       links:{},
-      images:[]
+      images:[
+        {src:"assets/img/projects/pricing-panel-1.webp", alt:{en:"Pricing view: site price next to the cheapest Torob sellers",fa:"نمای قیمت‌گذاری: قیمت سایت کنار ارزان‌ترین فروشنده‌های ترب"}},
+        {src:"assets/img/projects/pricing-panel-2.webp", alt:{en:"Matching each product to the right Torob listing",fa:"انتخاب کارت درست ترب برای هر کالا"}}
+      ]
     },
     {
       id:"p-2026-jewelry-photos", year:2026, group:"web", confidential:true,
@@ -90,7 +93,10 @@ const SEED = {
       ],
       tags:["Web App","Automation","Image Collection"],
       links:{},
-      images:[]
+      images:[
+        {src:"assets/img/projects/jewelry-photos-1.webp", alt:{en:"Collected photos, grouped by brand and category, ready to archive",fa:"عکس‌های جمع‌آوری‌شده، دسته‌بندی‌شده بر اساس برند و نوع، آمادهٔ آرشیو"}},
+        {src:"assets/img/projects/jewelry-photos-2.webp", alt:{en:"Choosing brands, jewelry types, Pinterest share and quality",fa:"انتخاب برندها، نوع جواهر، سهم پینترست و کیفیت"}}
+      ]
     },
     {
       id:"p-2026-tutor-platform", year:2026, group:"web",
@@ -113,31 +119,35 @@ const SEED = {
       ],
       tags:["Website","Admin Panel","Scheduling","Online Quizzes"],
       links:{},
-      images:[]
+      images:[
+        {src:"assets/img/projects/tutor-platform-1.webp", alt:{en:"Building an online test with timer, attempts and question types",fa:"ساخت آزمون آنلاین با زمان‌سنج، تعداد دفعات و انواع سؤال"}},
+        {src:"assets/img/projects/tutor-platform-2.webp", alt:{en:"Weekly class timetable with Google Calendar sync",fa:"جدول هفتگی کلاس‌ها با همگام‌سازی با گوگل کلندر"}}
+      ]
     },
     {
-      id:"p-2026-sara-bata", year:2026, group:"web",
-      period:{en:"2026", fa:"۲۰۲۶"},
-      kind:{en:"Personal portfolio · Sports", fa:"پورتفولیوی شخصی · ورزش"},
-      title:{en:"Personal Portfolio — Sara Bata, Volleyball Player", fa:"پورتفولیوی شخصی — سارا بتا، والیبالیست"},
+      id:"p-2026-personal-portfolio", year:2026, group:"web",
+      period:{en:"2025 — 2026", fa:"۲۰۲۵ — ۲۰۲۶"},
+      kind:{en:"Personal portfolio websites", fa:"وب‌سایت پورتفولیوی شخصی"},
+      title:{en:"Personal Portfolio Websites", fa:"پورتفولیوی شخصی"},
       role:{en:"Concept, design & development", fa:"ایده، طراحی و پیاده‌سازی"},
       summary:{
-        en:"A one-of-a-kind personal portfolio for a volleyball setter in Iran's women's Premier League — one example of the custom portfolios I build.",
-        fa:"یک پورتفولیوی شخصی منحصربه‌فرد برای پاسور والیبال لیگ برتر زنان ایران — نمونه‌ای از پورتفولیوهای اختصاصی که می‌سازم."
+        en:"One-of-a-kind personal websites for teachers, athletes and professionals — each with its own look, never a template. Shown here: a chemistry teacher's site and an English teacher's site.",
+        fa:"وب‌سایت‌های شخصی منحصربه‌فرد برای دبیرها، ورزشکارها و افراد حرفه‌ای — هر کدام با ظاهر خودش، نه یک قالب آماده. نمونه‌های این بخش: سایت یک دبیر شیمی و یک دبیر زبان انگلیسی."
       },
       body:{
-        en:"Situation: An athlete's career is usually scattered across news clips and Instagram posts, with nowhere a coach, club or sponsor can see the whole story at once.\n\nTask: Build a portfolio that presents her career as a résumé — and looks like nothing else out there.\n\nAction: Match highlights, achievements filterable by individual and team, a timeline of every club and national-team stint, and direct contact links, in English and Persian. As with every portfolio I make, including this site, the look is built from scratch: cinematic scroll, animations chosen with the client, and a visual identity that belongs to that one person.\n\nResult: A single link that tells her story and is remembered, because it doesn't look like a template.",
-        fa:"موقعیت: سوابق یک ورزشکار معمولاً میان خبرها و پست‌های اینستاگرام پراکنده است و جایی نیست که مربی، باشگاه یا اسپانسر کل مسیر را یک‌جا ببیند.\n\nوظیفه: ساختن پورتفولیویی که کارنامهٔ ورزشی او را مثل یک رزومه نشان دهد — و شبیه هیچ سایت دیگری نباشد.\n\nاقدام: خلاصهٔ مسابقات، افتخارات با فیلتر فردی و تیمی، خط زمانی همهٔ باشگاه‌ها و حضور در تیم ملی، و راه‌های ارتباط مستقیم، به دو زبان انگلیسی و فارسی. مثل همهٔ پورتفولیوهایی که می‌سازم، از جمله همین سایت، ظاهر از صفر ساخته شد: اسکرول سینمایی، انیمیشن‌هایی که با سلیقهٔ خود فرد انتخاب می‌شوند، و هویت بصری‌ای که فقط مال همان یک نفر است.\n\nنتیجه: یک لینک که داستان او را تعریف می‌کند و در ذهن می‌ماند، چون شبیه یک قالب آماده نیست."
+        en:"Situation: A professional's reputation usually lives in scattered places — Instagram posts, word of mouth, a template site that looks like a thousand others — and nothing presents them the way they actually want to be seen.\n\nTask: Build a personal site that tells their story clearly and is genuinely memorable.\n\nAction: Every portfolio I make is designed from scratch, just like this site: cinematic scroll, animations chosen with the client, imagery made for them, and a visual identity that belongs to that one person — in Persian, English or both.\n\nResult: A single link they are proud to send, that people remember because it doesn't look like anything else.",
+        fa:"موقعیت: اعتبار یک فرد حرفه‌ای معمولاً در جاهای پراکنده است — پست‌های اینستاگرام، معرفی دهان‌به‌دهان، یا یک سایت قالبی که شبیه هزار سایت دیگر است — و هیچ‌کدام او را آن‌طور که می‌خواهد دیده شود معرفی نمی‌کند.\n\nوظیفه: ساختن یک سایت شخصی که داستان او را روشن تعریف کند و واقعاً در ذهن بماند.\n\nاقدام: هر پورتفولیویی که می‌سازم، درست مثل همین سایت، از صفر طراحی می‌شود: اسکرول سینمایی، انیمیشن‌هایی که با سلیقهٔ خود فرد انتخاب می‌شوند، تصویرهایی که برای خود او ساخته می‌شوند، و هویت بصری‌ای که فقط مال همان یک نفر است — به فارسی، انگلیسی یا هر دو.\n\nنتیجه: یک لینک که با افتخار برای دیگران می‌فرستد، و در ذهن می‌ماند چون شبیه هیچ چیز دیگری نیست."
       },
       metrics:[
         {k:{en:"Style",fa:"سبک"}, v:{en:"Custom, cinematic",fa:"اختصاصی، سینمایی"}},
-        {k:{en:"Languages",fa:"زبان‌ها"}, v:{en:"EN / FA",fa:"انگلیسی / فارسی"}},
-        {k:{en:"Status",fa:"وضعیت"}, v:{en:"Live",fa:"منتشرشده"}}
+        {k:{en:"Languages",fa:"زبان‌ها"}, v:{en:"FA / EN",fa:"فارسی / انگلیسی"}},
+        {k:{en:"Template",fa:"قالب آماده"}, v:{en:"Never",fa:"هرگز"}}
       ],
-      tags:["Portfolio","Custom Design","Animation","Bilingual"],
-      links:{demo:"https://sara-bata-portfolio.vercel.app/en"},
+      tags:["Portfolio","Custom Design","Cinematic Scroll","Animation"],
+      links:{},
       images:[
-        {src:"assets/img/showcase-2.jpg", alt:{en:"Sara Bata — volleyball player portfolio",fa:"سارا بتا — پورتفولیوی والیبالیست"}}
+        {src:"assets/img/projects/portfolio-1.webp", alt:{en:"Personal website for a chemistry teacher",fa:"وب‌سایت شخصی یک دبیر شیمی"}},
+        {src:"assets/img/projects/portfolio-2.webp", alt:{en:"Personal website for an English teacher",fa:"وب‌سایت شخصی یک دبیر زبان انگلیسی"}}
       ]
     },
     {
